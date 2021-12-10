@@ -3,6 +3,7 @@ import Time "mo:base/Time";
 import Text "mo:base/Text";
 import HashMap "mo:base/HashMap";
 import Float "mo:base/Float";
+import Array "mo:base/Array";
 import Bool "mo:base/Bool";
 
 import Types "./types";
@@ -55,7 +56,7 @@ shared(msg) actor class PetLove(creator: Principal) {
 
     public shared(msg) func sellPet(id : TokenId, price : Float) : async (Bool) {
         // don't have access for this pet
-        let hasAccess : Bool = await canAccess(msg.caller, id);
+        let hasAccess : Bool = await protocol.canAccess(msg.caller, id);
         if ( hasAccess == false ){
             return false;
         };
@@ -63,24 +64,9 @@ shared(msg) actor class PetLove(creator: Principal) {
         var pet : ?TokenMeta = await protocol.getNFTByToken(id); 
         switch (pet) {
             case (?pet) {
-                var _pet : TokenMeta = {
-                    id = pet.id;
-                    state = #onSelling;
-
-                    name = pet.name;
-                    description = pet.description;
-                    createTime = pet.createTime;
-
-                    kind = pet.kind;
-                    specy = pet.specy;
-
-                    age = pet.age;
-                    happiness = pet.happiness;
-                    health = pet.health;
-
-                    price = pet.price; 
-                    image = pet.image;
-                };
+                var _pet : TokenMeta = pet;
+                _pet.state := #onSelling;
+                _pet.price := price;
                 await protocol.setNFTByToken(id, _pet);
             };
             case (null) {
@@ -89,31 +75,85 @@ shared(msg) actor class PetLove(creator: Principal) {
         }
     };
 
-    public shared(msg) func interactWithPet(id : TokenId, action : Int) : async (Bool) {
-        return true;
+    public shared(msg) func interactWithPet(id : TokenId, action : ActionType) : async (Bool) {
+        // don't have access for this pet.
+        let hasAccess : Bool = await protocol.canAccess(msg.caller, id);
+        if ( hasAccess == false ){
+            return false;
+        };
+        
+        switch (action) {
+            case (#play) {
+                await playPet(id);
+                return true;
+            };
+            case (#feed) {
+                await feedPet(id);
+                return true;
+            };
+            case (_) {
+                return false;
+            };
+            // TODO
+        }
     };
 
-    // public shared(msg) func generatePet() : async (PetProfile) {
+    // public shared(msg) func randomGeneratePet() : async (PetProfile) {
 
     // };
 
     // public shared(msg) func purchasePet(user : Principal, mate : Principal, pet : TokenId) : async (PetProfile) {
-
+        
     // };
 
-    // public shared(msg) func getAllPets() : async ([PetProfile]) {
+    public shared(msg) func getAllPetsOnSelling() : async ([PetProfile]) {
+        let allPets : [TokenMeta] = await protocol.getAllNFT();
 
-    // };
+        let allPetsOnSelling : [TokenMeta] = Array.filter(
+            allPets, 
+            func (token: TokenMeta) : Bool { 
+                token.state == #onSelling 
+            }
+        );
 
-    private func canAccess(user : Principal, pet : TokenId) : async (Bool) {
-        var _pet : ?TokenId = await protocol.getNFTByOwner(user);
-        switch (_pet) {
-            case (?_pet) {
-                return (pet == _pet);
+        let petProfiles : [PetProfile] = Array.mapFilter<TokenMeta, PetProfile>(
+            allPetsOnSelling,
+            func (meta: TokenMeta) : ?PetProfile {
+                let res : PetProfile = {
+                    meta = meta;
+                    owner = await protocol.getOwners();
+                };
+            }
+        );
+
+        return petProfiles;
+    };
+    
+    private func playPet(id : TokenId) : async () {
+        var pet : ?TokenMeta = await protocol.getNFTByToken(id); 
+        switch (pet) {
+            case (?pet) {
+                var _pet : TokenMeta = pet;
+                _pet.happiness += 5;
+                await protocol.setNFTByToken(id, _pet);
             };
             case (null) {
-                return false;
+                return;
             };
         }
     };
+
+    private func feedPet(id : TokenId) : async () {
+        var pet : ?TokenMeta = await protocol.getNFTByToken(id); 
+        switch (pet) {
+            case (?pet) {
+                var _pet : TokenMeta = pet;
+                _pet.happiness += 10;
+                await protocol.setNFTByToken(id, _pet);
+            };
+            case (null) {
+                return;
+            };
+        }
+    }
 }
