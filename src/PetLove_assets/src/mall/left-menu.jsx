@@ -3,17 +3,24 @@ import Paper from '@mui/material/Paper';
 import MenuList from '@mui/material/MenuList';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
+import { Link } from 'react-router-dom';
 
 const LeftMenu = () => {
     return (
       <Paper>
         <MenuList dense>
-          <MenuItem>
-            <ListItemText inset>Pet Market</ListItemText>
-          </MenuItem>
-          <MenuItem>
-            <ListItemText inset>Random Pet</ListItemText>
-          </MenuItem>
+          <Link to="/pet_market">
+            <MenuItem>
+              <ListItemText inset>
+                  Pet Market
+              </ListItemText>
+            </MenuItem>
+          </Link>
+          <Link to="/random_pet">
+            <MenuItem>
+              <ListItemText inset>Random Pet</ListItemText>
+            </MenuItem>
+          </Link>
         </MenuList>
       </Paper>
     );
