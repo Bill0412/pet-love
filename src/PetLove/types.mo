@@ -7,12 +7,18 @@ import Float "mo:base/Float";
 
 module {   
 
+    public type PetState = {
+        #adopted;
+        #notAdopted;
+        #onSelling;
+    };
+
     public type TokenId = Text;
     
     public type TokenMeta = {
         // meta
-        tokenId : TokenId;
-        state : Int;    
+        id : TokenId;
+        state : PetState;    
 
         // basic
         name : Text;
