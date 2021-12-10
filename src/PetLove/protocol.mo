@@ -16,12 +16,12 @@ module Protocol {
     public class MUN_Protocol() {
 
         public type TokenId = Types.TokenId;
-        public type TokenMeta = Types.TokenMeta;     
+        public type TokenMeta = Types.TokenMeta; 
+        public type UserProfile = Types.UserProfile;    
 
-        //private var nfts = HashMap.HashMap<TokenId, TokenMeta>(1, Types.equal, Types.hash);
+        private var nfts = HashMap.HashMap<TokenId, TokenMeta>(1, Text.equal, Text.hash);
+        private var users = HashMap.HashMap<Principal, UserProfile>(1, Principal.equal, Principal.hash);
         //private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Types.equal, Types.hash);
-        private var ownerToNFT = HashMap.HashMap<Principal, TokenId>(1, Principal.equal, Principal.hash);
-
 
         // ///mapping from nft to approced principal
         // private var nftToApproval = HashMap.HashMap<TokenId,Principal>(1,Types.equal,Types.hash);
@@ -37,34 +37,50 @@ module Protocol {
         //     HashMapRepositories.HashMapRepository<UserId, UserProfile>()
         // };
 
-        public func getNFTByOwner (principal : Principal) : async ?TokenId {
-            ownerToNFT.get(principal);
+        public func getUserProfile (user : Principal) : async ?UserProfile {
+            return users.get(user);
+        };
+
+        public func getNFTByOwner (user : Principal) : async ?TokenId {
+            var UserProfile = users.get(user);
+            if (UserProfile == null) {
+                return null;
+            };
+            return _unwrap(UserProfile).pet;
+        };
+
+        public func getNFTByToken (tokenId : TokenId) : async ?TokenMeta {
+            return nfts.get(tokenId);
+        };
+
+        public func getAllNFT() : async [TokenMeta] {
+            return Iter.toArray(nfts.vals());
         };
 
 
-        //func mint() : async () {
-            // let tokenId =tokenUtil.generate();
-            // //新增nft
-            // nfts.put(tokenId,{
-            //     tokenId = tokenId;
-            //     file = file;
-            //     name = name;
-            //     link = link;
-            //     description = description;
-            // });
-            // ///nft和owner映射关系
-            // nftToOwner.put(tokenId,msg.caller);
-            // ///nft数量+1
-            // var nftCount = 0;
-            // switch(ownerToNftCount.get(msg.caller)){
-            //     case (?count){
-            //         nftCount := count+1;
-            //     };
-            //     case _ {nftCount := 1};
-            // };
-            // ownerToNftCount.put(msg.caller,nftCount);
-            // tokenId;
-        //}
+        // public func addNFT (pr) : async bool {
+        //     let tokenId =tokenUtil.generate();
+        //     //新增nft
+        //     nfts.put(tokenId,{
+        //         tokenId = tokenId;
+        //         file = file;
+        //         name = name;
+        //         link = link;
+        //         description = description;
+        //     });
+        //     ///nft和owner映射关系
+        //     nftToOwner.put(tokenId,msg.caller);
+        //     ///nft数量+1
+        //     var nftCount = 0;
+        //     switch(ownerToNftCount.get(msg.caller)){
+        //         case (?count){
+        //             nftCount := count+1;
+        //         };
+        //         case _ {nftCount := 1};
+        //     };
+        //     ownerToNftCount.put(msg.caller,nftCount);
+        //     tokenId;
+        // }
 
         // public shared(msg) func mint(file : Text,name : Text,link : Text,description : Text) : async TokenId{
 
@@ -99,7 +115,7 @@ module Protocol {
 
         // public shared(msg) func transferFrom(from : Principal , to : Principal , tokenId : TokenId) : async Bool{
         //     _canTransfer(msg.caller,from,to,tokenId);
-        //     _transfer(from,to,tokenId);
+        //     _transfer(from,uto,tokenId);
         //     true;
         // };
         
@@ -210,11 +226,11 @@ module Protocol {
         //     }
         // };
 
-        // private func _unwrap<T>(x : ?T) : T =
-        //     switch x {
-        //         case null { P.unreachable() };
-        //         case (?x_) { x_ };
-        //     };
+        private func _unwrap<T>(x : ?T) : T =
+            switch x {
+                case null { P.unreachable() };
+                case (?x_) { x_ };
+            };
 
     };
 }

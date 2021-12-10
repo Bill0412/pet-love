@@ -35,9 +35,9 @@ shared(msg) actor class PetLove(creator: Principal) {
             mate = mate;
         };
         return res.mate;
-    }    
+    };
 
-    public shared(msg) func getPetProfile(id : TokenId) async (PetProfile) {
+    // public shared(msg) func getPetProfile(id : TokenId) async (PetProfile) {
 
-    }
+    // };
 }

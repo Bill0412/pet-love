@@ -6,10 +6,9 @@ import Int "mo:base/Int";
 import Float "mo:base/Float";
 
 module {   
-    public type TokenId = Text;
-    public let equal = Text.equal;
-    public let hash = Text.hash;
 
+    public type TokenId = Text;
+    
     public type TokenMeta = {
         // meta
         tokenId : TokenId;
