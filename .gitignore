@@ -1,0 +1,9 @@
+# node modules
+node_modules/
+
+# dfx temporary
+.dfx/
+
+# file generated with dfx deploy
+dist/
+src/declarations/

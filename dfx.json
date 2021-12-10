@@ -1,0 +1,35 @@
+{
+  "canisters": {
+    "PetLove": {
+      "main": "src/PetLove/main.mo",
+      "type": "motoko"
+    },
+    "PetLove_assets": {
+      "dependencies": [
+        "PetLove"
+      ],
+      "frontend": {
+        "entrypoint": "src/PetLove_assets/src/index.jsx"
+      },
+      "source": [
+        "src/PetLove_assets/assets",
+        "dist/PetLove_assets/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "dfx": "0.8.4",
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8000",
+      "type": "ephemeral"
+    }
+  },
+  "version": 1
+}

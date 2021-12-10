@@ -1,37 +1,50 @@
 # PetLove
 
-#### 介绍
+## Introduction
 PetLove Application in Internet Computer Platform for Dfinity Hackthon 2021.
 
-#### 软件架构
-软件架构说明
+## Architecture
+TODO
 
+## Development
+You should have `npm`, `node.js`, `dfx` installed in advance.
 
-#### 安装教程
+Each time before you push to remote origin, please make sure your code is up to date. (pull from remote before you commit)
+```
+$ git commit -m 'your commit message'
+$ git pull origin frontend
+$ git push origin frontend
+```
+### Frontend
+The frontend code is at `src/PetLove_assets/src`.
+0. You should switch to the `frontend` branch for frontend development. 
+```
+$ git checkout frontend
+```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1. Install `npm` package dependencies
+```
+$ npm install
+```
 
-#### 使用说明
+2. Start development.
+```
+$ dfx start --background
+$ dfx deploy --argument '(principal "'$(dfx identity get-principal)'")'
+$ npm start
+```
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+### Backend
+TODO
+## Deployment
+TODO
 
-#### 参与贡献
+## References
+1. [Deploy React-based web application on IC](https://smartcontracts.org/docs/developers-guide/tutorials/custom-frontend.html)
+## Contribution
 
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+1.  Fork this repository
+2.  Create a new Feat_xxx branch
+3.  Submit your code
+4.  Create a Pull Request
 
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
