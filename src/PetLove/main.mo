@@ -47,7 +47,12 @@ shared(msg) actor class PetLove(creator: Principal) {
         switch (pet) {
             case (?pet) {
                 let res : PetProfile = {
-                    meta = pet;
+                    id = id;
+                    createTime = pet.createTime;
+                    image = pet.image;
+                    state = pet.state;
+                    happiness = pet.happiness;
+                    price = pet.price;
                     owner = protocol.getOwners(id);
                 };
                 return ?res;
@@ -125,7 +130,12 @@ shared(msg) actor class PetLove(creator: Principal) {
             allPetsOnSelling,
             func (meta: TokenMeta) : ?PetProfile {
                 let res :PetProfile = {
-                    meta = meta;
+                    id = meta.id;
+                    createTime = meta.createTime;
+                    image = meta.image;
+                    state = meta.state;
+                    happiness = meta.happiness;
+                    price = meta.price;
                     owner =  protocol.getOwners(meta.id);
                 };
                 ?res

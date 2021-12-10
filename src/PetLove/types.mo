@@ -38,6 +38,7 @@ module {
         var price : Float;
     };
 
+
     public type UserProfile = {
         id : Principal;
         mate : ?Principal;
@@ -45,7 +46,21 @@ module {
     };
 
     public type PetProfile = {
-        meta : TokenMeta;
+        // meta
+        id : TokenId;
+
+        // info immutable
+        createTime : Text;
+        // kind : Int;
+        // specy : Int;
+        image : Blob;
+
+        // info mutable
+        state : PetState;    
+        happiness : Nat;
+
+        // info mutable when selling
+        price : Float;
         owner : (Principal, Principal);
     };
 }
