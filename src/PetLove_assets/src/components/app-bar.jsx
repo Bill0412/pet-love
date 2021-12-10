@@ -38,7 +38,10 @@ const ResponsiveAppBar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{
+      backgroundColor: 'rgba(237,231,246, 0.2)',
+      color: 'black'
+      }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{justifyContent: 'space-between'}}>
           {/* Logo for md */}
@@ -84,7 +87,7 @@ const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((arr) => (
-                <Link to={arr[1]} style={{ textDecoration: 'none' }}>
+                <Link to={arr[1]} style={{ textDecoration: 'none'}}>
                     <MenuItem key={arr[0]} onClick={handleCloseNavMenu}>
                         <Typography textAlign="center">
                             {arr[0]}
@@ -106,20 +109,25 @@ const ResponsiveAppBar = () => {
           </Typography>
               
           {/* Title text for md */}
-
-          <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-            <div>keep it with your lover</div>
+          <Box sx={{display: {xs: 'none', md: 'flex'}, color: 'gray', fontSize: 18}}>
+            keep it with your lover
           </Box>
 
 
           {/* Menu for md */}
-          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+          <Box ml={2} sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
             {pages.map(([page, link]) => (
                     <Link to={link} style={{ textDecoration: 'none' }}>
                         <Button
                             key={page}
                             onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
+                            sx={{ my: 2, 
+                              color: 'white', 
+                              display: 'block', 
+                              backgroundColor: 'rgba(33,182,174,0.8)',
+                              '&:hover': {
+                                backgroundColor: 'rgba(33,182,174,0.5)'
+                              }}}
                         >
                             {page}   
                         </Button>
