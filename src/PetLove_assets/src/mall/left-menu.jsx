@@ -9,14 +9,14 @@ const LeftMenu = () => {
     return (
       <Paper>
         <MenuList dense>
-          <Link to="/pet_market">
+          <Link to="/pet_market" style={{ textDecoration: 'none' }}>
             <MenuItem>
               <ListItemText inset>
                   Pet Market
               </ListItemText>
             </MenuItem>
           </Link>
-          <Link to="/random_pet">
+          <Link to="/random_pet" style={{ textDecoration: 'none' }}>
             <MenuItem>
               <ListItemText inset>Random Pet</ListItemText>
             </MenuItem>

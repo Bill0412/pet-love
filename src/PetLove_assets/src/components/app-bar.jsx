@@ -12,12 +12,20 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {Link} from 'react-router-dom';
+import logo from './assets/logo.png'
+import './styles.css'
 
 const pages = [
     ['Shopping Mall', '/pet_market'],
     ['Personal Center', '/personal']
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+
+const Logo = () => {
+  return (
+    <img src={logo} alt="Logo" className="logo"/>
+  );
+}
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -48,7 +56,7 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
           >
-            LOGO
+            <Logo />
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -81,7 +89,7 @@ const ResponsiveAppBar = () => {
               }}
             >
               {pages.map((arr) => (
-                <Link to={arr[1]}>
+                <Link to={arr[1]} style={{ textDecoration: 'none' }}>
                     <MenuItem key={arr[0]} onClick={handleCloseNavMenu}>
                         <Typography textAlign="center">
                             {arr[0]}
@@ -97,11 +105,11 @@ const ResponsiveAppBar = () => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
           >
-            LOGO
+            <Logo />
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map(([page, link]) => (
-                    <Link to={link}>
+                    <Link to={link} style={{ textDecoration: 'none' }}>
                         <Button
                             key={page}
                             onClick={handleCloseNavMenu}
