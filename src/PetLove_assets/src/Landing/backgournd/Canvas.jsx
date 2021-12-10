@@ -20,7 +20,7 @@ export default class Canvas extends React.Component {
     const canvas = this.getCanvas();
     this.props.onCanvasDidMount && this.props.onCanvasDidMount(canvas);
   }
-
+  
   initCanvas() {
     const canvas = this.getCanvas();
 
