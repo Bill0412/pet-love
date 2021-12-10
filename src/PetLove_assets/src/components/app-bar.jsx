@@ -15,11 +15,6 @@ import {Link} from 'react-router-dom';
 import logo from './assets/logo.png'
 import './styles.css'
 
-const pages = [
-    ['Shopping Mall', '/pet_market'],
-    ['Personal Center', '/personal']
-];
-
 const Logo = () => {
   return (
     <img src={logo} alt="Logo" className="logo"/>
@@ -28,17 +23,29 @@ const Logo = () => {
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorMarket, setAnchorMarket] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
+  };
+
+  const handleOpenMarketMenu = (event) => {
+    setAnchorMarket(event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
+  const handleCloseMarketMenu = (event) => {
+    setAnchorMarket(null);
+  };
+
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{
+      backgroundColor: 'rgba(237,231,246, 0.2)',
+      color: 'black'
+      }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{justifyContent: 'space-between'}}>
           {/* Logo for md */}
@@ -50,7 +57,7 @@ const ResponsiveAppBar = () => {
           >
             <Logo />
             &nbsp;&nbsp;&nbsp;
-            <div>PET LOVE</div>
+            <div className="logo-text">PET LOVE</div>
           </Typography>
 
           {/* Menu for xs */}
@@ -83,15 +90,30 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((arr) => (
-                <Link to={arr[1]} style={{ textDecoration: 'none' }}>
-                    <MenuItem key={arr[0]} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">
-                            {arr[0]}
-                        </Typography>
-                    </MenuItem>
-                </Link>
-              ))}
+             <Link to='/pet_market' style={{ textDecoration: 'none'}}>
+                  <MenuItem key='Pet Market' onClick={handleCloseNavMenu} 
+                    style={{ textDecoration: 'none', color: 'rgba(33,182,174,1.0)' }}>
+                      <Typography textAlign="center">
+                        Pet Market
+                      </Typography>
+                  </MenuItem>
+              </Link>
+              <Link to='/random_pet' style={{ textDecoration: 'none'}}>
+                  <MenuItem key='Random Pet' onClick={handleCloseNavMenu}
+                    style={{ textDecoration: 'none', color: 'rgba(33,182,174,1.0)' }}>
+                      <Typography textAlign="center">
+                        Random Pet
+                      </Typography>
+                  </MenuItem>
+              </Link> 
+              <Link to='/personal' style={{ textDecoration: 'none'}}>
+                  <MenuItem key='Personal Center' onClick={handleCloseNavMenu}
+                    style={{ textDecoration: 'none', color: 'rgba(33,182,174,1.0)' }}>
+                      <Typography textAlign="center">
+                        Personal Center
+                      </Typography>
+                  </MenuItem>
+              </Link>
             </Menu>
           </Box>
               
@@ -100,32 +122,75 @@ const ResponsiveAppBar = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}
           >
             <Logo />
           </Typography>
               
           {/* Title text for md */}
-
-          <Box sx={{display: {xs: 'none', md: 'flex'}}}>
-            <div>keep it with your lover</div>
+          <Box sx={{display: {xs: 'none', md: 'flex'}}}
+              className="app-bar-title">
+            keep it with your lover
           </Box>
 
-
           {/* Menu for md */}
-          <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(([page, link]) => (
-                    <Link to={link} style={{ textDecoration: 'none' }}>
-                        <Button
-                            key={page}
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            {page}   
-                        </Button>
-                    </Link>
-
-            ))}
+          <Box ml={2} sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+            <Button
+                key='Shopping Mall'
+                onClick={handleOpenMarketMenu}
+                sx={{ my: 2, 
+                  color: 'white', 
+                  display: 'block', 
+                  backgroundColor: 'rgba(33,182,174,0.8)',
+                  '&:hover': {
+                    backgroundColor: 'rgba(33,182,174,0.5)'
+                  }}}
+            >
+              Shopping Mall
+            </Button>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorMarket}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorMarket)}
+              onClose={handleCloseMarketMenu}
+            >
+              <Link to="/pet_market" style={{ textDecoration: 'none', color: 'rgba(33,182,174,1.0)' }}>
+                <MenuItem key="text" onClick={handleCloseMarketMenu}>
+                  <Typography textAlign="center">Pet Market</Typography>
+                </MenuItem>
+              </Link>
+              <Link to="/random_pet" style={{ textDecoration: 'none', color: 'rgba(33,182,174,1.0)' }}> 
+                <MenuItem key="text" onClick={handleCloseMarketMenu}>
+                  <Typography textAlign="center">Random Pet</Typography>
+                </MenuItem>
+              </Link>
+            </Menu>
+            &nbsp;&nbsp;
+              <Link to='/personal' style={{ textDecoration: 'none' }}>
+                  <Button
+                      key='Personal Center'
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, 
+                        color: 'white', 
+                        display: 'block', 
+                        backgroundColor: 'rgba(33,182,174,0.8)',
+                        '&:hover': {
+                          backgroundColor: 'rgba(33,182,174,0.5)'
+                        }}}
+                  >
+                    Personal Center
+                  </Button>
+              </Link>
           </Box>
         </Toolbar>
       </Container>
