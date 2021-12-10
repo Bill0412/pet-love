@@ -15,16 +15,6 @@ import {Link} from 'react-router-dom';
 import logo from './assets/logo.png'
 import './styles.css'
 
-const pages = [
-  ['Shopping Mall', '/pet_market'],
-  ['Personal Center', '/personal']
-];
-
-const market_pages = [
-  ['Pet Market', '/pet_market'],
-  ['Random Pet', '/random_pet']
-];
-
 const Logo = () => {
   return (
     <img src={logo} alt="Logo" className="logo"/>
@@ -100,15 +90,30 @@ const ResponsiveAppBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((arr) => (
-                <Link to={arr[1]} style={{ textDecoration: 'none'}}>
-                    <MenuItem key={arr[0]} onClick={handleCloseNavMenu}>
-                        <Typography textAlign="center">
-                            {arr[0]}
-                        </Typography>
-                    </MenuItem>
-                </Link>
-              ))}
+             <Link to='/pet_market' style={{ textDecoration: 'none'}}>
+                  <MenuItem key='Pet Market' onClick={handleCloseNavMenu} 
+                    style={{ textDecoration: 'none', color: 'rgba(33,182,174,1.0)' }}>
+                      <Typography textAlign="center">
+                        Pet Market
+                      </Typography>
+                  </MenuItem>
+              </Link>
+              <Link to='/random_pet' style={{ textDecoration: 'none'}}>
+                  <MenuItem key='Random Pet' onClick={handleCloseNavMenu}
+                    style={{ textDecoration: 'none', color: 'rgba(33,182,174,1.0)' }}>
+                      <Typography textAlign="center">
+                        Random Pet
+                      </Typography>
+                  </MenuItem>
+              </Link> 
+              <Link to='/personal' style={{ textDecoration: 'none'}}>
+                  <MenuItem key='Personal Center' onClick={handleCloseNavMenu}
+                    style={{ textDecoration: 'none', color: 'rgba(33,182,174,1.0)' }}>
+                      <Typography textAlign="center">
+                        Personal Center
+                      </Typography>
+                  </MenuItem>
+              </Link>
             </Menu>
           </Box>
               
@@ -117,7 +122,7 @@ const ResponsiveAppBar = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
+            sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}
           >
             <Logo />
           </Typography>
