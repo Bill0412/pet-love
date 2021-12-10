@@ -41,14 +41,16 @@ const ResponsiveAppBar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{justifyContent: 'space-between'}}>
-          {/* Logo for xs */}
+          {/* Logo for md */}
           <Typography
             variant="h6"
             noWrap
             component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
+            sx={{ mr: 2, alignItems: 'center', display: { xs: 'none', md: 'flex' } }}
           >
             <Logo />
+            &nbsp;&nbsp;&nbsp;
+            <div>PET LOVE</div>
           </Typography>
 
           {/* Menu for xs */}
@@ -93,7 +95,7 @@ const ResponsiveAppBar = () => {
             </Menu>
           </Box>
               
-          {/* Logo for md */}
+          {/* Logo for xs */}
           <Typography
             variant="h6"
             noWrap
@@ -102,6 +104,13 @@ const ResponsiveAppBar = () => {
           >
             <Logo />
           </Typography>
+              
+          {/* Title text for md */}
+
+          <Box sx={{display: {xs: 'none', md: 'flex'}}}>
+            <div>keep it with your lover</div>
+          </Box>
+
 
           {/* Menu for md */}
           <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
