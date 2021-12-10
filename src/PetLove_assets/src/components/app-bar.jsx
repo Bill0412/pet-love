@@ -57,7 +57,7 @@ const ResponsiveAppBar = () => {
           >
             <Logo />
             &nbsp;&nbsp;&nbsp;
-            <div>PET LOVE</div>
+            <div className="logo-text">PET LOVE</div>
           </Typography>
 
           {/* Menu for xs */}
@@ -128,7 +128,8 @@ const ResponsiveAppBar = () => {
           </Typography>
               
           {/* Title text for md */}
-          <Box sx={{display: {xs: 'none', md: 'flex'}, color: 'gray', fontSize: 18}}>
+          <Box sx={{display: {xs: 'none', md: 'flex'}}}
+              className="app-bar-title">
             keep it with your lover
           </Box>
 
