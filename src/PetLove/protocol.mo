@@ -21,7 +21,7 @@ module Protocol {
 
         private var nfts = HashMap.HashMap<TokenId, TokenMeta>(1, Text.equal, Text.hash);
         private var users = HashMap.HashMap<Principal, UserProfile>(1, Principal.equal, Principal.hash);
-        //private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Types.equal, Types.hash);
+        private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Text.equal, Text.hash);
 
         // ///mapping from nft to approced principal
         // private var nftToApproval = HashMap.HashMap<TokenId,Principal>(1,Types.equal,Types.hash);
@@ -45,20 +45,40 @@ module Protocol {
             return nfts.get(tokenId);
         };
 
+        public func setNFTByToken (tokenId : TokenId, tokenMeta : TokenMeta) : async Bool {
+            nfts.put(tokenId, tokenMeta);
+            return true;
+        };
+
         public func getNFTByOwner (user : Principal) : async ?TokenId {
-            var UserProfile = users.get(user);
-            if (UserProfile == null) {
+            var userProfile = users.get(user);
+            if (userProfile == null) {
                 return null;
             };
-            return _unwrap(UserProfile).tokenId;
+            return _unwrap(userProfile).tokenId;
         };
 
         public func getAllNFT() : async [TokenMeta] {
             return Iter.toArray(nfts.vals());
         };
 
-        public func shareNFT(user1 : Principal, user2 : Principal, tokenId : TokenId) : async Bool {
-            _canShare(user1, user2, tokenId);
+        public func transferNFT (user1 : Principal, user2 : Principal, tokenId : TokenId) : async Bool {
+
+            _canTransfer(user1, user2, tokenId);
+            
+            //update nftToOwners
+            var userList = _unwrap(nftToOwners.get(tokenId));
+            assert (userList != null);
+            let (owner1, l1) = List.pop<Principal>(userList);
+            let (owner2, l2) = List.pop<Principal>(userList);
+            var list1 = List.nil<Principal>();
+            var list2 = List.push<Principal>(user1, list1);
+            var list3 = List.push<Principal>(user2, list2);
+            nftToOwners.put(tokenId, list3);
+
+            //update users
+            users.delete(_unwrap(owner1));
+            users.delete(_unwrap(owner2));
             users.put(user1, {
                 id = user1;
                 mate = ?user2;
@@ -72,11 +92,21 @@ module Protocol {
             return true;
         };
 
-        private func _canShare(user1 : Principal, user2 : Principal, tokenId : TokenId) {
+        
+ 
+        private func _canTransfer (user1 : Principal, user2 : Principal, tokenId : TokenId) {
+            assert (nfts.get(tokenId) != null);
             assert (user1 != user2);
             assert (users.get(user1) == null);
             assert (users.get(user2) == null);
         };
+
+        // private func _canAccess (user : Principal, tokenId : TokenId) {
+        //     assert (_unwrap(users.get(user)).tokenId == tokenId);
+        // };
+
+        
+
 
 
 
