@@ -26,12 +26,12 @@ shared(msg) actor class PetLove(creator: Principal) {
     public shared(msg) func getUserProfile(user : Principal) : async (?Principal) {
         assert(msg.caller == user);
         
-        var pet : ?TokenId = await protocol.getNFTByOwner(user);
+        var tokenId : ?TokenId = await protocol.getNFTByOwner(user);
         var mate : ?Principal = mates.get(user);
         
         let res : UserProfile = {
             id = user;
-            pet = pet;
+            tokenId = tokenId;
             mate = mate;
         };
         return res.mate;

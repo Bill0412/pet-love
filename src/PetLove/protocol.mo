@@ -41,21 +41,44 @@ module Protocol {
             return users.get(user);
         };
 
+        public func getNFTByToken (tokenId : TokenId) : async ?TokenMeta {
+            return nfts.get(tokenId);
+        };
+
         public func getNFTByOwner (user : Principal) : async ?TokenId {
             var UserProfile = users.get(user);
             if (UserProfile == null) {
                 return null;
             };
-            return _unwrap(UserProfile).pet;
-        };
-
-        public func getNFTByToken (tokenId : TokenId) : async ?TokenMeta {
-            return nfts.get(tokenId);
+            return _unwrap(UserProfile).tokenId;
         };
 
         public func getAllNFT() : async [TokenMeta] {
             return Iter.toArray(nfts.vals());
         };
+
+        public func shareNFT(user1 : Principal, user2 : Principal, tokenId : TokenId) : async Bool {
+            _canShare(user1, user2, tokenId);
+            users.put(user1, {
+                id = user1;
+                mate = ?user2;
+                tokenId = ?tokenId;
+            });
+            users.put(user2, {
+                id = user2;
+                mate = ?user1;
+                tokenId = ?tokenId;
+            });
+            return true;
+        };
+
+        private func _canShare(user1 : Principal, user2 : Principal, tokenId : TokenId) {
+            assert (user1 != user2);
+            assert (users.get(user1) == null);
+            assert (users.get(user2) == null);
+        };
+
+
 
 
         // public func addNFT (pr) : async bool {
@@ -157,16 +180,7 @@ module Protocol {
         //     }
         // };
         
-        // private func _canTransfer(caller : Principal,from : Principal, to : Principal,tokenId : TokenId){
-        //     let tokenOwner = _unwrap(nftToOwner.get(tokenId));
-        //     // let approver = _unwrap(nftToApproval.get(tokenId));
-        //     // let approvedOperators = _unwrap(ownerToOperators.get(tokenOwner));
-        //     // let approved : Bool = _unwrap(approvedOperators.get(caller));
-        //     ///必须是转向其他人
-        //     assert (from == tokenOwner and from != to);
-        //     ///token所有者/被授权者/被授权的机构  "NOT_OWNER_APPROVED_OR_OPERATOR"
-        //     // assert (caller == tokenOwner or caller == approver or true == approved);
-        // };
+        
 
         // ///token所有者或者被授权者可以操作
         // private func _canOperate(caller : Principal , tokenId : TokenId) {

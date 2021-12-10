@@ -38,7 +38,7 @@ module {
     public type UserProfile = {
         id : Principal;
         mate : ?Principal;
-        pet : ?TokenId;
+        tokenId : ?TokenId;
     };
 
     public type PetProfile = TokenMeta;
