@@ -7,6 +7,9 @@ import Float "mo:base/Float";
 
 module {   
     public type TokenId = Text;
+    public let equal = Text.equal;
+    public let hash = Text.hash;
+
     public type TokenMeta = {
         // meta
         tokenId : TokenId;
@@ -30,9 +33,15 @@ module {
         price : Float;
 
         // info 
-        imgUrl : Blob;
+        image : Blob;
     };
 
-    public let equal = Text.equal;
-    public let hash = Text.hash;
+    public type UserProfile = {
+        id : Principal;
+        mate : ?Principal;
+        pet : ?TokenId;
+    };
+
+    public type PetProfile = TokenMeta;
+
 }
