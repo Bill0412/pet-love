@@ -16,8 +16,13 @@ import logo from './assets/logo.png'
 import './styles.css'
 
 const pages = [
-    ['Shopping Mall', '/pet_market'],
-    ['Personal Center', '/personal']
+  ['Shopping Mall', '/pet_market'],
+  ['Personal Center', '/personal']
+];
+
+const market_pages = [
+  ['Pet Market', '/pet_market'],
+  ['Random Pet', '/random_pet']
 ];
 
 const Logo = () => {
@@ -28,13 +33,22 @@ const Logo = () => {
 
 const ResponsiveAppBar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorMarket, setAnchorMarket] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
 
+  const handleOpenMarketMenu = (event) => {
+    setAnchorMarket(event.currentTarget);
+  };
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
+  };
+
+  const handleCloseMarketMenu = (event) => {
+    setAnchorMarket(null);
   };
 
   return (
@@ -113,27 +127,64 @@ const ResponsiveAppBar = () => {
             keep it with your lover
           </Box>
 
-
           {/* Menu for md */}
           <Box ml={2} sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(([page, link]) => (
-                    <Link to={link} style={{ textDecoration: 'none' }}>
-                        <Button
-                            key={page}
-                            onClick={handleCloseNavMenu}
-                            sx={{ my: 2, 
-                              color: 'white', 
-                              display: 'block', 
-                              backgroundColor: 'rgba(33,182,174,0.8)',
-                              '&:hover': {
-                                backgroundColor: 'rgba(33,182,174,0.5)'
-                              }}}
-                        >
-                            {page}   
-                        </Button>
-                    </Link>
-
-            ))}
+            <Button
+                key='Shopping Mall'
+                onClick={handleOpenMarketMenu}
+                sx={{ my: 2, 
+                  color: 'white', 
+                  display: 'block', 
+                  backgroundColor: 'rgba(33,182,174,0.8)',
+                  '&:hover': {
+                    backgroundColor: 'rgba(33,182,174,0.5)'
+                  }}}
+            >
+              Shopping Mall
+            </Button>
+            <Menu
+              sx={{ mt: '45px' }}
+              id="menu-appbar"
+              anchorEl={anchorMarket}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorMarket)}
+              onClose={handleCloseMarketMenu}
+            >
+              <Link to="/pet_market" style={{ textDecoration: 'none', color: 'rgba(33,182,174,1.0)' }}>
+                <MenuItem key="text" onClick={handleCloseMarketMenu}>
+                  <Typography textAlign="center">Pet Market</Typography>
+                </MenuItem>
+              </Link>
+              <Link to="/random_pet" style={{ textDecoration: 'none', color: 'rgba(33,182,174,1.0)' }}> 
+                <MenuItem key="text" onClick={handleCloseMarketMenu}>
+                  <Typography textAlign="center">Random Pet</Typography>
+                </MenuItem>
+              </Link>
+            </Menu>
+            &nbsp;&nbsp;
+              <Link to='/personal' style={{ textDecoration: 'none' }}>
+                  <Button
+                      key='Personal Center'
+                      onClick={handleCloseNavMenu}
+                      sx={{ my: 2, 
+                        color: 'white', 
+                        display: 'block', 
+                        backgroundColor: 'rgba(33,182,174,0.8)',
+                        '&:hover': {
+                          backgroundColor: 'rgba(33,182,174,0.5)'
+                        }}}
+                  >
+                    Personal Center
+                  </Button>
+              </Link>
           </Box>
         </Toolbar>
       </Container>

@@ -6,7 +6,7 @@ import LeftMenu from "./left-menu";
 import ResponsiveAppBar from "../components/app-bar";
 
 
-const PetMarketRight = () => {
+const PetMarketContent = () => {
   return (
     <div>
       <p>Pet Market Placeholder</p>
@@ -18,14 +18,7 @@ const PetMarket = () => {
   return (
     <div>
       <ResponsiveAppBar />
-      <Grid container spacing={2}>
-        <Grid item md={4}>
-          <LeftMenu />
-        </Grid>
-        <Grid item md={8}>
-          <PetMarketRight />
-        </Grid>
-      </Grid>
+      <PetMarketContent />
     </div>
   );
 }

@@ -6,7 +6,7 @@ import LeftMenu from "./left-menu";
 import ResponsiveAppBar from "../components/app-bar";
 
 
-const RandomPetRight = () => {
+const RandomPetContent = () => {
   return (
     <div>
       <img src="http://placekitten.com/500/600"/>
@@ -23,14 +23,7 @@ const RandomPet = () => {
   return (
     <div>
       <ResponsiveAppBar />
-      <Grid container spacing={2}>
-        <Grid item md={4}>
-          <LeftMenu />
-        </Grid>
-        <Grid item md={8}>
-          <RandomPetRight />
-        </Grid>
-      </Grid>
+      <RandomPetContent />
     </div>
   );
 }
