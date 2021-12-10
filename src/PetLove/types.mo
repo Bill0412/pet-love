@@ -13,32 +13,29 @@ module {
         #onSelling;
     };
 
+    public type ActionType = {
+        #play;
+        #feed;
+    };
+
     public type TokenId = Text;
     
     public type TokenMeta = {
         // meta
         id : TokenId;
-        state : PetState;    
-
-        // basic
-        name : Text;
-        description : Text;
-        createTime : Text;
 
         // info immutable
-        kind : Int;
-        specy : Int;
-
-        // info mutable with action
-        age : Nat;
-        happiness : Nat;
-        health : Nat;
-
-        // info when selling
-        price : Float;
-
-        // info 
+        createTime : Text;
+        // kind : Int;
+        // specy : Int;
         image : Blob;
+
+        // info mutable
+        var state : PetState;    
+        var happiness : Nat;
+
+        // info mutable when selling
+        var price : Float;
     };
 
     public type UserProfile = {
@@ -47,6 +44,8 @@ module {
         tokenId : ?TokenId;
     };
 
-    public type PetProfile = TokenMeta;
-
+    public type PetProfile = {
+        meta : TokenMeta;
+        owner : (Principal, Principal);
+    };
 }
