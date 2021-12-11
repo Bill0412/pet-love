@@ -14,6 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import {Link} from 'react-router-dom';
 import logo from './assets/logo.png'
 import './styles.css'
+import GreenButton from './green-button';
 
 const Logo = () => {
   return (
@@ -135,19 +136,12 @@ const ResponsiveAppBar = () => {
 
           {/* Menu for md */}
           <Box ml={2} sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
-            <Button
+            <GreenButton
                 key='Shopping Mall'
                 onClick={handleOpenMarketMenu}
-                sx={{ my: 2, 
-                  color: 'white', 
-                  display: 'block', 
-                  backgroundColor: 'rgba(33,182,174,0.8)',
-                  '&:hover': {
-                    backgroundColor: 'rgba(33,182,174,0.5)'
-                  }}}
             >
               Shopping Mall
-            </Button>
+            </GreenButton>
             <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
@@ -177,19 +171,12 @@ const ResponsiveAppBar = () => {
             </Menu>
             &nbsp;&nbsp;
               <Link to='/personal' style={{ textDecoration: 'none' }}>
-                  <Button
+                  <GreenButton
                       key='Personal Center'
-                      onClick={handleCloseNavMenu}
-                      sx={{ my: 2, 
-                        color: 'white', 
-                        display: 'block', 
-                        backgroundColor: 'rgba(33,182,174,0.8)',
-                        '&:hover': {
-                          backgroundColor: 'rgba(33,182,174,0.5)'
-                        }}}
+                      onClick={handleCloseNavMenu} 
                   >
                     Personal Center
-                  </Button>
+                  </GreenButton>
               </Link>
           </Box>
         </Toolbar>
