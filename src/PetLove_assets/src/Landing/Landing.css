@@ -10,25 +10,19 @@
 /*}*/
 
 
-.main-title {
-    color: #123456;
-}
-
-.subtitle {
-    font-family: Courgette;
-}
-
-.introduction {
-    font-family: Smooch;
-}
-
+/*#rotate_back {*/
+/*    -webkit-transform: rotate(30deg);*/
+/*    -moz-transform: rotate(30deg);*/
+/*    -o-transform: rotate(30deg);*/
+/*    -ms-transform: rotate(30deg);*/
+/*    transform: rotate(30deg);*/
+/*}*/
 
 .aws-btn {
-
-    --button-default-height: 48px;
-    --button-default-font-size: 14px;
-    --button-default-border-radius: 6px;
-    --button-horizontal-padding: 20px;
+    --button-default-height: 65px;
+    --button-default-font-size: 22px;
+    --button-default-border-radius: 25px;
+    --button-horizontal-padding: 42px;
     --button-raise-level: 5px;
     --button-hover-pressure: 2;
     --transform-speed: 0.185s;
@@ -49,10 +43,8 @@
     --button-anchor-border: 2px solid #5bbd3a;
 }
 
-.rotate_back {
-    -webkit-transform: rotate(30deg);
-    -moz-transform: rotate(30deg);
-    -o-transform: rotate(30deg);
-    -ms-transform: rotate(30deg);
-    transform: rotate(30deg);
+.overall-box{
+    text-align: center;
 }
+
+
