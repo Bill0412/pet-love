@@ -8,8 +8,7 @@ import LoginBt from "./LoginBt/LoginBt";
 import Avatar from '@mui/material/Avatar';
 import Button from "@mui/material/Button";
 import img from './static/Avatar.png'
-import styles from './Landing.module.css';
-import { StyledEngineProvider } from '@mui/material/styles';
+import ResponsiveAppBar from "../components/app-bar";
 
 const Landing = (props) => {
     const font1Anton = "'Anton', sans-serif";
@@ -40,6 +39,7 @@ const Landing = (props) => {
     });
     return (
         <div style={{margin: "auto"}}>
+            <ResponsiveAppBar/>
             <Stack
                 direction="row"
                 justifyContent="center"
