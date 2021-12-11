@@ -12,9 +12,8 @@ const Login = () => {
                 <li><Link to="/random_pet">Random Pet</Link></li>
                 <li><Link to="/pet_market">Pet Market</Link></li>
                 <li><Link to="/personal">Personal Center</Link></li>
-                <li><Link to ="/testLanding">Go to Landing</Link></li>
+                <li><Link to ="/landing">Go to Landing</Link></li>
             </ul>
-            
         </div>
     );
 };
