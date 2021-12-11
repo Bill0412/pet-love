@@ -3,10 +3,10 @@ import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+
 import ResponsiveAppBar from "../components/app-bar";
 import PetImage from "../../assets/images/pets/1.jpg"
-import GreenButton from "../components/green-button";
+import PurchaseButton from "./components/purchase-button";
 
 const PetCard = (props) => {
   let item = props.item;
@@ -18,7 +18,7 @@ const PetCard = (props) => {
         <p>sale: {item.price} ICP</p>
         <p>age: {item.age} days</p>
         &nbsp;&nbsp;
-        <GreenButton startIcon={<FavoriteIcon />}>Take Me!</GreenButton>
+        <PurchaseButton label="Take me!" />
       </Stack>
     </Stack>
   );

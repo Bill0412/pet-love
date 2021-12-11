@@ -2,9 +2,9 @@ import * as React from "react";
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import ReplayIcon from '@mui/icons-material/Replay';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ResponsiveAppBar from "../components/app-bar";
 import GreenButton from "../components/green-button";
+import PurchaseButton from "./components/purchase-button";
+import ResponsiveAppBar from "../components/app-bar";
 import PetImage from "../../assets/images/pets/1.jpg"
 
 const RandomPetContent = () => {
@@ -23,8 +23,8 @@ const RandomPetContent = () => {
         <Stack spacing={2} direction="column" justifyContent="center" alignItems="center" spacing={2}>
           <p>Sale: 2 ICP</p>
           <p>Age: 0 Day</p>
-          &nbsp;
-          <GreenButton startIcon={<FavoriteIcon />}>Choose Me!</GreenButton>
+
+          <PurchaseButton label="Choose me!" />
         </Stack>
       </Grid>
     </Grid>
