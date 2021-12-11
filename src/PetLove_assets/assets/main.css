@@ -1,11 +1,11 @@
 @font-face {
     font-family: "LuxuriousScript";
-    src: local("LuxuriousScript"), url("./fonts//LuxuriousScript-Regular.ttf") format("truetype");
+    src: local("LuxuriousScript"), url("./fonts/LuxuriousScript-Regular.ttf") format("truetype");
 }
 
 @font-face {
     font-family: "Anton";
-    src: local("Anton"), url("./fonts//Anton-Regular.ttf") format("truetype");
+    src: local("Anton"), url("./fonts/Anton-Regular.ttf") format("truetype");
 }
 
 @font-face {
@@ -16,6 +16,11 @@
 @font-face {
     font-family: "Smooch";
     src: local("Smooch"), url("./fonts/Smooch-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: local("Roboto"), url("./fonts/Roboto-ThinItalic.ttf") format("truetype");
 }
 
 body {
