@@ -19,21 +19,12 @@ const RandomPetContent = () => {
             </GreenButton>
           </Stack>
       </Grid>
-      <Grid item xs={12} md={6}>
-        
-      <Stack
-        direction="column"
-        justifyContent="center"
-        alignItems="center"
-        spacing={2}
-        minHeight="50vh"
-      >
+      <Grid item xs={12} md={6} mt={14}>
         <Stack spacing={2} direction="column" justifyContent="center" alignItems="center" spacing={2}>
           <p>Sale: 2 ICP</p>
           <p>Age: 0 Day</p>
           &nbsp;
           <GreenButton startIcon={<FavoriteIcon />}>Choose Me!</GreenButton>
-        </Stack>
         </Stack>
       </Grid>
     </Grid>
