@@ -19,8 +19,8 @@
 }
 
 @font-face {
-    font-family: "Roboto";
-    src: local("Roboto"), url("./fonts/Roboto-ThinItalic.ttf") format("truetype");
+    font-family: "RobotoTI";
+    src: local("RobotoTI"), url("./fonts/Roboto-ThinItalic.ttf") format("truetype");
 }
 
 body {

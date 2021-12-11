@@ -32,7 +32,7 @@ const Landing = (props) => {
     });
     const styleSmooch = createTheme({
         typography: {
-            fontFamily: "'Roboto', sans-serif",
+            fontFamily: "'RobotoTI', sans-serif",
             color: "orange"
         },
     });
