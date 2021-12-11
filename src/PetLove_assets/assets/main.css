@@ -8,6 +8,15 @@
     src: local("Anton"), url("./fonts//Anton-Regular.ttf") format("truetype");
 }
 
+@font-face {
+    font-family: "Courgette";
+    src: local("Courgette"), url("./fonts/Courgette-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Smooch";
+    src: local("Smooch"), url("./fonts/Smooch-Regular.ttf") format("truetype");
+}
 
 body {
     font-family: sans-serif;

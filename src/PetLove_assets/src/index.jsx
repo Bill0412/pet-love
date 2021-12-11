@@ -10,8 +10,9 @@ import RandomPet from "./mall/random-pet";
 import PetMarket from "./mall/pet-market";
 import PersonalCenter from "./personal/personal-center";
 import Landing from "./Landing/Landing";
-import Circle from "./Landing/backgournd/Circle";
-import ResponsiveAppBar from "./components/app-bar";
+import Circle from "./components/backgournd/Circle";
+
+
 // Since we use HashRouter, the path for /random_pet, for instance,
 // should be /#/random_set
 
@@ -27,7 +28,7 @@ const App = () => {
                     <Route exact path="/landing" element={<Landing/>}/>
                 </Routes>
             </Router>
-            <Circle bg={true} bkcolor="#ffffff"/>
+            <Circle bg={true} />
         </div>
     )
 };

@@ -1,14 +1,18 @@
 import * as React from 'react';
-import Divider from '@mui/material/Divider';
-import Box from "@mui/material/Box";
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import LoginBt from "./LoginBt/LoginBt";
 import Avatar from '@mui/material/Avatar';
-import Button from "@mui/material/Button";
-import img from './static/Avatar.png'
+import img_avatar from './static/Avatar.png';
+import img_back from './static/back.png';
 import ResponsiveAppBar from "../components/app-bar";
+import "react-awesome-button/dist/styles.css";
+import "./Landing.module.css"
+import {
+    AwesomeButton,
+    AwesomeButtonProgress,
+    AwesomeButtonSocial,
+} from 'react-awesome-button';
 
 const Landing = (props) => {
     const font1Anton = "'Anton', sans-serif";
@@ -17,13 +21,9 @@ const Landing = (props) => {
     const stylesPress = createTheme({
         typography: {
             fontFamily: font1Anton,
-            fontSize: 16
-        },
-        // button:{
-        //     backgroundColor:"#a09dbf",
-        //     width:"30vw",
-        //     height:"30vh"
-        // }
+            fontSize: 16,
+            color:"#123456"
+        }
     });
     const styleCourgette = createTheme({
         typography: {
@@ -60,19 +60,22 @@ const Landing = (props) => {
                                alignItems="center"
                                spacing={2}>
                             <Stack maxWidth="50vw">
-                                <Typography variant="h1" component="div" gutterBottom color="orange">
+                                <Typography variant="h1" component="div" gutterBottom className="main-title" >
                                     Pet Love
                                 </Typography>
                             </Stack>
                             <Stack maxWidth="50vw">
-                                <Avatar src={img} alt={"img"} sx={{width: 100, height: 100}}/>
+                                <Avatar src={img_avatar} alt={"img_avatar"} sx={{width: 100, height: 100}}/>
                             </Stack>
                         </Stack>
                         <Stack>
-                            <Button
-                                style={{backgroundColor:"#a09dbf",width:"200px",height:"100px"}}>
+                            <AwesomeButton
+                                size="large"
+                                type="secondary"
+
+                            >
                                 Join Now
-                            </Button>
+                            </AwesomeButton>
 
                         </Stack>
                     </ThemeProvider>
@@ -103,9 +106,7 @@ const Landing = (props) => {
                             Now, start your love journey
                         </Typography>
                     </ThemeProvider>
-                    <Typography variant="h1" component="div" gutterBottom>
-                        img here
-                    </Typography>
+                    <img src={img_back} alt="img_back"  />
                 </Stack>
             </Stack>
         </div>)
