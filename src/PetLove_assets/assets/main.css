@@ -55,3 +55,7 @@ button[type="submit"] {
 #greeting:empty {
     display: none;
 }
+
+.card-image{
+    width: 40%;
+}
