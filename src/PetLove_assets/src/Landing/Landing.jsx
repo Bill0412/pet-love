@@ -19,9 +19,9 @@ const Landing = (props) => {
     const font3Smooch = "'Smooch', cursive";
     const stylesPress = createTheme({
         typography: {
-            fontFamily: font1Anton,
+            fontFamily: font2Courgette,
             fontSize: 16,
-            color: "#123456"
+            // color: "#123456"
         }
     });
     const styleCourgette = createTheme({
@@ -59,7 +59,7 @@ const Landing = (props) => {
                                alignItems="center"
                                spacing={2}>
                             <Stack>
-                                <Typography variant="h1" component="div" gutterBottom className="main-title">
+                                <Typography variant="h1" component="div" gutterBottom className="main-title" color="#ef3473">
                                     Pet Love
                                 </Typography>
                             </Stack>
@@ -67,7 +67,8 @@ const Landing = (props) => {
                             {/*    <Avatar src={img_avatar} alt={"img_avatar"} sx={{width: 100, height: 100}}/>*/}
                             {/*</Stack>*/}
                         </Stack>
-                        <Stack>
+                    </ThemeProvider>
+                    <Stack>
                             <ThemeProvider theme={styleSmooch}>
                                 <Typography variant="subtitle1" gutterBottom component="div">
                                     In the pet love app, you can share a cute pet with your lover.<br/>
@@ -85,7 +86,6 @@ const Landing = (props) => {
                             <AwesomeButton type="secondary" >Join Now!!</AwesomeButton>
                         </Stack>
 
-                    </ThemeProvider>
                 </Stack>
                 <Stack
                     direction="column"
