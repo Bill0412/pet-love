@@ -63,7 +63,7 @@ shared(msg) actor class PetLove(creator: Principal) {
         }
     };
 
-    public shared(msg) func sellPet(id : TokenId, price : Float) : async (Bool) {
+    public shared(msg) func sellPet(id : TokenId, price : Nat) : async (Bool) {
         // don't have access for this pet
         let hasAccess : Bool =  protocol.canAccess(msg.caller, id);
         if ( hasAccess == false ){
@@ -109,7 +109,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func randomGeneratePet() : async (PetProfile) {
-        var pet : TokenMeta = protocol.mint();
+        var pet : TokenMeta = protocol.createNFT(_defaultUser);
         let res : PetProfile = {
             id = pet.id;
             createTime = pet.createTime;
@@ -117,20 +117,20 @@ shared(msg) actor class PetLove(creator: Principal) {
             state = pet.state;
             happiness = pet.happiness;
             price = pet.price;
-            owner = protocol.getOwners(id);
+            owner = protocol.getOwners(pet.id);
         };
         return res;
     };
 
     public shared(msg) func purchasePet(user : Principal, mate : Principal, pet : TokenId) : async (Bool) {
-        let res : Bool = protocol.transfer(user, mate, pet);
+        let res : Bool = protocol.transferNFT(user, mate, pet);
         return res;
     };
 
-    public shared(msg) func abandonPet(user : Principal, pet : TokenId) : async (Bool) {
-        let res : Bool = protocol.destory(user, pet);
-        return res;
-    };
+    // public shared(msg) func abandonPet(user : Principal, pet : TokenId) : async (Bool) {
+    //     let res : Bool = protocol.destoryNFT(user, pet);
+    //     return res;
+    // };
 
     public shared(msg) func getAllPetsOnSelling() : async ([PetProfile]) {
         let allPets : [TokenMeta] =  protocol.getAllNFT();

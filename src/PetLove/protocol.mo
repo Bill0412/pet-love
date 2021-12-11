@@ -9,6 +9,12 @@ import P "mo:base/Prelude";
 import Debug "mo:base/Debug";
 import List "mo:base/List";
 import Text "mo:base/Text";
+import Int "mo:base/Int";
+import Random "mo:base/Random";
+import Float "mo:base/Float";
+import Nat "mo:base/Nat";
+import Nat8 "mo:base/Nat8";
+
 
 // MultiUser NFT
 module Protocol {
@@ -17,12 +23,15 @@ module Protocol {
 
         public type TokenId = Types.TokenId;
         public type TokenMeta = Types.TokenMeta; 
-        public type UserProfile = Types.UserProfile;    
+        public type UserProfile = Types.UserProfile;  
+        public type PetState = Types.PetState;  
 
         private var nfts = HashMap.HashMap<TokenId, TokenMeta>(1, Text.equal, Text.hash);
         private var users = HashMap.HashMap<Principal, UserProfile>(1, Principal.equal, Principal.hash);
         private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Text.equal, Text.hash);
-
+        private var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        private var arrSize = 10;
+        let random = Random.Finite("protocol");
         // ///mapping from nft to approced principal
         // private var nftToApproval = HashMap.HashMap<TokenId,Principal>(1,Types.equal,Types.hash);
         // private var ownerToOperators = HashMap.HashMap<Principal,HashMap.HashMap<Principal,Bool>>(1,Principal.equal,Principal.hash);
@@ -31,7 +40,8 @@ module Protocol {
         // ///mapping from owner to their nft tokenId
         // private var tokens = HashMap.HashMap<Principal,[var TokenId]>(1,Principal.equal,Principal.hash);
         
-        // let tokenUtil = Types.TokenUtil();
+        let tokenUtil = Types.TokenUtil();
+        
 
         // public func newUserRepository(principal : Principal) : UserRepository{
         //     HashMapRepositories.HashMapRepository<UserId, UserProfile>()
@@ -57,11 +67,9 @@ module Protocol {
             return _unwrap(userProfile).tokenId;
         };
 
-        public func getAllNFT() :  [TokenMeta] {
+        public func getAllNFT () :  [TokenMeta] {
             return Iter.toArray(nfts.vals());
         };
-
-        //public func createNFT ()
 
         public func getOwners (tokenId : TokenId) :  (Principal, Principal) {
             var userList = _unwrap(nftToOwners.get(tokenId));
@@ -69,6 +77,34 @@ module Protocol {
             let (owner1, l1) = List.pop<Principal>(userList);
             let (owner2, l2) = List.pop<Principal>(userList);
             (_unwrap(owner1), _unwrap(owner1))
+        };
+
+
+        public func createNFT (user : Principal) : TokenMeta {
+            var tokenMeta : TokenMeta = {
+                id = tokenUtil.generate();
+                createTime = Int.toText(Time.now());
+                image = getImageIndex();
+                var state = #notAdopted;
+                var happiness = 0;
+                var price = _unwrap(random.range(10));
+            };
+        
+            var list1 = List.nil<Principal>();
+            var list2 = List.push<Principal>(user, list1);
+            var list3 = List.push<Principal>(user, list2);
+            users.put(user, {
+                id = user;
+                mate = ?user;
+                tokenId = ?tokenMeta.id;
+            });
+            nfts.put(tokenMeta.id, tokenMeta);
+            nftToOwners.put(tokenMeta.id, list3);
+            return tokenMeta;
+        };
+
+        public func destoryNFT (user1 : Principal, user2 : Principal, tokenId : TokenId) :  Bool {
+            return true;
         };
 
 
@@ -143,5 +179,25 @@ module Protocol {
                 case (?x_) { x_ };
             };
 
+        private func getImageIndex() : Nat{
+            var r = Nat8.toNat(_unwrap(random.byte()));
+            var index = Nat.rem(r, 10);
+            //var index = _unwrap(random.byte()).toNat() % arrSize;
+            arr := remove(index);
+            return index;
         };
+
+        public func remove (value: Nat) : [Nat] {
+            let newArr : [Nat] = Array.filter(
+                arr, 
+                func (val: Nat) : Bool { 
+                    val !=  value;
+                }
+            );
+            arrSize -= 1;
+            return newArr;
+        };
+
+    };
+        
 }

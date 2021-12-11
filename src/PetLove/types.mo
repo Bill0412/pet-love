@@ -28,14 +28,23 @@ module {
         createTime : Text;
         // kind : Int;
         // specy : Int;
-        image : Blob;
+        image : Nat;
 
         // info mutable
         var state : PetState;    
         var happiness : Nat;
 
         // info mutable when selling
-        var price : Float;
+        var price : Nat;
+    };
+
+    public class TokenUtil() {
+        //tokenId生成 时间戳+index
+        var token_index : Nat = 0;
+        public func generate () : TokenId {
+            token_index += 1;
+            return Int.toText(Time.now()) # Int.toText(token_index);
+        };
     };
 
 
@@ -53,14 +62,14 @@ module {
         createTime : Text;
         // kind : Int;
         // specy : Int;
-        image : Blob;
+        image : Nat;
 
         // info mutable
         state : PetState;    
         happiness : Nat;
 
         // info mutable when selling
-        price : Float;
+        price : Nat;
         owner : (Principal, Principal);
     };
 }
