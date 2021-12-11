@@ -127,14 +127,13 @@ shared(msg) actor class PetLove(creator: Principal) {
         return res;
     };
 
-    // public shared(msg) func abandonPet(user : Principal, pet : TokenId) : async (Bool) {
-    //     let res : Bool = protocol.destoryNFT(user, pet);
-    //     return res;
-    // };
+    public shared(msg) func abandonPet(pet : TokenId) : async (Bool) {
+        let res : Bool = protocol.destoryNFT(pet);
+        return res;
+    };
 
     public shared(msg) func getAllPetsOnSelling() : async ([PetProfile]) {
         let allPets : [TokenMeta] =  protocol.getAllNFT();
-
         let allPetsOnSelling : [TokenMeta] = Array.filter(
             allPets, 
             func (token: TokenMeta) : Bool { 

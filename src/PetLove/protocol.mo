@@ -103,7 +103,13 @@ module Protocol {
             return tokenMeta;
         };
 
-        public func destoryNFT (user1 : Principal, user2 : Principal, tokenId : TokenId) :  Bool {
+        public func destoryNFT (tokenId : TokenId) :  Bool {
+            var userList = _unwrap(nftToOwners.get(tokenId));
+            let (owner1, l1) = List.pop<Principal>(userList);
+            let (owner2, l2) = List.pop<Principal>(userList);
+            nftToOwners.put(tokenId, List.nil<Principal>());
+            users.delete(_unwrap(owner1));
+            users.delete(_unwrap(owner2));
             return true;
         };
 
@@ -114,7 +120,6 @@ module Protocol {
             
             //update nftToOwners
             var userList = _unwrap(nftToOwners.get(tokenId));
-            assert (userList != null);
             let (owner1, l1) = List.pop<Principal>(userList);
             let (owner2, l2) = List.pop<Principal>(userList);
             var list1 = List.nil<Principal>();
@@ -182,7 +187,6 @@ module Protocol {
         private func getImageIndex() : Nat{
             var r = Nat8.toNat(_unwrap(random.byte()));
             var index = Nat.rem(r, 10);
-            //var index = _unwrap(random.byte()).toNat() % arrSize;
             arr := remove(index);
             return index;
         };
