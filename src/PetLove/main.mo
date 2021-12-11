@@ -94,11 +94,11 @@ shared(msg) actor class PetLove(creator: Principal) {
         
         switch (action) {
             case (#play) {
-                 playPet(id);
+                playPet(id);
                 return true;
             };
             case (#feed) {
-                 feedPet(id);
+                feedPet(id);
                 return true;
             };
             case (_) {
@@ -108,13 +108,29 @@ shared(msg) actor class PetLove(creator: Principal) {
         }
     };
 
-    // public shared(msg) func randomGeneratePet() : async (PetProfile) {
+    public shared(msg) func randomGeneratePet() : async (PetProfile) {
+        var pet : TokenMeta = protocol.mint();
+        let res : PetProfile = {
+            id = pet.id;
+            createTime = pet.createTime;
+            image = pet.image;
+            state = pet.state;
+            happiness = pet.happiness;
+            price = pet.price;
+            owner = protocol.getOwners(id);
+        };
+        return res;
+    };
 
-    // };
+    public shared(msg) func purchasePet(user : Principal, mate : Principal, pet : TokenId) : async (Bool) {
+        let res : Bool = protocol.transfer(user, mate, pet);
+        return res;
+    };
 
-    // public shared(msg) func purchasePet(user : Principal, mate : Principal, pet : TokenId) : async (PetProfile) {
-        
-    // };
+    public shared(msg) func abandonPet(user : Principal, pet : TokenId) : async (Bool) {
+        let res : Bool = protocol.destory(user, pet);
+        return res;
+    };
 
     public shared(msg) func getAllPetsOnSelling() : async ([PetProfile]) {
         let allPets : [TokenMeta] =  protocol.getAllNFT();
