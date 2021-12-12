@@ -7,10 +7,24 @@ import PurchaseButton from "./components/purchase-button";
 import ResponsiveAppBar from "../components/app-bar";
 import PetImage from "../../assets/images/pets/1.png"
 import UserContext from "../contexts/user-context"
+import {PetLove} from "../../../declarations/PetLove";
 
 const RandomPetContent = () => {
     const { principal, setPrincipal } = React.useContext(UserContext);
+    const [pet, setPet] = React.useState();
     console.log("Random Pet principal: ", principal);
+
+    const onGeneratePet = async () => {
+        const petProfile = await PetLove.randomGeneratePet();
+        console.log("onGeneratePet: ", petProfile);
+
+        if(petProfile != null) {
+            setPet(petProfile);
+        }
+    }
+
+    // generate a pet on first load
+    React.useEffect(() => { onGeneratePet(); }, []);
 
   return (
     <Grid container mt={10}>
@@ -18,7 +32,7 @@ const RandomPetContent = () => {
           <Stack spacing={2} direction="column" justifyContent="center" alignItems="center">
           <img src={PetImage} alt="Pet Image"/>
             &nbsp;
-            <GreenButton startIcon={<ReplayIcon />}>
+            <GreenButton startIcon={<ReplayIcon />} onClick={onGeneratePet}>
               See Other Pets
             </GreenButton>
           </Stack>

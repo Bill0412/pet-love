@@ -43,6 +43,7 @@ const Landing = (props) => {
     const { principal, setPrincipal } = React.useContext(UserContext);
 
     let onClickLoginButton = async () => {
+        // This is an official canister for user verification
         const nnsCanisterId = 'qoctq-giaaa-aaaaa-aaaea-cai'
         const whitelist = [nnsCanisterId];
 
@@ -90,6 +91,7 @@ const Landing = (props) => {
         const principalId = await window.ic.plug.agent.getPrincipal();
         console.log("principal id:", principalId);
         setPrincipal(principalId);
+        sessionStorage.setItem("principal", JSON.stringify(principalId));
 
         // const result = await window.ic.plug.requestBalance();
         // console.log(result);
@@ -141,9 +143,11 @@ const Landing = (props) => {
                                 </Typography>
                             </ThemeProvider>
                         </Stack>
+                    { principal == null &&
                         <Stack>
                             <AwesomeButton type="secondary" onPress={onClickLoginButton}>Join Now!!</AwesomeButton>
                         </Stack>
+                    }
 
                 </Stack>
                 <Stack

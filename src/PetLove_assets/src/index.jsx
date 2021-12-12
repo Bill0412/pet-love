@@ -23,6 +23,13 @@ const App = () => {
 
     const [principal, setPrincipal] = React.useState();
 
+    // restore the principal id from sessionStorage if its exists
+    React.useEffect(() => {
+        if(sessionStorage.getItem("principal")) {
+            setPrincipal(JSON.parse(sessionStorage.getItem("principal")));
+        }
+    }, []);
+
     const principleValue = React.useMemo(
         () => ({principal, setPrincipal}), [principal, setPrincipal]
     );
