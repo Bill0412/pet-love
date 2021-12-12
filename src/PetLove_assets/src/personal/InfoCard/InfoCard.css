@@ -1,0 +1,28 @@
+.board{
+    box-shadow: 6px 6px 4px 2px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    height: 60%;
+    position: relative;
+    top: auto;
+    /*left: 20%;*/
+    align-items: center;
+    border-radius: 10% 10%;
+    background-image: url("../static/dashBoard.png");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+.content{
+    position: relative;
+    top: 20%;
+    align-items: center;
+}
+
+
+.button{
+    position: absolute;
+    margin-left: 50%;
+    margin-top: 100%;
+    transform: translateX(-50%) translateY(-100%);
+}

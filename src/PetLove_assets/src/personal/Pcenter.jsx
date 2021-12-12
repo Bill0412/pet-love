@@ -1,12 +1,7 @@
 import * as React from "react";
 import ResponsiveAppBar from "../components/app-bar";
 import Stack from "@mui/material/Stack";
-import {createTheme, ThemeProvider} from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
 import './Pcenter.css';
-import dogPortrait from './static/dogPortrait1.png';
-import Box from "@mui/material/Box";
-import InfoCard from "./InfoCard/InfoCard";
 import {useState} from "react";
 import {
     AwesomeButton,
@@ -16,10 +11,14 @@ import {
 import 'react-awesome-button/dist/themes/theme-rickiest.css';
 import {Progress} from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
+import Grid from "@mui/material/Grid";
+import {Fab, Action} from 'react-tiny-fab';
+import 'react-tiny-fab/dist/styles.css';
+import InfoCard from "./InfoCard/InfoCard";
 
 const Pcenter = () => {
     const [happiness, happinessChanger] = useState(23)
-    const theme = {
+    const progressTheme = {
         success: {
             symbol: '🏄‍',
             color: 'rgb(223, 105, 180)'
@@ -36,37 +35,83 @@ const Pcenter = () => {
     return (
         <div>
             <ResponsiveAppBar/>
-            <Stack
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                spacing={10}
-            >
-                <Stack
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
-                    spacing={0}
-                    minHeight="90vh"
-                    width="30vw"
-                ><Stack direction="column"
-                        justifyContent="flex-end"
-                        alignItems="center"
-                        spacing={1}>
-                    <div className="div-background">
-                        <Stack>
-                            <div className="div-progress">
-                                <Progress percent={20}/>
-                            </div>
-                        </Stack>
-                    </div>
+            <Grid container spacing={-10} >
+                <Grid item md={6} sm={12} xs={12} >
+                    <Stack direction="column"
+                        // direction="column"
+                           justifyContent="center"
+                           alignItems="center"
+                           height="80vh"
+                           maxWidth="50vw"
+                           spacing={1}
+                           className="dog-back"
+                    >
+                        <Fab
+                            // mainButtonStyles={mainButtonStyles}
+                            // actionButtonStyles={actionButtonStyles}
+                            // style={styles.floatBtn}
+                            style={{
+                                position: "absolute",
+                                marginLeft: "75%",
+                                marginTop: "50%",
+                                transform: "translateX(-75%) translateY(-50%)"
+                            }}
+                            icon={<div>+</div>}
+                            // event={event}
+                            alwaysShowTitle={true}
+                            onClick={() => {
+                                console.log("Fab clicked")
+                            }}
+                        >
+                            // The Action components are the "buttons" that appear when the Fab is open. You can
+                            use the out-of-the-box Action
+                            // component or you can use a custom component of any type and style it any way that
+                            you'd like. The "text" prop
+                            // is the popup label that appears when the Action component is hovered.
+                            <Action
+                                text="Email"
+                                onClick={() => {
+                                    console.log("Action Email clicked")
+                                }}
+                            />
+                            <Action
+                                text="Help"
+                                onClick={() => {
+                                    console.log("Action Help Clicked")
+                                }}
+                            >
+                                <i className="fa fa-help"/>
+                            </Action>
+                            {/*// Using a custom component for this one. See another example in "example/src/index.js"*/}
+                            {/*<SomeCustomComponent*/}
+                            {/*    text="Foobar!"*/}
+                            {/*    onClick={handleTheFooBarOnClick}*/}
+                            {/*>*/}
+                            {/*    <i className="fa fa-foo-bar-fa-foo"/>*/}
+                            {/*</SomeCustomComponent>*/}
+                        </Fab>
+                        <div className="div-background"/>
+                        <div className="div-progress">
+                            <Progress percent={20}/>
+                        </div>
+                        {/*</Stack>*/}
 
-                </Stack>
-
-
-                </Stack>
-                <InfoCard/>
-            </Stack>
+                        {/*</div>*/}
+                    </Stack>
+                </Grid>
+                <Grid item md={6} sm={12} xs={12} >
+                    <Stack direction="column"
+                        // direction="column"
+                           justifyContent="center"
+                           alignItems="center"
+                           height="80vh"
+                           maxWidth="50vw"
+                           spacing={1}
+                    >
+                    <InfoCard/>
+                    </Stack>
+                </Grid>
+            </Grid>
         </div>
 
     );

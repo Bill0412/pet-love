@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom"
+import Footer from "./components/footer";
 
 const Login = () => {
     return (
@@ -14,6 +15,8 @@ const Login = () => {
                 <li><Link to="/personal">Personal Center</Link></li>
                 <li><Link to ="/landing">Go to Landing</Link></li>
             </ul>
+            {/*<Footer />*/}
+
         </div>
     );
 };

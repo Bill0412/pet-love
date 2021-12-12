@@ -7,13 +7,34 @@
     background-image: url("./static/dogPortrait1.png");
     background-position: center;
     background-repeat: no-repeat;
-    width: 800px;
-    height: 800px;
+    width: 489px;
+    height: 448px;
+    /*opacity: 100%;*/
 }
 
 .div-progress{
+    position: relative;
+    top: 10%;
     width: 600px;
-    position: absolute;
-    top: 750px;
-    left:150px;
+    /*opacity: 1;*/
 }
+
+
+.dog-back{
+    /*background-image: url("./static/dogBack.png");*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center;*/
+    border-radius: 10% 10%;
+    width: auto;
+    height: auto;
+    position: relative;
+    top: auto;
+    left: auto;
+    /*opacity: 0.7;*/
+}
+
+.inline-no-opaque{
+    /*opacity: 1;*/
+}
+
+
