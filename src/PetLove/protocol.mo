@@ -27,11 +27,12 @@ module Protocol {
         public type PetState = Types.PetState;
 
         private var nfts = HashMap.HashMap<TokenId, TokenMeta>(1, Text.equal, Text.hash);
+        // FIX: the initial capacity should be larger to avoid hash conflict
         private var users = HashMap.HashMap<Principal, UserProfile>(1, Principal.equal, Principal.hash);
         private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Text.equal, Text.hash);
         private var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
         private var arrSize = 10;
-        let random = Random.Finite("protocol");
+        let random = Random.Finite("asdsfdsfsgfdgdfgdfgweruiortpoipafj;dfj;vc;vc;j.fdskjklk;dsfiodsufp");
         // ///mapping from nft to approced principal
         // private var nftToApproval = HashMap.HashMap<TokenId,Principal>(1,Types.equal,Types.hash);
         // private var ownerToOperators = HashMap.HashMap<Principal,HashMap.HashMap<Principal,Bool>>(1,Principal.equal,Principal.hash);
@@ -72,22 +73,29 @@ module Protocol {
         };
 
         public func getOwners (tokenId : TokenId) :  (Principal, Principal) {
-            var userList = _unwrap(nftToOwners.get(tokenId));
-            assert (userList != null);
-            let (owner1, l1) = List.pop<Principal>(userList);
-            let (owner2, l2) = List.pop<Principal>(userList);
-            (_unwrap(owner1), _unwrap(owner1))
+            var owners = nftToOwners.get(tokenId);
+            assert(owners != null);
+            var userList = _unwrap(owners);
+            assert(userList != null);
+            assert(List.size(userList) == 2);
+            var p1 = List.get(userList, 0);
+            var p2 = List.get(userList, 1);
+            assert(p1 != null);
+            assert(p2 != null);
+            (_unwrap(p1), _unwrap(p2))
         };
 
 
         public func createNFT (user : Principal) : TokenMeta {
+            var p = random.range(10);
+            assert(p != null);
             var tokenMeta : TokenMeta = {
                 id = tokenUtil.generate();
                 createTime = Int.toText(Time.now());
                 image = getImageIndex();
                 var state = #notAdopted;
                 var happiness = 0;
-                var price = _unwrap(random.range(10));
+                var price = _unwrap(p);
             };
 
             var list1 = List.nil<Principal>();
@@ -99,6 +107,7 @@ module Protocol {
                 tokenId = ?tokenMeta.id;
             });
             nfts.put(tokenMeta.id, tokenMeta);
+            assert(List.size(list3) == 2);
             nftToOwners.put(tokenMeta.id, list3);
             return tokenMeta;
         };
@@ -185,9 +194,13 @@ module Protocol {
             };
 
         private func getImageIndex() : Nat{
-            var r = Nat8.toNat(_unwrap(random.byte()));
-            var index = Nat.rem(r, 10);
+            // var t = random.range(4);
+            // assert(t != null);
+            // var r = _unwrap(t);
+            // var index = Nat.rem(r, 10);
+            var index = arr[0];
             arr := remove(index);
+            arr := Array.append(arr, [index]);
             return index;
         };
 
@@ -198,7 +211,7 @@ module Protocol {
                     val !=  value;
                 }
             );
-            arrSize -= 1;
+            // arrSize -= 1;
             return newArr;
         };
 
