@@ -29,12 +29,12 @@ module Protocol {
         private var nfts = HashMap.HashMap<TokenId, TokenMeta>(1, Text.equal, Text.hash);
         private var users = HashMap.HashMap<Principal, UserProfile>(1, Principal.equal, Principal.hash);
         private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Text.equal, Text.hash);
-        private stable var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        private stable var arrSize = 10;
+        private var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        private var arrSize = 10;
 
-        stable var db_nfts : [(TokenId, TokenMeta)] = [];
-        stable var db_users : [(Principal, UserProfile)] = [];
-        stable var db_nftToOwners : [(TokenId, List.List<Principal>)] = [];
+        // stable var db_nfts : [(TokenId, TokenMeta)] = [];
+        // stable var db_users : [(Principal, UserProfile)] = [];
+        // stable var db_nftToOwners : [(TokenId, List.List<Principal>)] = [];
 
         let random = Random.Finite("protocol");
         // ///mapping from nft to approced principal
@@ -52,27 +52,27 @@ module Protocol {
         //     HashMapRepositories.HashMapRepository<UserId, UserProfile>()
         // };
 
-        public func store() {
-            db_nfts := Iter.toArray(nfts.entries());
-            db_users := Iter.toArray(user.entries());
-            db_nftToOwners := Iter.toArray(nftToOwners.entries());
-        };
+        // public func store() {
+        //     db_nfts := Iter.toArray(nfts.entries());
+        //     db_users := Iter.toArray(user.entries());
+        //     db_nftToOwners := Iter.toArray(nftToOwners.entries());
+        // };
 
-        public func restore() {
-            for ((k, v) in db_nfts.vals()) {
-                nfts.put(k, v);
-            };
-            db_nfts := [];
-            for ((k, v) in db_users.vals()) {
-                users.put(k, v);
-            };
-            db_users := [];
-            for ((k, v) in db_nftToOwners.vals()) {
-                nftToOwners.put(k, v);
-            };
-            db_nftToOwners := [];
+        // public func restore() {
+        //     for ((k, v) in db_nfts.vals()) {
+        //         nfts.put(k, v);
+        //     };
+        //     db_nfts := [];
+        //     for ((k, v) in db_users.vals()) {
+        //         users.put(k, v);
+        //     };
+        //     db_users := [];
+        //     for ((k, v) in db_nftToOwners.vals()) {
+        //         nftToOwners.put(k, v);
+        //     };
+        //     db_nftToOwners := [];
             
-        };
+        // };
  
         public func getUserProfile (user : Principal) : ?UserProfile {
             return users.get(user);
@@ -114,9 +114,9 @@ module Protocol {
                 image = getImageIndex();
                 var state = #notAdopted;
                 var happiness = 0;
-                var price = _unwrap(random.range(10));
+                var price = 10;
             };
-        
+            Debug.print("1");
             var list1 = List.nil<Principal>();
             var list2 = List.push<Principal>(user, list1);
             var list3 = List.push<Principal>(user, list2);
@@ -125,6 +125,7 @@ module Protocol {
                 mate = ?user;
                 tokenId = ?tokenMeta.id;
             });
+            Debug.print("2");
             nfts.put(tokenMeta.id, tokenMeta);
             nftToOwners.put(tokenMeta.id, list3);
             return tokenMeta;
@@ -137,6 +138,7 @@ module Protocol {
             nftToOwners.put(tokenId, List.nil<Principal>());
             users.delete(_unwrap(owner1));
             users.delete(_unwrap(owner2));
+            nfts.delete(tokenId);
             return true;
         };
 
@@ -153,20 +155,24 @@ module Protocol {
             var list2 = List.push<Principal>(user1, list1);
             var list3 = List.push<Principal>(user2, list2);
             nftToOwners.put(tokenId, list3);
-
+            //TODO
             //update users
             users.delete(_unwrap(owner1));
             users.delete(_unwrap(owner2));
+            Debug.print(Principal.toText(user1));
+            Debug.print(Principal.toText(user2));
             users.put(user1, {
                 id = user1;
                 mate = ?user2;
                 tokenId = ?tokenId;
             });
-            users.put(user2, {
-                id = user2;
-                mate = ?user1;
-                tokenId = ?tokenId;
-            });
+            if (user1 != user2) {
+                users.put(user2, {
+                    id = user2;
+                    mate = ?user1;
+                    tokenId = ?tokenId;
+                });
+            };
             return true;
         };
 
@@ -212,9 +218,11 @@ module Protocol {
             };
 
         private func getImageIndex() : Nat{
+            Debug.print("4");
             var r = Nat8.toNat(_unwrap(random.byte()));
             var index = Nat.rem(r, 10);
             arr := remove(index);
+            Debug.print("5");
             return index;
         };
 

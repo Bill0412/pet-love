@@ -24,40 +24,37 @@ shared(msg) actor class PetLove(creator: Principal) {
     private stable var _createTime : Time.Time = Time.now();
     private stable var _next : Nat = 0;
 
-    // user mate relation
-    private var mates = HashMap.HashMap<Principal, Principal>(1, Principal.equal, Principal.hash);
-
     // protocol of MUN
     private var protocol = Protocol.MUN_Protocol();
 
 
     /// Canister Upgrades 
     /// Canister停止前把非stable转成stable保存到内存中
-    system func preupgrade() {
-        protocol.store();
-        Debug.print("Preupgrade Done!");
-    };
+    // system func preupgrade() {
+    //     protocol.store();   
+    //     Debug.print("Preupgrade Done!");
+    // };
 
-    /// Canister升级完成启动后把stable存储中的加载到缓存中
-    system func postupgrade() {
-       protocol.restore();
-        Debug.print("Postupgrade Done!");
-    };
+    // /// Canister升级完成启动后把stable存储中的加载到缓存中
+    // system func postupgrade() {
+    //    protocol.restore();
+    //     Debug.print("Postupgrade Done!");
+    // };
 
-    public shared(msg) func getUserProfile(user : Principal) : async (UserProfile) {
+    public shared(msg) func getUserProfile(user : Principal) : async (?UserProfile) {
         Debug.print(Principal.toText(msg.caller));
         Debug.print(Principal.toText(user));
 
-        // assert(user == msg.caller)
+        //assert(user == msg.caller)
+        return protocol.getUserProfile(user);
+        // var tokenId : ?TokenId =  protocol.getNFTByOwner(user);
+        // var mate : ?Principal = mates.get(user);
         
-        var tokenId : ?TokenId =  protocol.getNFTByOwner(user);
-        var mate : ?Principal = mates.get(user);
-        
-        let res : UserProfile = {
-            id = user;
-            tokenId = tokenId;
-            mate = mate;
-        };
+        // let res : UserProfile = {
+        //     id = user;
+        //     mate = mate;
+        //     tokenId = tokenId;
+        // };
     };
 
     public shared(msg) func getPetProfile(id : TokenId) : async (?PetProfile) {
@@ -128,6 +125,7 @@ shared(msg) actor class PetLove(creator: Principal) {
 
     public shared(msg) func randomGeneratePet() : async (PetProfile) {
         var pet : TokenMeta = protocol.createNFT(_defaultUser);
+        Debug.print("3");
         let res : PetProfile = {
             id = pet.id;
             createTime = pet.createTime;
