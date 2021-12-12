@@ -5,7 +5,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import GreenButton from "../components/green-button";
 import PurchaseButton from "./components/purchase-button";
 import ResponsiveAppBar from "../components/app-bar";
-import PetImage from "../../assets/images/pets/1.jpg"
+import PetImage from "../../assets/images/pets/1.png"
 
 const RandomPetContent = () => {
   return (

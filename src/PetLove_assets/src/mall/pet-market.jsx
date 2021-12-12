@@ -8,7 +8,7 @@ import Card from '@mui/material/Card';
 
 
 import ResponsiveAppBar from "../components/app-bar";
-import PetImage from "../../assets/images/pets/1.jpg"
+import PetImage from "../../assets/images/pets/1.png"
 import PurchaseButton from "./components/purchase-button";
 
 const PetCard = (props) => {
