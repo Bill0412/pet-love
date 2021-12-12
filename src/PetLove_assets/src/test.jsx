@@ -82,6 +82,40 @@ const TestPage = () => {
         }
     }
 
+    let onAbandonPet = async () => {
+        if(principal == null || pet == null) {
+            console.log("not login yet or no pet yet.");
+        } else {
+            const success = await PetLove.abandonPet(pet.id);
+            if(success === true) {
+                console.log("abandon success.")
+                const userProfile = await PetLove.getUserProfile(principal);
+                console.log(userProfile);
+                const petProfile = await PetLove.getPetProfile(pet.id);
+                console.log(petProfile);
+            } else {
+                console.log("abandon failed.")
+            }
+        }
+    }
+
+    let onSellPet = async () => {
+        if(principal == null || pet == null) {
+            console.log("not login yet or no pet yet.");
+        } else {
+            const success = await PetLove.sellPet(pet.id, BigInt(400));
+            if(success === true) {
+                console.log("sell success.")
+                const userProfile = await PetLove.getUserProfile(principal);
+                console.log(userProfile);
+                const petProfile = await PetLove.getPetProfile(pet.id);
+                console.log(petProfile);
+            } else {
+                console.log("sell failed.")
+            }
+        }
+    }
+
     let onPurchasePet = async () => {
         if(principal == null || pet == null) {
             console.log("not login yet or no pet yet.");
@@ -110,47 +144,48 @@ const TestPage = () => {
         }
     }
 
-    // let onInteractWithPet = async () => {
-    //     if(principal == null || pet == null) {
-    //         console.log("not login yet or no pet yet.");
-    //     } else {
-    //         const ActionType = IDL.Variant({ 'feed' : IDL.Null, 'play' : IDL.Null });
-    //
-    //         var action1 = ActionType['feed'];
-    //         var success1 = await PetLove.interactWithPet(pet, action1)
-    //         if(success1 === true) {
-    //             console.log("feed success.")
-    //             const profile = await PetLove.getPetProfile(pet.id);
-    //             console.log(profile);
-    //         } else {
-    //             console.log("feed failed.")
-    //         }
-    //
-    //         var action2 = ActionType['play'];
-    //         var success2 = await PetLove.interactWithPet(pet, action2)
-    //         if(success2 === true) {
-    //             console.log("play success.")
-    //             const profile = await PetLove.getPetProfile(pet.id);
-    //             console.log(profile);
-    //         } else {
-    //             console.log("play failed.")
-    //         }
-    //     }
-    // }
+    let onInteractWithPet = async () => {
+        if(principal == null || pet == null) {
+            console.log("not login yet or no pet yet.");
+        } else {
+            var success1 = await PetLove.interactWithPet(pet.id, {feed: null})
+            if(success1 === true) {
+                console.log("feed success.")
+                const profile = await PetLove.getPetProfile(pet.id);
+                console.log(profile);
+            } else {
+                console.log("feed failed.")
+            }
+
+            var success2 = await PetLove.interactWithPet(pet.id, {play: null})
+            if(success2 === true) {
+                console.log("play success.")
+                const profile = await PetLove.getPetProfile(pet.id);
+                console.log(profile);
+            } else {
+                console.log("play failed.")
+            }
+        }
+    }
+
+    let onGetAllPetOnSelling = async () => {
+        var list = await PetLove.getAllPetsOnSelling();
+        console.log(list);
+    }
 
     return (
         <div>
             <h1>Test Page</h1>
-            <button onClick={onClickLoginButton}>Connect Plug</button>
-            <button onClick={onGetPrincipal}>Get Principal</button>
-            <button onClick={onGetUserProfile}>Get User Profile</button>
-            <button onClick={onGeneratePet}>Random Generate Pet</button>
-            {/*<button onClick={}>Abandon Pet</button>*/}
-            {/*<button onClick={}>Sell Pet</button>*/}
-            <button onClick={onPurchasePet}>Purchase Pet</button>
-            <button onClick={onGetPetProfile}>Get Pet Profile</button>
-            {/*<button onClick={onInteractWithPet}>Interact With Pet</button>*/}
-            {/*<button onClick={}>Get All Pet OnSelling</button>*/}
+            <button onClick={onClickLoginButton} style={{marginRight: "10px"}}>Connect Plug</button>
+            <button onClick={onGetPrincipal} style={{marginRight: "10px"}}>Get Principal</button>
+            <button onClick={onGetUserProfile} style={{marginRight: "10px"}}>Get User Profile</button>
+            <button onClick={onGeneratePet} style={{marginRight: "10px"}}>Random Generate Pet</button>
+            <button onClick={onAbandonPet} style={{marginRight: "10px"}}>Abandon Pet</button>
+            <button onClick={onSellPet} style={{marginRight: "10px"}}>Sell Pet</button>
+            <button onClick={onPurchasePet} style={{marginRight: "10px"}}>Purchase Pet</button>
+            <button onClick={onGetPetProfile} style={{marginRight: "10px"}}>Get Pet Profile</button>
+            <button onClick={onInteractWithPet} style={{marginRight: "10px"}}>Interact With Pet</button>
+            <button onClick={onGetAllPetOnSelling} style={{marginRight: "10px"}}>Get All Pet OnSelling</button>
         </div>
     );
 };
