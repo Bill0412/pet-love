@@ -130,7 +130,7 @@ module Protocol {
             return tokenMeta;
         };
 
-        public func destoryNFT (tokenId : TokenId) :  Bool {
+        public func destroyNFT (tokenId : TokenId) :  Bool {
             var userList = _unwrap(nftToOwners.get(tokenId));
             let (owner1, l1) = List.pop<Principal>(userList);
             let (owner2, l2) = List.pop<Principal>(userList);

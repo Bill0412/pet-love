@@ -5,6 +5,7 @@ import HashMap "mo:base/HashMap";
 import Float "mo:base/Float";
 import Array "mo:base/Array";
 import Bool "mo:base/Bool";
+import Debug "mo:base/Debug";
 
 import Types "./types";
 import Protocol "./protocol";
@@ -44,7 +45,10 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func getUserProfile(user : Principal) : async (UserProfile) {
-        assert(msg.caller == user);
+        Debug.print(Principal.toText(msg.caller));
+        Debug.print(Principal.toText(user));
+
+        // assert(user == msg.caller)
         
         var tokenId : ?TokenId =  protocol.getNFTByOwner(user);
         var mate : ?Principal = mates.get(user);
@@ -79,10 +83,10 @@ shared(msg) actor class PetLove(creator: Principal) {
 
     public shared(msg) func sellPet(id : TokenId, price : Nat) : async (Bool) {
         // don't have access for this pet
-        let hasAccess : Bool =  protocol.canAccess(msg.caller, id);
-        if ( hasAccess == false ){
-            return false;
-        };
+        // let hasAccess : Bool =  protocol.canAccess(msg.caller, id);
+        // if ( hasAccess == false ){
+        //     return false;
+        // };
 
         var pet : ?TokenMeta =  protocol.getNFTByToken(id); 
         switch (pet) {
@@ -100,11 +104,11 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func interactWithPet(id : TokenId, action : ActionType) : async (Bool) {
-        // don't have access for this pet.
-        let hasAccess : Bool =  protocol.canAccess(msg.caller, id);
-        if ( hasAccess == false ){
-            return false;
-        };
+        // don't have access for this pet
+        // let hasAccess : Bool =  protocol.canAccess(msg.caller, id);
+        // if ( hasAccess == false ){
+        //     return false;
+        // };
         
         switch (action) {
             case (#play) {
@@ -142,7 +146,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func abandonPet(pet : TokenId) : async (Bool) {
-        let res : Bool = protocol.destoryNFT(pet);
+        let res : Bool = protocol.destroyNFT(pet);
         return res;
     };
 
