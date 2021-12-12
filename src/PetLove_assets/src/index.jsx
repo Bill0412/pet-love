@@ -8,7 +8,7 @@ import {
 import Login from "./login"
 import RandomPet from "./mall/random-pet";
 import PetMarket from "./mall/pet-market";
-import PersonalCenter from "./personal/personal-center";
+import Pcenter from "./personal/Pcenter";
 import Landing from "./Landing/Landing";
 import Circle from "./components/backgournd/Circle";
 
@@ -24,7 +24,7 @@ const App = () => {
                     <Route exact path="/" element={<Login/>}/>
                     <Route exact path="/random_pet" element={<RandomPet/>}/>
                     <Route exact path="/pet_market" element={<PetMarket/>}/>
-                    <Route exact path="/personal" element={<PersonalCenter/>}/>
+                    <Route exact path="/personal" element={<Pcenter/>}/>
                     <Route exact path="/landing" element={<Landing/>}/>
                 </Routes>
             </Router>
