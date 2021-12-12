@@ -12,8 +12,10 @@ import {
 } from 'react-awesome-button';
 import 'react-awesome-button/dist/themes/theme-rickiest.css';
 import './Landing.css';
+import UserContext from '../contexts/user-context';
 
 const Landing = (props) => {
+    // for style
     const font1Anton = "'Anton', sans-serif";
     const font2Courgette = "'Courgette', cursive";
     const font3Smooch = "'Smooch', cursive";
@@ -36,6 +38,63 @@ const Landing = (props) => {
             color: "orange"
         },
     });
+
+    // for business logic
+    const { principal, setPrincipal } = React.useContext(UserContext);
+
+    let onClickLoginButton = async () => {
+        const nnsCanisterId = 'qoctq-giaaa-aaaaa-aaaea-cai'
+        const whitelist = [nnsCanisterId];
+
+        // Initialise Agent, expects no return value
+        await window?.ic?.plug?.requestConnect({
+            whitelist,
+        });
+
+        // A partial Interface factory
+        // for the NNS Canister UI
+        // Check the `plug authentication - nns` for more
+        const nnsPartialInterfaceFactory = ({ IDL }) => {
+            const BlockHeight = IDL.Nat64;
+            const Stats = IDL.Record({
+                'latest_transaction_block_height' : BlockHeight,
+                'seconds_since_last_ledger_sync' : IDL.Nat64,
+                'sub_accounts_count' : IDL.Nat64,
+                'hardware_wallet_accounts_count' : IDL.Nat64,
+                'accounts_count' : IDL.Nat64,
+                'earliest_transaction_block_height' : BlockHeight,
+                'transactions_count' : IDL.Nat64,
+                'block_height_synced_up_to' : IDL.Opt(IDL.Nat64),
+                'latest_transaction_timestamp_nanos' : IDL.Nat64,
+                'earliest_transaction_timestamp_nanos' : IDL.Nat64,
+            });
+            return IDL.Service({
+                'get_stats' : IDL.Func([], [Stats], ['query']),
+            });
+        };
+
+        // Create an actor to interact with the NNS Canister
+        // we pass the NNS Canister id and the interface factory
+        const NNSUiActor = await window.ic.plug.createActor({
+            canisterId: nnsCanisterId,
+            interfaceFactory: nnsPartialInterfaceFactory,
+        });
+
+        // We can use any method described in the Candid (IDL)
+        // for example the get_stats()
+        // See https://github.com/dfinity/nns-dapp/blob/cd755b8/canisters/nns_ui/nns_ui.did
+        const stats = await NNSUiActor.get_stats();
+        console.log('NNS stats', stats);
+
+        // Get the user principal id
+        const principalId = await window.ic.plug.agent.getPrincipal();
+        console.log("principal id:", principalId);
+        setPrincipal(principalId);
+
+        // const result = await window.ic.plug.requestBalance();
+        // console.log(result);
+    }
+
     return (
         <Box className="overall-box">
             <ResponsiveAppBar/>
@@ -83,7 +142,7 @@ const Landing = (props) => {
                             </ThemeProvider>
                         </Stack>
                         <Stack>
-                            <AwesomeButton type="secondary" >Join Now!!</AwesomeButton>
+                            <AwesomeButton type="secondary" onPress={onClickLoginButton}>Join Now!!</AwesomeButton>
                         </Stack>
 
                 </Stack>

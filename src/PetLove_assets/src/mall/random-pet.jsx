@@ -6,8 +6,12 @@ import GreenButton from "../components/green-button";
 import PurchaseButton from "./components/purchase-button";
 import ResponsiveAppBar from "../components/app-bar";
 import PetImage from "../../assets/images/pets/1.png"
+import UserContext from "../contexts/user-context"
 
 const RandomPetContent = () => {
+    const { principal, setPrincipal } = React.useContext(UserContext);
+    console.log("Random Pet principal: ", principal);
+
   return (
     <Grid container mt={10}>
       <Grid item xs={12} md={6}>
@@ -20,7 +24,7 @@ const RandomPetContent = () => {
           </Stack>
       </Grid>
       <Grid item xs={12} md={6} mt={14}>
-        <Stack spacing={2} direction="column" justifyContent="center" alignItems="center" spacing={2}>
+        <Stack spacing={2} direction="column" justifyContent="center" alignItems="center">
           <p>Sale: 2 ICP</p>
           <p>Age: 0 Day</p>
 
@@ -28,7 +32,6 @@ const RandomPetContent = () => {
         </Stack>
       </Grid>
     </Grid>
-    
   );
 }
 

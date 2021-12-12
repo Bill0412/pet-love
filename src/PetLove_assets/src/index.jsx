@@ -13,14 +13,22 @@ import Landing from "./Landing/Landing";
 import Circle from "./components/backgournd/Circle";
 import Footer from "./components/footer";
 import TestPage from "./test";
+import UserContext from "./contexts/user-context";
 
 
 // Since we use HashRouter, the path for /random_pet, for instance,
 // should be /#/random_set
 
 const App = () => {
+
+    const [principal, setPrincipal] = React.useState();
+
+    const principleValue = React.useMemo(
+        () => ({principal, setPrincipal}), [principal, setPrincipal]
+    );
+
     return (
-        <div>
+        <UserContext.Provider value={principleValue}>
             <Router>
                 <Routes>
                     <Route exact path="/" element={<Login/>}/>
@@ -33,7 +41,7 @@ const App = () => {
             </Router>
             <Circle bg={true} />
             <Footer />
-        </div>
+        </UserContext.Provider>
     )
 };
 render(<App/>, document.getElementById("app"));
