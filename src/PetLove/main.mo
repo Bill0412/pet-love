@@ -29,6 +29,20 @@ shared(msg) actor class PetLove(creator: Principal) {
     // protocol of MUN
     private var protocol = Protocol.MUN_Protocol();
 
+
+    /// Canister Upgrades 
+    /// Canister停止前把非stable转成stable保存到内存中
+    system func preupgrade() {
+        protocol.store();
+        Debug.print("Preupgrade Done!");
+    };
+
+    /// Canister升级完成启动后把stable存储中的加载到缓存中
+    system func postupgrade() {
+       protocol.restore();
+        Debug.print("Postupgrade Done!");
+    };
+
     public shared(msg) func getUserProfile(user : Principal) : async (UserProfile) {
         assert(msg.caller == user);
         

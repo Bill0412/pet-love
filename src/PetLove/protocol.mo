@@ -29,8 +29,13 @@ module Protocol {
         private var nfts = HashMap.HashMap<TokenId, TokenMeta>(1, Text.equal, Text.hash);
         private var users = HashMap.HashMap<Principal, UserProfile>(1, Principal.equal, Principal.hash);
         private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Text.equal, Text.hash);
-        private var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        private var arrSize = 10;
+        private stable var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        private stable var arrSize = 10;
+
+        stable var db_nfts : [(TokenId, TokenMeta)] = [];
+        stable var db_users : [(Principal, UserProfile)] = [];
+        stable var db_nftToOwners : [(TokenId, List.List<Principal>)] = [];
+
         let random = Random.Finite("protocol");
         // ///mapping from nft to approced principal
         // private var nftToApproval = HashMap.HashMap<TokenId,Principal>(1,Types.equal,Types.hash);
@@ -47,6 +52,28 @@ module Protocol {
         //     HashMapRepositories.HashMapRepository<UserId, UserProfile>()
         // };
 
+        public func store() {
+            db_nfts := Iter.toArray(nfts.entries());
+            db_users := Iter.toArray(user.entries());
+            db_nftToOwners := Iter.toArray(nftToOwners.entries());
+        };
+
+        public func restore() {
+            for ((k, v) in db_nfts.vals()) {
+                nfts.put(k, v);
+            };
+            db_nfts := [];
+            for ((k, v) in db_users.vals()) {
+                users.put(k, v);
+            };
+            db_users := [];
+            for ((k, v) in db_nftToOwners.vals()) {
+                nftToOwners.put(k, v);
+            };
+            db_nftToOwners := [];
+            
+        };
+ 
         public func getUserProfile (user : Principal) : ?UserProfile {
             return users.get(user);
         };
