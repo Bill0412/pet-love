@@ -93,7 +93,7 @@ class PurchaseButton extends React.Component {
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 If your confirm the purchase, we will initiate a transfer, and you will immediately own the pet.
               </Typography>
-              <Stack direction="row" spacing={2} alignItems="center">
+              <Stack direction="row" mt={3} spacing={2} alignItems="center">
                 <GreenButton onClick={this.handleOpenEnterPartner}>Yes, buy it!</GreenButton>
                 <GreenButton onClick={this.handleCloseConfirm}>Wait</GreenButton>
               </Stack>
@@ -108,6 +108,7 @@ class PurchaseButton extends React.Component {
             <Typography id="modal-modal-description" sx={{ mt: 2 }}>
               Enter your partner's wallet address, you will have your only love pet.
             </Typography>
+            &nbsp;
             <TextField
                 size="small"
                 required
