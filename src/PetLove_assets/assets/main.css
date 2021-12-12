@@ -62,5 +62,10 @@ button[type="submit"] {
 }
 
 .card-image{
-    width: 40%;
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.pet-detail-text {
+    font-size: 18px;
 }
