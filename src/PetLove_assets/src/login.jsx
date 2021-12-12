@@ -13,6 +13,7 @@ const Login = () => {
                 <li><Link to="/pet_market">Pet Market</Link></li>
                 <li><Link to="/personal">Personal Center</Link></li>
                 <li><Link to ="/landing">Go to Landing</Link></li>
+                <li><Link to="/test">Test Page</Link></li>
             </ul>
         </div>
     );

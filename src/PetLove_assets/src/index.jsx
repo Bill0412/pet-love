@@ -1,9 +1,9 @@
 import * as React from "react";
-import {render} from "react-dom";
+import { render } from "react-dom";
 import {
-    HashRouter as Router,
-    Routes,
-    Route
+  HashRouter as Router,
+  Routes,
+  Route
 } from "react-router-dom";
 import Login from "./login"
 import RandomPet from "./mall/random-pet";
@@ -12,6 +12,7 @@ import Pcenter from "./personal/Pcenter";
 import Landing from "./Landing/Landing";
 import Circle from "./components/backgournd/Circle";
 import Footer from "./components/footer";
+import TestPage from "./test";
 
 
 // Since we use HashRouter, the path for /random_pet, for instance,
@@ -27,6 +28,7 @@ const App = () => {
                     <Route exact path="/pet_market" element={<PetMarket/>}/>
                     <Route exact path="/personal" element={<Pcenter/>}/>
                     <Route exact path="/landing" element={<Landing/>}/>
+                    <Route exact path="/test" element={<TestPage/>}/>
                 </Routes>
             </Router>
             <Circle bg={true} />

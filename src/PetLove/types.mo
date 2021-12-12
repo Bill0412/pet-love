@@ -6,33 +6,70 @@ import Int "mo:base/Int";
 import Float "mo:base/Float";
 
 module {   
-    public type TokenId = Text;
-    public type TokenMeta = {
-        // meta
-        tokenId : TokenId;
-        state : Int;    
 
-        // basic
-        name : Text;
-        description : Text;
-        createTime : Text;
-
-        // info immutable
-        kind : Int;
-        specy : Int;
-
-        // info mutable with action
-        age : Nat;
-        happiness : Nat;
-        health : Nat;
-
-        // info when selling
-        price : Float;
-
-        // info 
-        imgUrl : Blob;
+    public type PetState = {
+        #adopted;
+        #notAdopted;
+        #onSelling;
     };
 
-    public let equal = Text.equal;
-    public let hash = Text.hash;
+    public type ActionType = {
+        #play;
+        #feed;
+    };
+
+    public type TokenId = Text;
+
+    public type TokenMeta = {
+        // meta
+        id : TokenId;
+
+        // info immutable
+        createTime : Text;
+        // kind : Int;
+        // specy : Int;
+        image : Nat;
+
+        // info mutable
+        var state : PetState;
+        var happiness : Nat;
+
+        // info mutable when selling
+        var price : Nat;
+    };
+
+    public class TokenUtil() {
+        //tokenId生成 时间戳+index
+        var token_index : Nat = 0;
+        public func generate () : TokenId {
+            token_index += 1;
+            return Int.toText(Time.now()) # Int.toText(token_index);
+        };
+    };
+
+
+    public type UserProfile = {
+        id : Principal;
+        mate : ?Principal;
+        tokenId : ?TokenId;
+    };
+
+    public type PetProfile = {
+        // meta
+        id : TokenId;
+
+        // info immutable
+        createTime : Text;
+        // kind : Int;
+        // specy : Int;
+        image : Nat;
+
+        // info mutable
+        state : PetState;
+        happiness : Nat;
+
+        // info mutable when selling
+        price : Nat;
+        owner : (Principal, Principal);
+    };
 }

@@ -11,5 +11,5 @@ src/declarations/
 # DS_Store
 .DS_Store
 
-
-.idea/
+# idea
+.idea
