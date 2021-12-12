@@ -19,66 +19,129 @@ const style = {
   p: 4
 };
 
-const PurchaseButton = (props) => {
-  const [openConfirm, setOpenConfirm] = React.useState(false);
-  const handleOpenConfirm = () => setOpenConfirm(true);
-  const handleCloseConfirm = () => setOpenConfirm(false);
-
-  const [openEnterPartner, setOpenEnterPartner] = React.useState(false);
-  const handleOpenEnterParter = () => {
-    setOpenEnterPartner(true);
-    setOpenConfirm(false);
-  }
-  const handleCloseEnterPartner = () => setOpenEnterPartner(false);
-
-  const handleTextFiledChange = () => {
-
+class PurchaseButton extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isOpenConfirm: false,
+      isOpenEnterPartner: false,
+      isOpenPurchaseResult: false,
+      isPurchaseSuccessful: false,
+      txtPartnerAddress: ""
+    }
   }
 
-  return (
-    <div>
-      <GreenButton startIcon={<FavoriteIcon />} onClick={handleOpenConfirm}>{props.label}</GreenButton>
-      <Modal
-        open={openConfirm}
-        onClose={handleCloseConfirm}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Stack sx={style} direciton="row" alignItems="center">
-            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-              If your confirm the purchase, we will initiate a transfer, and you will immediately own the pet.
-            </Typography>
-            <Stack direction="row" spacing={2} alignItems="center">
-              <GreenButton onClick={handleOpenEnterParter}>Yes, buy it!</GreenButton>
-              <GreenButton onClick={handleCloseConfirm}>Wait</GreenButton>
-            </Stack>
-        </Stack>
-      </Modal>
-      <Modal
-        open={openEnterPartner}
-        onClose={handleCloseEnterPartner}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Stack sx={style} spacing={2} direciton="row" alignItems="center">
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Enter your partner's wallet address, you will have your only love pet.
-          </Typography>
-          <TextField
-              size="small"
-              required
-              fullWidth
-              id="outlined-required"
-              onChange={handleTextFiledChange}
-            />
-          <Stack direction="row" spacing={2} alignItems="center">
-            <GreenButton>Yes, buy it!</GreenButton>
-            <GreenButton onClick={handleCloseEnterPartner}>Cancel</GreenButton>
+  handleOpenConfirm = () => this.setState({
+    isOpenConfirm: true, 
+    isOpenEnterPartner: false,
+    isOpenPurchaseResult: false,
+    isPurchaseSuccessful: false,
+    txtPartnerAddress: ""
+  });
+
+  handleCloseConfirm = () => this.setState({isOpenConfirm: false});
+
+  handleOpenEnterPartner = () => {
+    this.setState({
+      isOpenConfirm: false,
+      isOpenEnterPartner: true
+    })
+  };
+
+  handleCloseEnterPartner = () => this.setState({isOpenEnterPartner: false});
+
+  handleTextFieldChange = (event) => {
+    this.setState({txtPartnerAddress: event.target.value});
+  };
+
+  handleSubmitPartnerAddress = () => {
+    this.setState({
+      isPurchaseSuccessful: this.validatePurchase(),
+      isOpenPurchaseResult: true,
+      isOpenEnterPartner: false
+    })
+    this.setState({txtPartnerAddress: ""});
+  };
+
+  // TODO: validate user balance and partner address
+  validatePurchase = () => {
+    if(this.state.txtPartnerAddress == "xxx") {
+      return true;
+    }
+    return false;
+  };
+
+  handleClosePurchaseResult = () => this.setState({
+    isOpenConfirm: false, 
+    isOpenEnterPartner: false,
+    isOpenPurchaseResult: false,
+    isPurchaseSuccessful: false,
+    txtPartnerAddress: ""
+  });
+  
+  render() {
+    return (
+      <div>
+        <GreenButton startIcon={<FavoriteIcon />} onClick={this.handleOpenConfirm}>{this.props.label}</GreenButton>
+        <Modal
+          open={this.state.isOpenConfirm}
+          onClose={this.handleCloseConfirm}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Stack sx={style} direciton="row" alignItems="center">
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                If your confirm the purchase, we will initiate a transfer, and you will immediately own the pet.
+              </Typography>
+              <Stack direction="row" mt={3} spacing={2} alignItems="center">
+                <GreenButton onClick={this.handleOpenEnterPartner}>Yes, buy it!</GreenButton>
+                <GreenButton onClick={this.handleCloseConfirm}>Wait</GreenButton>
+              </Stack>
           </Stack>
-        </Stack>
-      </Modal>
-    </div>
-  );
+        </Modal>
+        <Modal
+          open={this.state.isOpenEnterPartner}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Stack sx={style} spacing={2} direciton="row" alignItems="center">
+            <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+              Enter your partner's wallet address, you will have your only love pet.
+            </Typography>
+            &nbsp;
+            <TextField
+                size="small"
+                required
+                fullWidth
+                id="outlined-required"
+                onChange={this.handleTextFieldChange}
+              />
+            <Stack direction="row" spacing={2} alignItems="center">
+              <GreenButton onClick={this.handleSubmitPartnerAddress}>Yes, buy it!</GreenButton>
+              <GreenButton onClick={this.handleCloseEnterPartner}>Cancel</GreenButton>
+            </Stack>
+          </Stack>
+        </Modal>
+        <Modal
+          open={this.state.isOpenPurchaseResult}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Stack sx={style} direciton="row" alignItems="center">
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                {this.state.isPurchaseSuccessful ? 
+                "You have successfully adopted the pet! Go to the personal center to check it out." 
+                : "Adoption failed, probably you already have a pet with your partner or your balance is not enough."}
+              </Typography>
+              &nbsp;
+              <Stack direction="row" spacing={2} alignItems="center">
+                <GreenButton onClick={this.handleClosePurchaseResult}>OK</GreenButton>
+              </Stack>
+          </Stack>
+        </Modal>
+      </div>
+    );
+  }
 };
 
 export default PurchaseButton;

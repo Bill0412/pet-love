@@ -11,6 +11,7 @@ import PetMarket from "./mall/pet-market";
 import Pcenter from "./personal/Pcenter";
 import Landing from "./Landing/Landing";
 import Circle from "./components/backgournd/Circle";
+import Footer from "./components/footer";
 
 
 // Since we use HashRouter, the path for /random_pet, for instance,
@@ -29,6 +30,7 @@ const App = () => {
                 </Routes>
             </Router>
             <Circle bg={true} />
+            <Footer />
         </div>
     )
 };
