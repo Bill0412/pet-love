@@ -9,6 +9,8 @@ import Login from "./login"
 import RandomPet from "./mall/random-pet";
 import PetMarket from "./mall/pet-market";
 import PersonalCenter from "./personal/personal-center";
+import TestPage from "./test";
+
 
 // Since we use HashRouter, the path for /random_pet, for instance,
 // should be /#/random_set
@@ -21,6 +23,7 @@ const App = () => {
         <Route exact path="/random_pet" element={<RandomPet/>}/>
         <Route exact path="/pet_market" element={<PetMarket/>}/>
         <Route exact path="/personal" element={<PersonalCenter/>}/>
+        <Route exact path="/test" element={<TestPage/>}/>
       </Routes>
     </Router>
   )
