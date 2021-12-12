@@ -11,7 +11,7 @@ const greenButtonWraperHOC = (Button) => {
                     {...this.props}
                     sx={{ my: 2, 
                     color: 'white', 
-                    backgroundColor: 'rgba(33,182,174,0.8)',
+                    backgroundColor: 'rgba(33,182,174,1.0)',
                     '&:hover': {
                         backgroundColor: 'rgba(33,182,174,0.5)'
                     }}}
