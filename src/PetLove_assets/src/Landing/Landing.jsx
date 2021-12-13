@@ -41,14 +41,11 @@ const Landing = (props) => {
                     </Stack>
                     <Stack>
                         <div className="introduction">
-                            In the pet love app, you can share a cute pet with your lover.<br/>
-                            It is unique as proof of your love.<br/>
-                            You will only have one puppy. <br/>
-                            And its age will witness the longer your love lasts<br/>
-                            When love breaks down, <br/>or you want to have a new dog, <br/>you can pick a new
-                            dog in the mall.<br/>
-                            Of course this is something we dont want to happen.<br/>
-                            Now, start your love journey<br/>
+                            In the pet love, you can share a cute pet with your lover.<br/>
+                            you can pick a new dog in our mall.<br/>
+                            It is unique as the only proof of your love.<br/>
+                            And its age will witness the length your love lasts.<br/>
+                            Now, start your love journey.<br/>
                         </div>
                     </Stack>
                     <Stack>

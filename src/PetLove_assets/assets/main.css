@@ -22,6 +22,15 @@
     font-family: "RobotoTI";
     src: local("RobotoTI"), url("./fonts/Roboto-ThinItalic.ttf") format("truetype");
 }
+@font-face {
+    font-family: "Union soap";
+    src: local("Union soap"), url("./fonts/Union soap.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "GrapeSoda";
+    src: local("GrapeSoda"), url("./fonts/GrapeSoda.ttf") format("truetype");
+}
 
 body {
     font-family: sans-serif;
