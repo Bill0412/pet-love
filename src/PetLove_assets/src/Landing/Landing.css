@@ -19,13 +19,13 @@
 /*}*/
 
 .aws-btn {
-    --button-default-height: 65px;
-    --button-default-font-size: 22px;
+    --button-default-height: 100px;
+    --button-default-font-size: 25px;
     --button-default-border-radius: 25px;
-    --button-horizontal-padding: 42px;
-    --button-raise-level: 5px;
+    --button-horizontal-padding: 100px;
+    --button-raise-level: 10px;
     --button-hover-pressure: 2;
-    --transform-speed: 0.185s;
+    --transform-speed: 0.2s;
     --button-primary-color: #a9d3e9;
     --button-primary-color-dark: #58a9d4;
     --button-primary-color-light: #2e84b2;
@@ -50,12 +50,16 @@
 .main-title{
     color:#8293ca;
     font-family: GrapeSoda, serif;
-    font-size: 100px;
+    font-size: 180px;
+    max-width: 654px;
+    max-height: 412px;
+    height: 50%;
 }
 
 .introduction{
     color:#123456;
     font-family: RobotoTI, sans-serif;
+    text-align: center;
     /*font-size: 20px;*/
 }
 
@@ -64,3 +68,19 @@
     font-family: Anton, sans-serif;
     /*font-size: 20px;*/
 }
+
+.pack-img{
+    background-image: url("./static/back.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 654px;
+    height: 412px;
+}
+
+
+.img{
+    max-width: 654px;
+    max-height: 412px;
+    height: 50%;
+}
+

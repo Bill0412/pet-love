@@ -7,7 +7,7 @@
     height: 60%;
     /*top: 20%;*/
     border-radius: 10% 10%;
-    background-image: url("../static/dashBoard-2.png");
+    background-image: url("../DogBoard/static/dashBoard-2.png");
     background-repeat: no-repeat;
     background-position: center;
 }
@@ -18,13 +18,7 @@
     height: 10px;
 }
 
-.column{
-    position: relative;
-    top: auto;
-    height: inherit;
-    width: inherit;
-    align-items: center;
-}
+
 
 .sub-column{
     align-items: center;
