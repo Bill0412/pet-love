@@ -13,3 +13,6 @@ src/declarations/
 
 # idea
 .idea
+
+# generated when deploying to ic
+canister_ids.json

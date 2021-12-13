@@ -6,6 +6,9 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import GreenButton from '../../components/green-button';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import UserContext from "../../contexts/user-context";
+import { Principal } from '@dfinity/principal';
+import {PetLove} from "../../../../declarations/PetLove";
 
 const style = {
   position: 'absolute',
@@ -20,8 +23,11 @@ const style = {
 };
 
 class PurchaseButton extends React.Component {
+  static contextType = UserContext;
+
   constructor(props) {
     super(props);
+
     this.state = {
       isOpenConfirm: false,
       isOpenEnterPartner: false,
@@ -54,9 +60,9 @@ class PurchaseButton extends React.Component {
     this.setState({txtPartnerAddress: event.target.value});
   };
 
-  handleSubmitPartnerAddress = () => {
+  handleSubmitPartnerAddress = async () => {
     this.setState({
-      isPurchaseSuccessful: this.validatePurchase(),
+      isPurchaseSuccessful: await this.validatePurchase(),
       isOpenPurchaseResult: true,
       isOpenEnterPartner: false
     })
@@ -64,10 +70,27 @@ class PurchaseButton extends React.Component {
   };
 
   // TODO: validate user balance and partner address
-  validatePurchase = () => {
-    if(this.state.txtPartnerAddress == "xxx") {
+  validatePurchase = async () => {
+    const {user, setUser} = this.context;
+
+    console.log(user);
+    console.log(user.principal);
+
+    if(user == null || user.principal == null || user.chosenPet == null) return false;
+
+    let mateAddress = this.state.txtPartnerAddress;
+    let matePrincipal = Principal.fromText(mateAddress);
+
+    const success = await PetLove.purchasePet(user.principal, matePrincipal, user.chosenPet.id);
+
+    if(success === true) {
+      console.log("purchase success.")
+      const profile = await PetLove.getUserProfile(user.principal);
+      console.log(profile);
       return true;
     }
+
+    console.log("purchase failed.");
     return false;
   };
 
@@ -142,6 +165,6 @@ class PurchaseButton extends React.Component {
       </div>
     );
   }
-};
+}
 
 export default PurchaseButton;

@@ -40,7 +40,7 @@ const Landing = (props) => {
     });
 
     // for business logic
-    const { principal, setPrincipal } = React.useContext(UserContext);
+    const { user, setUser } = React.useContext(UserContext);
 
     let onClickLoginButton = async () => {
         // This is an official canister for user verification
@@ -88,10 +88,12 @@ const Landing = (props) => {
         console.log('NNS stats', stats);
 
         // Get the user principal id
-        const principalId = await window.ic.plug.agent.getPrincipal();
-        console.log("principal id:", principalId);
-        setPrincipal(principalId);
-        sessionStorage.setItem("principal", JSON.stringify(principalId));
+        const principal = await window.ic.plug.agent.getPrincipal();
+        console.log("principal id:", principal);
+        setUser({principal: principal});
+
+        // in case the DOM refreshes
+        sessionStorage.setItem("principal", principal.toText());
 
         // const result = await window.ic.plug.requestBalance();
         // console.log(result);
@@ -143,7 +145,7 @@ const Landing = (props) => {
                                 </Typography>
                             </ThemeProvider>
                         </Stack>
-                    { principal == null &&
+                    { user == null &&
                         <Stack>
                             <AwesomeButton type="secondary" onPress={onClickLoginButton}>Join Now!!</AwesomeButton>
                         </Stack>

@@ -2,13 +2,15 @@ import * as React from "react";
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import ReplayIcon from '@mui/icons-material/Replay';
+import { Principal } from '@dfinity/principal';
 import GreenButton from "../components/green-button";
 import PurchaseButton from "./components/purchase-button";
 import LoadingAnimation from "../components/loading-animation";
 import ResponsiveAppBar from "../components/app-bar";
 import itemData from "./item-data";
-import UserContext from "../contexts/user-context"
+import UserContext from "../contexts/user-context";
 import {PetLove} from "../../../declarations/PetLove";
+
 
 class RandomPetContent extends React.Component {
     // principal is inside UserContext
@@ -27,14 +29,26 @@ class RandomPetContent extends React.Component {
         console.log("onGeneratePet: ", petProfile);
 
         if(petProfile != null) {
+            const {user, setUser} = this.context;
             this.setState({
                 pet: petProfile
             });
+            // CAUTION: this is asynchronous!!!
+            setUser((prevUser) => ({...prevUser, chosenPet: petProfile}));
         }
     }
 
     componentDidMount = () => {
-        this.onGeneratePet();
+        if(sessionStorage.getItem("principal")) {
+            const {user, setUser} = this.context;
+            setUser((prevUser) => ({
+                ...prevUser,
+                principal: Principal.fromText(sessionStorage.getItem("principal"))
+            }));
+            console.log("loaded principal from session storage")
+            this.onGeneratePet();
+        }
+        // TODO: redirect to login otherwise
     }
 
     Body = () => {

@@ -21,21 +21,14 @@ import UserContext from "./contexts/user-context";
 
 const App = () => {
 
-    const [principal, setPrincipal] = React.useState();
+    const [user, setUser] = React.useState();
 
-    // restore the principal id from sessionStorage if its exists
-    React.useEffect(() => {
-        if(sessionStorage.getItem("principal")) {
-            setPrincipal(JSON.parse(sessionStorage.getItem("principal")));
-        }
-    }, []);
-
-    const principleValue = React.useMemo(
-        () => ({principal, setPrincipal}), [principal, setPrincipal]
+    const userValue = React.useMemo(
+        () => ({user, setUser}), [user, setUser]
     );
 
     return (
-        <UserContext.Provider value={principleValue}>
+        <UserContext.Provider value={userValue}>
             <Router>
                 <Routes>
                     <Route exact path="/" element={<Login/>}/>

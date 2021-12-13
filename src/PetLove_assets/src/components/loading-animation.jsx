@@ -6,7 +6,7 @@ import * as React from "react";
 const LoadingAnimation = () => {
     return (
         <Stack sx={{ display: 'flex' }} alignItems="center" mt={10} mb={100}>
-            <CircularProgress />
+            <CircularProgress color="success" />
         </Stack>
     )
 };
