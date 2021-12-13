@@ -33,18 +33,18 @@ const Pcenter = () => {
         }
     }
     return (
-        <div>
+        <div >
             <ResponsiveAppBar/>
-            <Grid container spacing={-10} >
-                <Grid item md={6} sm={12} xs={12} >
-                    <Stack direction="column"
-                        // direction="column"
-                           justifyContent="center"
-                           alignItems="center"
-                           height="80vh"
-                           maxWidth="50vw"
-                           spacing={1}
-                           className="dog-back"
+            <Grid container spacing={-10}>
+                <Grid item md={6} sm={12} xs={12}>
+                    <Stack
+                        direction="column"
+                        justifyContent="center"
+                        alignItems="center"
+                        height="80vh"
+                        maxWidth="50vw"
+                        spacing={1}
+                        className="dog-back"
                     >
                         <Fab
                             // mainButtonStyles={mainButtonStyles}
@@ -63,10 +63,10 @@ const Pcenter = () => {
                                 console.log("Fab clicked")
                             }}
                         >
-                            // The Action components are the "buttons" that appear when the Fab is open. You can
-                            use the out-of-the-box Action
-                            // component or you can use a custom component of any type and style it any way that
-                            you'd like. The "text" prop
+                            // The Action components are the "buttons" that appear when the Fab is open. You can use the
+                            out-of-the-box Action
+                            // component or you can use a custom component of any type and style it any way that you'd
+                            like. The "text" prop
                             // is the popup label that appears when the Action component is hovered.
                             <Action
                                 text="Email"
@@ -82,35 +82,14 @@ const Pcenter = () => {
                             >
                                 <i className="fa fa-help"/>
                             </Action>
-                            {/*// Using a custom component for this one. See another example in "example/src/index.js"*/}
-                            {/*<SomeCustomComponent*/}
-                            {/*    text="Foobar!"*/}
-                            {/*    onClick={handleTheFooBarOnClick}*/}
-                            {/*>*/}
-                            {/*    <i className="fa fa-foo-bar-fa-foo"/>*/}
-                            {/*</SomeCustomComponent>*/}
                         </Fab>
                         <div className="div-background"/>
                         <div className="div-progress">
                             <Progress percent={20}/>
                         </div>
-                        {/*</Stack>*/}
-
-                        {/*</div>*/}
                     </Stack>
                 </Grid>
-                <Grid item md={6} sm={12} xs={12} >
-                    <Stack direction="column"
-                        // direction="column"
-                           justifyContent="center"
-                           alignItems="center"
-                           height="80vh"
-                           maxWidth="50vw"
-                           spacing={1}
-                    >
                     <InfoCard/>
-                    </Stack>
-                </Grid>
             </Grid>
         </div>
 

@@ -47,3 +47,20 @@
     text-align: center;
 }
 
+.main-title{
+    color:#ef3473;
+    font-family: Courgette, serif;
+    /*font-size: 50px;*/
+}
+
+.introduction{
+    color:#123456;
+    font-family: RobotoTI, sans-serif;
+    /*font-size: 20px;*/
+}
+
+.subtitle{
+    color:#123456;
+    font-family: Anton, sans-serif;
+    /*font-size: 20px;*/
+}
