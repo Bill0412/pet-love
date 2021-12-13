@@ -1,3 +1,28 @@
+@font-face {
+    font-family: "LuxuriousScript";
+    src: local("LuxuriousScript"), url("./fonts/LuxuriousScript-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Anton";
+    src: local("Anton"), url("./fonts/Anton-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Courgette";
+    src: local("Courgette"), url("./fonts/Courgette-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Smooch";
+    src: local("Smooch"), url("./fonts/Smooch-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "RobotoTI";
+    src: local("RobotoTI"), url("./fonts/Roboto-ThinItalic.ttf") format("truetype");
+}
+
 body {
     font-family: sans-serif;
     font-size: 1.5rem;
@@ -34,4 +59,13 @@ button[type="submit"] {
 
 #greeting:empty {
     display: none;
+}
+
+.card-image{
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.pet-detail-text {
+    font-size: 18px;
 }
