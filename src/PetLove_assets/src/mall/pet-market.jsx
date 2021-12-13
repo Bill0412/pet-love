@@ -4,11 +4,10 @@ import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-
+import itemData from './item-data';
 
 
 import ResponsiveAppBar from "../components/app-bar";
-import PetImage from "../../assets/images/pets/1.png"
 import PurchaseButton from "./components/purchase-button";
 
 const PetCard = (props) => {
@@ -57,7 +56,7 @@ const PetMarketContent = () => {
       </Grid>
       </Box>
       <Box mt={10}>
-        <Pagination count={nPages} onChange={onChange}></Pagination>
+        <Pagination count={nPages} onChange={onChange} />
       </Box>
     </Stack>
   );
@@ -71,16 +70,5 @@ const PetMarket = () => {
     </div>
   );
 };
-
-// Should be replaced by data from backend
-var itemData = [];
-for(let i = 0; i < 40; ++i) {
-  itemData.push({
-    key: i,
-    img: PetImage,
-    price: Math.floor(Math.random() * 10 + 1),
-    age: Math.floor(Math.random() * 500 + 1)
-  })
-}
 
 export default PetMarket;
