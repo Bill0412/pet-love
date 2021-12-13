@@ -1,8 +1,5 @@
 import Principal "mo:base/Principal";
 import Time "mo:base/Time";
-import Text "mo:base/Text";
-import HashMap "mo:base/HashMap";
-import Float "mo:base/Float";
 import Array "mo:base/Array";
 import Bool "mo:base/Bool";
 import Debug "mo:base/Debug";
@@ -27,7 +24,6 @@ shared(msg) actor class PetLove(creator: Principal) {
     // protocol of MUN
     private var protocol = Protocol.MUN_Protocol();
 
-
     /// Canister Upgrades 
     /// Canister停止前把非stable转成stable保存到内存中
     // system func preupgrade() {
@@ -42,9 +38,6 @@ shared(msg) actor class PetLove(creator: Principal) {
     // };
 
     public shared(msg) func getUserProfile(user : Principal) : async (?UserProfile) {
-        Debug.print(Principal.toText(msg.caller));
-        Debug.print(Principal.toText(user));
-
         //assert(user == msg.caller)
         return protocol.getUserProfile(user);
         // var tokenId : ?TokenId =  protocol.getNFTByOwner(user);
@@ -123,9 +116,19 @@ shared(msg) actor class PetLove(creator: Principal) {
         }
     };
 
-    public shared(msg) func randomGeneratePet() : async (PetProfile) {
+    public shared(msg) func randomGeneratePet(last : ?TokenId) : async (PetProfile) {
+        switch(last) {
+            case (?last) {
+                // abandon the last one
+                var success = protocol.destroyNFT(last);
+                assert(success == true);
+            };
+            case (null) {
+                
+            };
+        };
+
         var pet : TokenMeta = protocol.createNFT(_defaultUser);
-        Debug.print("3");
         let res : PetProfile = {
             id = pet.id;
             createTime = pet.createTime;
