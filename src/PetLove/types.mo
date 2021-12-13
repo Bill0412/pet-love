@@ -38,16 +38,6 @@ module {
         var price : Nat;
     };
 
-    public class TokenUtil() {
-        //tokenId生成 时间戳+index
-        var token_index : Nat = 0;
-        public func generate () : TokenId {
-            token_index += 1;
-            return Int.toText(Time.now()) # Int.toText(token_index);
-        };
-    };
-
-
     public type UserProfile = {
         id : Principal;
         mate : ?Principal;

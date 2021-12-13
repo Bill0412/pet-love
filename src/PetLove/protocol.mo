@@ -1,7 +1,5 @@
-import Types "types";
 import Time "mo:base/Time";
 import HashMap "mo:base/HashMap";
-import Option "mo:base/Option";
 import Principal "mo:base/Principal";
 import Array "mo:base/Array";
 import Iter "mo:base/Iter";
@@ -11,12 +9,13 @@ import List "mo:base/List";
 import Text "mo:base/Text";
 import Int "mo:base/Int";
 import Random "mo:base/Random";
-import Float "mo:base/Float";
 import Nat "mo:base/Nat";
 import Nat8 "mo:base/Nat8";
 
+import Types "./types";
+import Utils "./utils";
 
-// MultiUser NFT
+// Multiple User NFT
 module Protocol {
 
     public class MUN_Protocol() {
@@ -29,13 +28,22 @@ module Protocol {
         private var nfts = HashMap.HashMap<TokenId, TokenMeta>(1, Text.equal, Text.hash);
         private var users = HashMap.HashMap<Principal, UserProfile>(1, Principal.equal, Principal.hash);
         private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Text.equal, Text.hash);
-        private var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-        private var arrSize = 10;
 
-    
-        let random = Random.Finite("protocol");
-        let tokenUtil = Types.TokenUtil();
-    
+        // Utils for Tokens.
+        private var tokenUtil = Utils.TokenUtil();
+
+        // stable var db_nfts : [(TokenId, TokenMeta)] = [];
+        // stable var db_users : [(Principal, UserProfile)] = [];
+        // stable var db_nftToOwners : [(TokenId, List.List<Principal>)] = [];
+
+        // ///mapping from nft to approced principal
+        // private var nftToApproval = HashMap.HashMap<TokenId,Principal>(1,Types.equal,Types.hash);
+        // private var ownerToOperators = HashMap.HashMap<Principal,HashMap.HashMap<Principal,Bool>>(1,Principal.equal,Principal.hash);
+        // ///mapping from owner to their token count
+        // private var ownerToNftCount = HashMap.HashMap<Principal,Nat>(1,Principal.equal,Principal.hash);
+        // ///mapping from owner to their nft tokenId
+        // private var tokens = HashMap.HashMap<Principal,[var TokenId]>(1,Principal.equal,Principal.hash);
+        
 
         public func getnfts() : [(TokenId, TokenMeta)] {
             return Iter.toArray(nfts.entries());
@@ -101,40 +109,49 @@ module Protocol {
 
 
         public func createNFT (user : Principal) : TokenMeta {
-            var tokenMeta : TokenMeta = {
-                id = tokenUtil.generate();
-                createTime = Int.toText(Time.now());
-                image = getImageIndex();
-                var state = #notAdopted;
-                var happiness = 0;
-                var price = 10;
-            };
-            Debug.print("1");
+            // generate meta
+            var meta : TokenMeta = tokenUtil.generate();
+
             var list1 = List.nil<Principal>();
             var list2 = List.push<Principal>(user, list1);
             var list3 = List.push<Principal>(user, list2);
             users.put(user, {
                 id = user;
                 mate = ?user;
-                tokenId = ?tokenMeta.id;
+                tokenId = ?meta.id;
             });
-            Debug.print("2");
-            nfts.put(tokenMeta.id, tokenMeta);
-            nftToOwners.put(tokenMeta.id, list3);
-            return tokenMeta;
+
+            nfts.put(meta.id, meta);
+            nftToOwners.put(meta.id, list3);
+            return meta;
         };
 
-        public func destroyNFT (tokenId : TokenId) :  Bool {
-            var userList = _unwrap(nftToOwners.get(tokenId));
-            let (owner1, l1) = List.pop<Principal>(userList);
-            let (owner2, l2) = List.pop<Principal>(userList);
-            nftToOwners.put(tokenId, List.nil<Principal>());
-            users.delete(_unwrap(owner1));
-            users.delete(_unwrap(owner2));
-            nfts.delete(tokenId);
-            return true;
-        };
+        public func destroyNFT (tokenId : TokenId) : Bool {
+            var token = getNFTByToken(tokenId);
+            switch(token) {
+                case(null) {
+                    return false;
+                };
+                case(?token) {
+                    var userList = _unwrap(nftToOwners.get(tokenId));
+                    let (owner1, l1) = List.pop<Principal>(userList);
+                    let (owner2, l2) = List.pop<Principal>(userList);
 
+                    // delete token in nftToOwners
+                    nftToOwners.delete(tokenId);
+
+                    // delete user profiles with this token
+                    users.delete(_unwrap(owner1));
+                    users.delete(_unwrap(owner2));
+
+                    // delete this nft's info
+                    // and add this image agin: Demo only
+                    nfts.delete(tokenId);
+                    tokenUtil.resetImg(token.image);
+                    return true;
+                };
+            };
+        };
 
         public func transferNFT (user1 : Principal, user2 : Principal, tokenId : TokenId) :  Bool {
 
@@ -209,27 +226,6 @@ module Protocol {
                 case null { P.unreachable() };
                 case (?x_) { x_ };
             };
-
-        private func getImageIndex() : Nat{
-            Debug.print("4");
-            var r = Nat8.toNat(_unwrap(random.byte()));
-            var index = Nat.rem(r, 10);
-            arr := remove(index);
-            Debug.print("5");
-            return index;
-        };
-
-        public func remove (value: Nat) : [Nat] {
-            let newArr : [Nat] = Array.filter(
-                arr, 
-                func (val: Nat) : Bool { 
-                    val !=  value;
-                }
-            );
-            arrSize -= 1;
-            return newArr;
-        };
-
     };
         
 }
