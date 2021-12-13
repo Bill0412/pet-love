@@ -74,7 +74,14 @@ const TestPage = () => {
     }
 
     let onGeneratePet = async () => {
-        const petProfile = await PetLove.randomGeneratePet();
+        let param;
+        if (pet == null) {
+            param = [];
+        } else {
+            param = [pet.id];
+        }
+
+        const petProfile = await PetLove.randomGeneratePet(param);
         console.log(petProfile);
 
         if(petProfile != null) {
