@@ -25,7 +25,11 @@ class RandomPetContent extends React.Component {
     }
 
     onGeneratePet = async () => {
-        const petProfile = await PetLove.randomGeneratePet();
+        let params = [];
+        if(this.state.pet) {
+            params.push(this.state.pet.id);
+        }
+        const petProfile = await PetLove.randomGeneratePet(params);
         console.log("onGeneratePet: ", petProfile);
 
         if(petProfile != null) {

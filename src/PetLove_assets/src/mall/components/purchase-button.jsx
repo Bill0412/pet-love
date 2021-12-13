@@ -79,7 +79,13 @@ class PurchaseButton extends React.Component {
     if(user == null || user.principal == null || user.chosenPet == null) return false;
 
     let mateAddress = this.state.txtPartnerAddress;
-    let matePrincipal = Principal.fromText(mateAddress);
+    let matePrincipal = "";
+    try {
+      matePrincipal = Principal.fromText(mateAddress);
+    } catch(err) {
+      console.log("Failed to convert mateAddress: ", mateAddress);
+      return false;
+    }
 
     const success = await PetLove.purchasePet(user.principal, matePrincipal, user.chosenPet.id);
 
@@ -154,7 +160,7 @@ class PurchaseButton extends React.Component {
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 {this.state.isPurchaseSuccessful ? 
                 "You have successfully adopted the pet! Go to the personal center to check it out." 
-                : "Adoption failed, probably you already have a pet with your partner or your balance is not enough."}
+                : "Failed to adopt, please check the wallet address again. Probably you already have a pet with your partner or your balance is not enough."}
               </Typography>
               &nbsp;
               <Stack direction="row" spacing={2} alignItems="center">
