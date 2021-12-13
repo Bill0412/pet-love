@@ -33,10 +33,10 @@ const Pcenter = () => {
         }
     }
     return (
-        <div >
+        <div>
             <ResponsiveAppBar/>
             <Grid container spacing={-10}>
-                <Grid item md={6} sm={12} xs={12}>
+                <Grid item md={6} sm={12} xs={12} className="column">
                     <Stack
                         direction="column"
                         justifyContent="center"
@@ -87,9 +87,17 @@ const Pcenter = () => {
                         <div className="div-progress">
                             <Progress percent={20}/>
                         </div>
+                        <div className="div-button">
+                            <div className="div-subButton-left">
+                                <AwesomeButton type="secondary" size="medium">Sell</AwesomeButton>
+                            </div>
+                            <div className="div-subButton-right">
+                                <AwesomeButton type="secondary" size="medium">Drop</AwesomeButton>
+                            </div>
+                        </div>
                     </Stack>
                 </Grid>
-                    <InfoCard/>
+                <InfoCard/>
             </Grid>
         </div>
 

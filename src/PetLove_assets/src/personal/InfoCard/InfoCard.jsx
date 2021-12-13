@@ -7,6 +7,7 @@ import {Paper} from "@mui/material";
 import './InfoCard.css';
 import Grid from "@mui/material/Grid";
 // import Card from "@mui/material/Card";
+import styles from './InfoCard.css';
 
 const InfoCard = () => {
     const falseDate = new Date()
@@ -14,7 +15,7 @@ const InfoCard = () => {
     falseDate.setFullYear(2020)
     falseDate.setDate(21)
     const [adoptDate, adoptDateChanger] = useState(falseDate.toString())
-    const [partner, partnerChanger] = useState("78D8F20BC79539DB3F8B40796F6\nAC1A9122768C47A42CB960964D477E400D784")
+    const [partner, partnerChanger] = useState("78D8F20BC79...")
     const [lastPrice, lastPriceChanger] = useState(1e+10)
     return (
         // <Stack
@@ -85,11 +86,29 @@ const InfoCard = () => {
         // </Stack>
         <Grid item container md={6} sm={12} xs={12} className="column">
             <Grid item container md={12} sm={12} xs={12} className="content">
-                <Grid item md={6}>
-                    123
+                <div className="div-abs">My love path</div>
+                <Grid container item md={6} className="sub-column" direction="column">
+                    <div className="left-sub-block">
+                        <div>Birthday:</div>
+                    </div>
+                    <div className="left-sub-block">
+                        <div>Age:</div>
+                    </div>
+                    <div className="left-sub-block">
+                        <div>Partner:</div>
+                    </div>
+                    <div className="left-sub-block">
+                        <div>Value:</div>
+                    </div>
                 </Grid>
-                <Grid item md={6}>
-                    321
+                <Grid container item md={6} className="sub-column" direction="column">
+                    <div className="sub-block">
+                        {/*{adoptDate}*/}
+                        Sat Mar 21 2020 16:35:27
+                    </div>
+                    <div className="sub-block">{(Date.now() - falseDate.getTime()) / 6000 / 60} Hours</div>
+                    <div className="sub-block">{partner}</div>
+                    <div className="sub-block">{lastPrice} icp</div>
                 </Grid>
             </Grid>
         </Grid>

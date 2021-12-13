@@ -9,32 +9,48 @@
     background-repeat: no-repeat;
     width: 489px;
     height: 448px;
-    /*opacity: 100%;*/
 }
 
 .div-progress{
     position: relative;
     top: 10%;
     width: 600px;
-    /*opacity: 1;*/
 }
 
 
 .dog-back{
-    /*background-image: url("./static/dogBack.png");*/
-    /*background-repeat: no-repeat;*/
-    /*background-position: center;*/
     border-radius: 10% 10%;
-    width: auto;
+    width: inherit;
     height: auto;
     position: relative;
     top: auto;
     left: auto;
-    /*opacity: 0.7;*/
 }
 
-.inline-no-opaque{
-    /*opacity: 1;*/
+.column{
+    position: relative;
+    top: auto;
+    height: inherit;
+    width: inherit;
+    align-items: center;
+}
+
+.div-button{
+    position: relative;
+    top: 10%;
+    flex-direction: row;
+    width: 70%;
+    height: auto;
+}
+
+.div-subButton-left{
+    width: auto;
+    float: left;
+}
+
+.div-subButton-right{
+    width: auto;
+    float: right;
 }
 
 
