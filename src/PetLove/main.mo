@@ -6,6 +6,7 @@ import Float "mo:base/Float";
 import Array "mo:base/Array";
 import Bool "mo:base/Bool";
 import Debug "mo:base/Debug";
+import List "mo:base/List";
 
 import Types "./types";
 import Protocol "./protocol";
@@ -28,18 +29,28 @@ shared(msg) actor class PetLove(creator: Principal) {
     private var protocol = Protocol.MUN_Protocol();
 
 
-    /// Canister Upgrades 
-    /// Canister停止前把非stable转成stable保存到内存中
-    // system func preupgrade() {
-    //     protocol.store();   
-    //     Debug.print("Preupgrade Done!");
-    // };
+    stable var db_nfts : [(TokenId, TokenMeta)] = [];
+    stable var db_users : [(Principal, UserProfile)] = [];
+    stable var db_nftToOwners : [(TokenId, List.List<Principal>)] = [];
 
-    // /// Canister升级完成启动后把stable存储中的加载到缓存中
-    // system func postupgrade() {
-    //    protocol.restore();
-    //     Debug.print("Postupgrade Done!");
-    // };
+    // Canister停止前把非stable转成stable保存到内存中
+    system func preupgrade() {
+        db_nfts := protocol.getnfts();
+        db_users := protocol.getusers();
+        db_nftToOwners := protocol.getnftToOwners();
+        Debug.print("Preupgrade Done!");
+    };
+
+    /// Canister升级完成启动后把stable存储中的加载到缓存中
+    system func postupgrade() {
+        protocol.setnfts(db_nfts);
+        db_nfts := [];
+        protocol.setusers(db_users);
+        db_users := [];
+        protocol.setnftToOwners(db_nftToOwners);
+        db_nftToOwners := [];
+        Debug.print("Postupgrade Done!");
+    };
 
     public shared(msg) func getUserProfile(user : Principal) : async (?UserProfile) {
         Debug.print(Principal.toText(msg.caller));
