@@ -32,7 +32,7 @@ module Protocol {
         private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Text.equal, Text.hash);
         private var arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
         private var arrSize = 10;
-        let random = Random.Finite("asdsfdsfsgfdgdfgdfgweruiortpoipafj;dfj;vc;vc;j.fdskjklk;dsfiodsufp");
+        let random = Random.Finite("Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur");
         // ///mapping from nft to approced principal
         // private var nftToApproval = HashMap.HashMap<TokenId,Principal>(1,Types.equal,Types.hash);
         // private var ownerToOperators = HashMap.HashMap<Principal,HashMap.HashMap<Principal,Bool>>(1,Principal.equal,Principal.hash);
@@ -87,15 +87,13 @@ module Protocol {
 
 
         public func createNFT (user : Principal) : TokenMeta {
-            var p = random.range(10);
-            assert(p != null);
             var tokenMeta : TokenMeta = {
                 id = tokenUtil.generate();
                 createTime = Int.toText(Time.now());
                 image = getImageIndex();
                 var state = #notAdopted;
                 var happiness = 0;
-                var price = _unwrap(p);
+                var price = 2;
             };
 
             var list1 = List.nil<Principal>();
