@@ -8,18 +8,9 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import UserContext from "../../contexts/user-context";
 import { Principal } from '@dfinity/principal';
 import {PetLove} from "../../../../declarations/PetLove";
+import ModalStyle from "./modal-style";
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4
-};
+const style = ModalStyle;
 
 class PurchaseButton extends React.Component {
   static contextType = UserContext;

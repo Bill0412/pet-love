@@ -11,9 +11,21 @@ import './Landing.css';
 import UserContext from '../contexts/user-context';
 import {Principal} from "@dfinity/principal";
 import ResponsiveAppBar from "../components/app-bar";
+import Typography from "@mui/material/Typography";
+import GreenButton from "../components/green-button";
+import Modal from "@mui/material/Modal";
+import ModalStyle from "../mall/components/modal-style";
 
 class Landing extends React.Component {
     static contextType = UserContext;
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isShowInstallICWarning: false
+        };
+    }
 
     componentDidMount = () => {
         const { user, setUser } = this.context;
@@ -22,6 +34,14 @@ class Landing extends React.Component {
             setUser(Principal.fromText(sessionStorage.getItem("principal")));
         }
     }
+
+    handleOpenInstallICWarning = () => {
+        this.setState({isShowInstallICWarning: true});
+    }
+
+    handleCloseInstallICWarning = () => {
+        this.setState({isShowInstallICWarning: false});
+    };
 
     onClickLoginButton = async () => {
         // This is an official canister for user verification
@@ -54,6 +74,12 @@ class Landing extends React.Component {
                 'get_stats' : IDL.Func([], [Stats], ['query']),
             });
         };
+
+        if(window.ic == null) {
+            console.log("ic wallet is not installed yet.");
+            this.handleOpenInstallICWarning();
+            return;
+        }
 
         // Create an actor to interact with the NNS Canister
         // we pass the NNS Canister id and the interface factory
@@ -190,6 +216,26 @@ class Landing extends React.Component {
                     { user == null &&
                         <Stack>
                             <AwesomeButton type="secondary" onPress={this.onClickLoginButton}>Join Now!!</AwesomeButton>
+                            <Modal
+                                open={this.state.isShowInstallICWarning}
+                                onClose={this.handleCloseInstallICWarning}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <Stack sx={ModalStyle} direciton="row" alignItems="center">
+                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                        Please install the chrome extension &nbsp;
+                                        <a target="_blank"
+                                           href="https://chrome.google.com/webstore/detail/plug/cfbfdhimifdmdehjmkdobpcjfefblkjm">
+                                            Plug </a>
+                                        &nbsp; and create your IC wallet in advance for login.
+                                        (We use the wallet id as your only login credential.)
+                                    </Typography>
+                                    <Stack direction="row" mt={3} spacing={2} alignItems="center">
+                                        <GreenButton onClick={this.handleCloseInstallICWarning}>OK</GreenButton>
+                                    </Stack>
+                                </Stack>
+                            </Modal>
                         </Stack>
                     }
                 </Stack>
