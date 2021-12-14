@@ -1,12 +1,6 @@
 import * as React from "react";
 import ResponsiveAppBar from "../components/app-bar";
 import './Pcenter.css';
-import {
-    AwesomeButton,
-    AwesomeButtonProgress,
-    AwesomeButtonSocial,
-} from 'react-awesome-button';
-import 'react-awesome-button/dist/themes/theme-rickiest.css';
 import "react-sweet-progress/lib/style.css";
 import Grid from "@mui/material/Grid";
 import 'react-tiny-fab/dist/styles.css';
@@ -25,11 +19,6 @@ const Pcenter = (props) => {
     )
     return (
         <div>
-            <Slide in={Boolean(login)} unmountOnExit mountOnEnter direction="down" timeout={1000}>
-                <div>
-                    <ResponsiveAppBar/>
-                </div>
-            </Slide>
             {login ?
                 (<Grid container spacing={-10}>
                     <Slide in={Boolean(login)} unmountOnExit mountOnEnter direction="right" timeout={800}>

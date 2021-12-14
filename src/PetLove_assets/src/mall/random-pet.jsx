@@ -35,7 +35,6 @@ const RandomPetContent = () => {
 const RandomPet = () => {
   return (
     <div>
-      <ResponsiveAppBar />
       <RandomPetContent />
     </div>
   );

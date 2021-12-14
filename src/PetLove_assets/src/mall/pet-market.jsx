@@ -57,7 +57,7 @@ const PetMarketContent = () => {
       </Grid>
       </Box>
       <Box mt={10}>
-        <Pagination count={nPages} onChange={onChange}></Pagination>
+        <Pagination count={nPages} onChange={onChange}/>
       </Box>
     </Stack>
   );
@@ -66,7 +66,6 @@ const PetMarketContent = () => {
 const PetMarket = () => {
   return (
     <div>
-      <ResponsiveAppBar />
       <PetMarketContent />
     </div>
   );

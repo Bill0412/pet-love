@@ -9,6 +9,7 @@
     background-repeat: no-repeat;
     width: 489px;
     height: 448px;
+    position: relative;
 }
 
 .div-progress {
@@ -31,25 +32,23 @@
 .div-button {
     position: relative;
     top: 10%;
-    flex-direction: row;
     width: 70%;
     height: auto;
 }
 
 .div-subButton-left {
-    width: auto;
     float: left;
+    height: 50%;
 }
 
 .div-subButton-right {
-    width: auto;
     float: right;
+    height: 50%;
 }
 
 
 .fab-position {
     position: absolute;
-    margin-left: 80%;
-    margin-top: 60%;
-    transform: translateX(-75%) translateY(-50%);
+    right: 0;
+    bottom: 0;
 }
