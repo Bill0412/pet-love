@@ -5,7 +5,7 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import Login from "./login"
+import Login from "./login";
 import RandomPet from "./mall/random-pet";
 import PetMarket from "./mall/pet-market";
 import Pcenter from "./personal/Pcenter";
@@ -34,7 +34,7 @@ const App = () => {
                     <Route exact path="/" element={<Login/>}/>
                     <Route exact path="/random_pet" element={<RandomPet/>}/>
                     <Route exact path="/pet_market" element={<PetMarket/>}/>
-                    <Route exact path="/personal" element={<Pcenter/>}/>
+                    <Route exact path="/personal" element={<Pcenter login={true}/>}/>
                     <Route exact path="/landing" element={<Landing/>}/>
                     <Route exact path="/test" element={<TestPage/>}/>
                 </Routes>

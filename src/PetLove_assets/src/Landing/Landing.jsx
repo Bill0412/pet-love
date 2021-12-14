@@ -1,48 +1,49 @@
 import * as React from 'react';
 import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
-import img_back from './static/back.png';
-import ResponsiveAppBar from "../components/app-bar";
-import Box from "@mui/material/Box";
 import {
     AwesomeButton,
     AwesomeButtonProgress,
     AwesomeButtonSocial,
 } from 'react-awesome-button';
 import 'react-awesome-button/dist/themes/theme-rickiest.css';
+import ExpandCircleDownTwoToneIcon from '@mui/icons-material/ExpandCircleDownTwoTone';
 import './Landing.css';
 import UserContext from '../contexts/user-context';
+import {Principal} from "@dfinity/principal";
+import ResponsiveAppBar from "../components/app-bar";
+import Typography from "@mui/material/Typography";
+import GreenButton from "../components/green-button";
+import Modal from "@mui/material/Modal";
+import ModalStyle from "../mall/components/modal-style";
 
-const Landing = (props) => {
-    // for style
-    const font1Anton = "'Anton', sans-serif";
-    const font2Courgette = "'Courgette', cursive";
-    const font3Smooch = "'Smooch', cursive";
-    const stylesPress = createTheme({
-        typography: {
-            fontFamily: font2Courgette,
-            fontSize: 16,
-            // color: "#123456"
+class Landing extends React.Component {
+    static contextType = UserContext;
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isShowInstallICWarning: false
+        };
+    }
+
+    componentDidMount = () => {
+        const { user, setUser } = this.context;
+        if(user != null) return;
+        if(sessionStorage.getItem("principal")) {
+            setUser(Principal.fromText(sessionStorage.getItem("principal")));
         }
-    });
-    const styleCourgette = createTheme({
-        typography: {
-            fontFamily: font2Courgette,
-            color: "orange"
-        },
-    });
-    const styleSmooch = createTheme({
-        typography: {
-            fontFamily: "'RobotoTI', sans-serif",
-            color: "orange"
-        },
-    });
+    }
 
-    // for business logic
-    const { user, setUser } = React.useContext(UserContext);
+    handleOpenInstallICWarning = () => {
+        this.setState({isShowInstallICWarning: true});
+    }
 
-    let onClickLoginButton = async () => {
+    handleCloseInstallICWarning = () => {
+        this.setState({isShowInstallICWarning: false});
+    };
+
+    onClickLoginButton = async () => {
         // This is an official canister for user verification
         const nnsCanisterId = 'qoctq-giaaa-aaaaa-aaaea-cai'
         const whitelist = [nnsCanisterId];
@@ -74,6 +75,12 @@ const Landing = (props) => {
             });
         };
 
+        if(window.ic == null) {
+            console.log("ic wallet is not installed yet.");
+            this.handleOpenInstallICWarning();
+            return;
+        }
+
         // Create an actor to interact with the NNS Canister
         // we pass the NNS Canister id and the interface factory
         const NNSUiActor = await window.ic.plug.createActor({
@@ -90,6 +97,8 @@ const Landing = (props) => {
         // Get the user principal id
         const principal = await window.ic.plug.agent.getPrincipal();
         console.log("principal id:", principal);
+
+        const { user, setUser } = this.context;
         setUser({principal: principal});
 
         // in case the DOM refreshes
@@ -99,80 +108,189 @@ const Landing = (props) => {
         // console.log(result);
     }
 
-    return (
-        <Box className="overall-box">
-            <ResponsiveAppBar/>
+    Body = () => {
+        const { user, setUser } = this.context;
+
+        return (
             <Stack
-                direction="row"
                 justifyContent="center"
                 alignItems="center"
-                spacing={2}
+                spacing={0}
+                minHeight="90vh"
             >
                 <Stack
-                    direction="column"
+                    className="overall-box"
+                    direction="row"
                     justifyContent="center"
                     alignItems="center"
                     spacing={2}
-                    minHeight="90vh"
-                    maxWidth="40vw"
                 >
-                    <ThemeProvider theme={stylesPress}>
-                        <Stack direction="row"
-                               justifyContent="center"
-                               alignItems="center"
-                               spacing={2}>
-                            <Stack>
-                                <Typography variant="h1" component="div" gutterBottom className="main-title" color="#ef3473">
-                                    Pet Love
-                                </Typography>
+                    <Stack
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={2}
+                    >
+                        <Stack
+                            direction="column"
+                            justifyContent="flex-end"
+                            alignItems="center"
+                            spacing={2}
+                            minHeight="40vh"
+                            maxWidth="40vw"
+                        >
+                            <Stack className="main-title">
+                                Pet<br/>Love
                             </Stack>
-                            {/*<Stack maxWidth="50vw">*/}
-                            {/*    <Avatar src={img_avatar} alt={"img_avatar"} sx={{width: 100, height: 100}}/>*/}
+                            {/*<Stack className="introduction">*/}
+                            {/*    In the pet love, you can share a cute pet with your lover.<br/>*/}
+                            {/*    you can pick a new dog in our mall.<br/>*/}
+                            {/*    It is unique as the only proof of your love.<br/>*/}
+                            {/*    And its age will witness the length your love lasts.<br/>*/}
+                            {/*    Now, start your love journey.<br/>*/}
                             {/*</Stack>*/}
                         </Stack>
-                    </ThemeProvider>
-                    <Stack>
-                            <ThemeProvider theme={styleSmooch}>
-                                <Typography variant="subtitle1" gutterBottom component="div">
-                                    In the pet love app, you can share a cute pet with your lover.<br/>
-                                    It is unique as proof of your love.<br/>
-                                    You will only have one puppy. <br/>
-                                    And its age will witness the longer your love lasts<br/>
-                                    When love breaks down, <br/>or you want to have a new dog, <br/>you can pick a new
-                                    dog in the mall.<br/>
-                                    Of course this is something we dont want to happen.<br/>
-                                    Now, start your love journey<br/>
-                                </Typography>
-                            </ThemeProvider>
-                        </Stack>
-                    { user == null &&
-                        <Stack>
-                            <AwesomeButton type="secondary" onPress={onClickLoginButton}>Join Now!!</AwesomeButton>
-                        </Stack>
-                    }
+                        <Stack
+                            direction="column"
+                            justifyContent="flex-end"
+                            alignItems="center"
+                            spacing={0}
+                            minHeight="40vh"
+                            maxWidth="40vw"
+                        >
 
+                            <Stack className="pack-img">
+                            </Stack>
+                            {/*<Stack>*/}
+                            {/*    <h5 className="subtitle">*/}
+                            {/*        A pet to witness love <br/>keep it with your lover*/}
+                            {/*    </h5>*/}
+                            {/*</Stack>*/}
+                        </Stack>
+                    </Stack>
                 </Stack>
+
                 <Stack
                     direction="column"
                     justifyContent="center"
                     alignItems="center"
-                    spacing={0}
-                    minHeight="90vh"
-                    maxWidth="40vw"
+                    minHeight="30vh"
+                    spacing={3}
                 >
-
-                    <Stack spaceing={0}>
-                        <img src={img_back} alt="img_back" />
+                    <Stack className="introduction">
+                        Share a cute pet with him/her<br/>
+                        Pick a new dog in our mall<br/>
+                        The Doggy is unique as the only proof of your love, <br/>
+                        whose age witnesses the timelessness<br/>
+                        Start your journey here<br/>
                     </Stack>
-                    <Stack>
-                        <ThemeProvider theme={styleCourgette}>
-                            <Typography variant="h5" component="div" gutterBottom>
-                                A pet to witness love <br/>keep it with your lover
-                            </Typography>
-                        </ThemeProvider>
+                    <Stack className="subtitle">
+                        A pet to witness love <br/>keep it with your lover<br/>
+                    </Stack>
+                    <Stack
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        spacing={2}
+                    >
+                        <Stack><ExpandCircleDownTwoToneIcon  color="primary"  fontSize="large"/></Stack>
+                        <Stack><ExpandCircleDownTwoToneIcon  color="primary"  fontSize="large"/></Stack>
+                        <Stack><ExpandCircleDownTwoToneIcon  color="primary"  fontSize="large"/></Stack>
                     </Stack>
                 </Stack>
-            </Stack>
-        </Box>)
+                {/*<Stack*/}
+                {/*    direction="column"*/}
+                {/*    justifyContent="center"*/}
+                {/*    alignItems="center"*/}
+                {/*    minHeight="20vh"*/}
+                {/*    className="subtitle"*/}
+                {/*>*/}
+
+                {/*</Stack>*/}
+                <Stack
+                    direction="row"
+                    justifyContent="center"
+                    alignItems="center"
+                    minHeight="10vh"
+                >
+                    { user == null &&
+                        <Stack>
+                            <AwesomeButton type="secondary" onPress={this.onClickLoginButton}>Join Now!!</AwesomeButton>
+                            <Modal
+                                open={this.state.isShowInstallICWarning}
+                                onClose={this.handleCloseInstallICWarning}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <Stack sx={ModalStyle} direciton="row" alignItems="center">
+                                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                        Please install the chrome extension &nbsp;
+                                        <a target="_blank"
+                                           href="https://chrome.google.com/webstore/detail/plug/cfbfdhimifdmdehjmkdobpcjfefblkjm">
+                                            Plug </a>
+                                        &nbsp; and create your IC wallet in advance for login.
+                                        (We use the wallet id as your only login credential.)
+                                    </Typography>
+                                    <Stack direction="row" mt={3} spacing={2} alignItems="center">
+                                        <GreenButton onClick={this.handleCloseInstallICWarning}>OK</GreenButton>
+                                    </Stack>
+                                </Stack>
+                            </Modal>
+                        </Stack>
+                    }
+                </Stack>
+
+
+                {/*<Stack*/}
+                {/*    direction="column"*/}
+                {/*    justifyContent="space-around"*/}
+                {/*    alignItems="center"*/}
+                {/*    spacing={2}*/}
+                {/*    className="overall-box"*/}
+                {/*>*/}
+                {/*    <Stack*/}
+                {/*        direction="row"*/}
+                {/*        justifyContent="space-around"*/}
+                {/*        alignItems="center"*/}
+                {/*        spacing={2}>*/}
+                {/*        <Stack className="main-title">*/}
+                {/*            Pet<br/>Love*/}
+                {/*        </Stack>*/}
+                {/*        <Stack className="main-title">*/}
+                {/*            <img src={img_back} alt="dogs"/>*/}
+                {/*        </Stack>*/}
+                {/*    </Stack>*/}
+                {/*    <Stack*/}
+                {/*        direction="row"*/}
+                {/*        justifyContent="space-around"*/}
+                {/*        alignItems="center"*/}
+                {/*        spacing={2}>*/}
+                {/*        <Stack className="introduction">*/}
+                {/*            In the pet love, you can share a cute pet with your lover.<br/>*/}
+                {/*            you can pick a new dog in our mall.<br/>*/}
+                {/*            It is unique as the only proof of your love.<br/>*/}
+                {/*            And its age will witness the length your love lasts.<br/>*/}
+                {/*            Now, start your love journey.<br/>*/}
+                {/*        </Stack>*/}
+                {/*        <Stack className="subtitle">*/}
+                {/*            A pet to witness love <br/>keep it with your lover*/}
+                {/*        </Stack>*/}
+                {/*    </Stack>*/}
+                {/*    <Stack>*/}
+                {/*        <AwesomeButton type="secondary">Join Now!!</AwesomeButton>*/}
+                {/*    </Stack>*/}
+                {/*</Stack>*/}
+            </Stack>)
+    }
+
+    render = () => {
+        const { user, setUser } = this.context;
+        return (
+            <div>
+                {user && <ResponsiveAppBar /> }
+                <this.Body />
+            </div>
+        )
+    }
 }
 export default Landing;

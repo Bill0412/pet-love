@@ -1,19 +1,7 @@
-.right-content{
-    text-align: left;
-}
-
-
-.div-background{
-    background-image: url("./static/dogPortrait1.png");
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 800px;
-    height: 800px;
-}
-
-.div-progress{
-    width: 600px;
-    position: absolute;
-    top: 750px;
-    left:150px;
+.column{
+    position: relative;
+    top: auto;
+    height: inherit;
+    width: inherit;
+    align-items: center;
 }

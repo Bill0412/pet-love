@@ -1,8 +1,8 @@
 # PetLove
 
 ## Introduction
-PetLove Application in Internet Computer Platform for Dfinity Hackthon 2021.
-
+PetLove Application in Internet Computer Platform for Dfinity Hackthon 2021. The app is deployed on the IC chain for demonstration.
+You can visit it [here](https://s6akf-saaaa-aaaai-abaoq-cai.raw.ic0.app/#/landing).
 ## Architecture
 TODO
 
@@ -12,11 +12,12 @@ You should have `npm`, `node.js`, `dfx` installed in advance.
 Each time before you push to remote origin, please make sure your code is up to date. (pull from remote before you commit)
 ```
 $ git commit -m 'your commit message'
-$ git pull origin frontend
-$ git push origin frontend
+$ git pull origin <branch name>
+$ git push origin <branch name>
 ```
 ### Frontend
 The frontend code is at `src/PetLove_assets/src`.
+
 0. You should switch to the `frontend` branch for frontend development. 
 ```
 $ git checkout frontend

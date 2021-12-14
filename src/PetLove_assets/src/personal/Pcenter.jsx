@@ -1,72 +1,54 @@
 import * as React from "react";
 import ResponsiveAppBar from "../components/app-bar";
-import Stack from "@mui/material/Stack";
-import {createTheme, ThemeProvider} from "@mui/material/styles";
-import Typography from "@mui/material/Typography";
 import './Pcenter.css';
-import dogPortrait from './static/dogPortrait1.png';
-import Box from "@mui/material/Box";
-import InfoCard from "./InfoCard/InfoCard";
-import {useState} from "react";
 import {
     AwesomeButton,
     AwesomeButtonProgress,
     AwesomeButtonSocial,
 } from 'react-awesome-button';
 import 'react-awesome-button/dist/themes/theme-rickiest.css';
-import {Progress} from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
+import Grid from "@mui/material/Grid";
+import 'react-tiny-fab/dist/styles.css';
+import InfoCard from "./InfoCard/InfoCard";
+import DogBoard from "./DogBoard/DogBoard";
+import {Slide} from "@mui/material";
 
-const Pcenter = () => {
-    const [happiness, happinessChanger] = useState(23)
-    const theme = {
-        success: {
-            symbol: '🏄‍',
-            color: 'rgb(223, 105, 180)'
-        },
-        active: {
-            symbol: '😀',
-            color: '#fbc630'
-        },
-        default: {
-            symbol: '😱',
-            color: '#fbc630'
-        }
-    }
+const Pcenter = (props) => {
+    // const [checked, setChecked] = React.useState(true);
+    const [login, setLogin] = React.useState(props.login)
+    const [show, setsShow] = React.useState(login)
+    React.useEffect(
+        () => {
+            setsShow(!show)
+        }, [login]
+    )
     return (
         <div>
-            <ResponsiveAppBar/>
-            <Stack
-                direction="row"
-                justifyContent="center"
-                alignItems="center"
-                spacing={10}
-            >
-                <Stack
-                    direction="column"
-                    justifyContent="center"
-                    alignItems="center"
-                    spacing={0}
-                    minHeight="90vh"
-                    width="30vw"
-                ><Stack direction="column"
-                        justifyContent="flex-end"
-                        alignItems="center"
-                        spacing={1}>
-                    <div className="div-background">
-                        <Stack>
-                            <div className="div-progress">
-                                <Progress percent={20}/>
-                            </div>
-                        </Stack>
-                    </div>
+            <Slide in={Boolean(login)} unmountOnExit mountOnEnter direction="down" timeout={1000}>
+                <div>
+                    <ResponsiveAppBar/>
+                </div>
+            </Slide>
+            {login ?
+                (<Grid container spacing={-10}>
+                    <Slide in={Boolean(login)} unmountOnExit mountOnEnter direction="right" timeout={800}>
+                        <Grid item md={6} sm={12} xs={12} className="column">
+                            <DogBoard/>
+                        </Grid>
+                    </Slide>
 
-                </Stack>
+                    <Slide in={Boolean(login)} unmountOnExit mountOnEnter direction="left" timeout={800}>
+                        <Grid item container md={6} sm={12} xs={12} className="column">
+                            <InfoCard/>
+                        </Grid>
+                    </Slide>
+                </Grid>) :
+                <div>
+                    Oooops, you need to login first!
+                </div>
+            }
 
-
-                </Stack>
-                <InfoCard/>
-            </Stack>
         </div>
 
     );
