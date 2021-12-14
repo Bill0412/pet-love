@@ -17,7 +17,7 @@ import './DogBoard.css';
 const DogBoard = () => {
     const [happiness, happinessChanger] = useState(23)
     const [fadeIn, setFadeIn] = useState(false)
-    const testObj = {
+    const btnStyle = {
         "--button-default-height": "27px",
         "--button-default-font-size": "16px",
         "--button-default-border-radius": "25px",
@@ -42,7 +42,7 @@ const DogBoard = () => {
         setInterval(() => {
             setFadeIn(true)
         }, 1000)
-        console.log(styles)
+        // console.log(styles)
     }, [])
     return (
         <Stack
@@ -103,12 +103,18 @@ const DogBoard = () => {
             <Fade in={fadeIn} timeout={2000}>
                 <div className="div-button">
                     <div className="div-subButton-left">
-                        <AwesomeButton type="secondary"
-                                       style={testObj}
+                        <AwesomeButton
+                            type="primary"
+                            style={btnStyle}
+                            size="large"
                         >Sell</AwesomeButton>
                     </div>
                     <div className="div-subButton-right">
-                        <AwesomeButton type="secondary">Drop</AwesomeButton>
+                        <AwesomeButton
+                            type="primary"
+                            style={btnStyle}
+                            size="large"
+                        >Drop</AwesomeButton>
                     </div>
                 </div>
             </Fade>

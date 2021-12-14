@@ -8,203 +8,311 @@ import {
 import 'react-awesome-button/dist/themes/theme-rickiest.css';
 import ExpandCircleDownTwoToneIcon from '@mui/icons-material/ExpandCircleDownTwoTone';
 import './Landing.css';
+import UserContext from '../contexts/user-context';
+import {Principal} from "@dfinity/principal";
+import ResponsiveAppBar from "../components/app-bar";
+import Typography from "@mui/material/Typography";
+import GreenButton from "../components/green-button";
+import Modal from "@mui/material/Modal";
+import ModalStyle from "../mall/components/modal-style";
+import {useState} from "react";
 import {Fade, Zoom} from "@mui/material";
-import {useEffect, useState} from "react";
 
-const Landing = (props) => {
-    // const
-    //introduction  1.5s  间隔0.5s  3`~
-    //subtitle 1s  间隔0.5s   5`~
-    //down arrow  1s  间隔0.5s  6.5`~
-    //last button  0.5s  8`~
-    const [introductionFade, changeIntroductionFade] = useState(false)
-    const [subtitleFade, changeSubtitleFade] = useState(false)
-    const [arrowFade, changeArrowFade] = useState(false)
-    const [buttonFade, changeButtonFade] = useState(false)
-    let graphStart = 0, graDur = 1000
-    let navStart = 0, navDur = 2500
-    let introStart = 2000, introDur = 1500, interval = 500
-    let subStart = introStart + introDur + interval, subDur = 1000
-    let arrowStart = subStart + subDur + interval, arrowDur = 1000
-    let buttonStart = arrowStart + arrowDur + interval,buttonDur=500
-    useEffect(() => {
+class Landing extends React.Component {
+    static contextType = UserContext;
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isShowInstallICWarning: false,
+            introductionFade: false,
+            subtitleFade: false,
+            arrowFade: false,
+            buttonFade: false,
+        };
+    }
+
+    componentDidMount = () => {
+        let introductionFade = false
+        let subtitleFade = false
+        let arrowFade = false
+        let buttonFade = false
+        let graphStart = 0, graDur = 1000
+        let navStart = 0, navDur = 2500
+        let introStart = 2000, introDur = 1500, interval = 500
+        let subStart = introStart + introDur + interval, subDur = 1000
+        let arrowStart = subStart + subDur + interval, arrowDur = 1000
+        let buttonStart = arrowStart + arrowDur + interval, buttonDur = 500
+        this.setState({
+            introductionFade,
+            subtitleFade,
+            arrowFade,
+            buttonFade,
+            introDur,
+            subDur,
+            arrowDur,
+            buttonDur,
+            graDur
+        })
         setInterval(
             () => {
-                changeIntroductionFade(true)
+                this.setState({introductionFade: true})
             }, introStart
         )
         setInterval(
             () => {
-                changeSubtitleFade(true)
+                this.setState({subtitleFade: true})
             }, subStart
         )
         setInterval(
             () => {
-                changeArrowFade(true)
+                this.setState({arrowFade: true})
             }, arrowStart
         )
         setInterval(
             () => {
-                changeButtonFade(true)
-            }, buttonStart
-        )
-    }, [])
-    return (
-        <Stack
-            justifyContent="center"
-            alignItems="center"
-            spacing={0}
-            minHeight="80vh"
-        >
+                this.setState({buttonFade: this.context.user == null})
+            }, buttonStart)
+        const {user, setUser} = this.context;
+        if (user != null) return;
+        if (sessionStorage.getItem("principal")) {
+            setUser(Principal.fromText(sessionStorage.getItem("principal")));
+        }
+    }
+
+    handleOpenInstallICWarning = () => {
+        this.setState({isShowInstallICWarning: true});
+    }
+
+    handleCloseInstallICWarning = () => {
+        this.setState({isShowInstallICWarning: false});
+    };
+
+    onClickLoginButton = async () => {
+        // This is an official canister for user verification
+        const nnsCanisterId = 'qoctq-giaaa-aaaaa-aaaea-cai'
+        const whitelist = [nnsCanisterId];
+
+        // Initialise Agent, expects no return value
+        await window?.ic?.plug?.requestConnect({
+            whitelist,
+        });
+
+        // A partial Interface factory
+        // for the NNS Canister UI
+        // Check the `plug authentication - nns` for more
+        const nnsPartialInterfaceFactory = ({IDL}) => {
+            const BlockHeight = IDL.Nat64;
+            const Stats = IDL.Record({
+                'latest_transaction_block_height': BlockHeight,
+                'seconds_since_last_ledger_sync': IDL.Nat64,
+                'sub_accounts_count': IDL.Nat64,
+                'hardware_wallet_accounts_count': IDL.Nat64,
+                'accounts_count': IDL.Nat64,
+                'earliest_transaction_block_height': BlockHeight,
+                'transactions_count': IDL.Nat64,
+                'block_height_synced_up_to': IDL.Opt(IDL.Nat64),
+                'latest_transaction_timestamp_nanos': IDL.Nat64,
+                'earliest_transaction_timestamp_nanos': IDL.Nat64,
+            });
+            return IDL.Service({
+                'get_stats': IDL.Func([], [Stats], ['query']),
+            });
+        };
+
+        if (window.ic == null) {
+            console.log("ic wallet is not installed yet.");
+            this.handleOpenInstallICWarning();
+            return;
+        }
+
+        // Create an actor to interact with the NNS Canister
+        // we pass the NNS Canister id and the interface factory
+        const NNSUiActor = await window.ic.plug.createActor({
+            canisterId: nnsCanisterId,
+            interfaceFactory: nnsPartialInterfaceFactory,
+        });
+
+        // We can use any method described in the Candid (IDL)
+        // for example the get_stats()
+        // See https://github.com/dfinity/nns-dapp/blob/cd755b8/canisters/nns_ui/nns_ui.did
+        const stats = await NNSUiActor.get_stats();
+        console.log('NNS stats', stats);
+
+        // Get the user principal id
+        const principal = await window.ic.plug.agent.getPrincipal();
+        console.log("principal id:", principal);
+
+        const {user, setUser} = this.context;
+        setUser({principal: principal});
+
+        // in case the DOM refreshes
+        sessionStorage.setItem("principal", principal.toText());
+
+    }
+
+    Body = () => {
+        const {user, setUser} = this.context;
+
+        return (
             <Stack
-                className="overall-box"
-                direction="row"
                 justifyContent="center"
                 alignItems="center"
-                spacing={2}
+                spacing={0}
+                minHeight="80vh"
             >
                 <Stack
+                    className="overall-box"
                     direction="row"
                     justifyContent="center"
                     alignItems="center"
                     spacing={2}
                 >
                     <Stack
-                        direction="column"
-                        justifyContent="flex-end"
+                        direction="row"
+                        justifyContent="center"
                         alignItems="center"
                         spacing={2}
-                        minHeight="40vh"
-                        maxWidth="40vw"
                     >
-                        <Zoom in={true} timeout={graDur}>
+                        <Zoom in={true} timeout={this.state.graDur}>
                             <Stack className="main-title">
                                 Pet<br/>Love
                             </Stack>
                         </Zoom>
-                        {/*<Stack className="introduction">*/}
-                        {/*    In the pet love, you can share a cute pet with your lover.<br/>*/}
-                        {/*    you can pick a new dog in our mall.<br/>*/}
-                        {/*    It is unique as the only proof of your love.<br/>*/}
-                        {/*    And its age will witness the length your love lasts.<br/>*/}
-                        {/*    Now, start your love journey.<br/>*/}
-                        {/*</Stack>*/}
                     </Stack>
-                    <Stack
-                        direction="column"
-                        justifyContent="flex-end"
-                        alignItems="center"
-                        spacing={0}
-                        minHeight="40vh"
-                        maxWidth="40vw"
-                    >
-
-                        <Zoom in={true} timeout={graDur}>
-                            <Stack className="pack-img"/>
-                        </Zoom>
-                        {/*<Stack>*/}
-                        {/*    <h5 className="subtitle">*/}
-                        {/*        A pet to witness love <br/>keep it with your lover*/}
-                        {/*    </h5>*/}
-                        {/*</Stack>*/}
-                    </Stack>
-                </Stack>
-            </Stack>
-
-            <Stack
-                direction="column"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="30vh"
-                spacing={3}
-            >
-                <Fade in={introductionFade} timeout={introDur}>
-                    <Stack className="introduction">
-                        Share a cute pet with him/her<br/>
-                        Pick a new dog in our mall<br/>
-                        The Doggy is unique as the only proof of your love, <br/>
-                        whose age witnesses the timelessness<br/>
-                        Start your journey here<br/>
-                    </Stack>
-                </Fade>
-                <Fade in={subtitleFade} timeout={subDur}>
-                    <Stack className="subtitle">
-                        A pet to witness love
-                        {/*<br/>keep it with your lover<br/>*/}
-                    </Stack>
-                </Fade>
-                <Fade in={arrowFade} timeout={arrowDur}>
                     <Stack
                         direction="row"
                         justifyContent="center"
                         alignItems="center"
                         spacing={2}
                     >
-                        <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
-                        <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
-                        <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
-                    </Stack>
-                </Fade>
-            </Stack>
-            {/*<Stack*/}
-            {/*    direction="column"*/}
-            {/*    justifyContent="center"*/}
-            {/*    alignItems="center"*/}
-            {/*    minHeight="20vh"*/}
-            {/*    className="subtitle"*/}
-            {/*>*/}
 
-            {/*</Stack>*/}
-            <Fade in={buttonFade} timeout={buttonDur}>
+                        <Zoom in={true} timeout={this.state.graDur}>
+                            <Stack className="pack-img"/>
+                        </Zoom>
+                    </Stack>
+                </Stack>
+                <Stack
+                    direction="column"
+                    justifyContent="center"
+                    alignItems="center"
+                    minHeight="30vh"
+                    spacing={3}
+                >
+                    <Fade in={this.state.introductionFade} timeout={this.state.introDur}>
+                        <Stack className="introduction">
+                            Share a cute pet with him/her<br/>
+                            Pick a new dog in our mall<br/>
+                            The Doggy is unique as the only proof of your love, <br/>
+                            whose age witnesses the timelessness<br/>
+                            Start your journey here<br/>
+                        </Stack>
+                    </Fade>
+                    <Fade in={this.state.subtitleFade} timeout={this.state.subDur}>
+                        <Stack className="subtitle">
+                            A pet to witness love
+                            {/*<br/>keep it with your lover<br/>*/}
+                        </Stack>
+                    </Fade>
+                    <Fade in={this.state.arrowFade} timeout={this.state.arrowDur}>
+                        <Stack
+                            direction="row"
+                            justifyContent="center"
+                            alignItems="center"
+                            spacing={2}
+                        >
+                            <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
+                            <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
+                            <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
+                        </Stack>
+                    </Fade>
+                </Stack>
                 <Stack
                     direction="row"
                     justifyContent="center"
                     alignItems="center"
                     minHeight="10vh"
                 >
-                    <AwesomeButton type="secondary">Join Now!!</AwesomeButton>
+                    {user == null &&
+                        <Stack>
+                            <Fade in={this.state.buttonFade} timeout={this.state.buttonDur}>
+                                <Stack>
+                                    <AwesomeButton type="secondary" onPress={this.onClickLoginButton}>Join
+                                        Now!!</AwesomeButton>
+                                </Stack>
+                            </Fade>
+                            <Modal
+                                open={this.state.isShowInstallICWarning}
+                                onClose={this.handleCloseInstallICWarning}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <Stack sx={ModalStyle} direciton="row" alignItems="center">
+                                    <Typography id="modal-modal-description" sx={{mt: 2}}>
+                                        Please install the chrome extension &nbsp;
+                                        <a target="_blank"
+                                           href="https://chrome.google.com/webstore/detail/plug/cfbfdhimifdmdehjmkdobpcjfefblkjm">
+                                            Plug </a>
+                                        &nbsp; and create your IC wallet in advance for login.
+                                        (We use the wallet id as your only login credential.)
+                                    </Typography>
+                                    <Stack direction="row" mt={3} spacing={2} alignItems="center">
+                                        <GreenButton onClick={this.handleCloseInstallICWarning}>OK</GreenButton>
+                                    </Stack>
+                                </Stack>
+                            </Modal>
+                        </Stack>
+                    }
+                    {/*<Fade in={buttonFade} timeout={buttonDur}>*/}
+                    {/*    <AwesomeButton type="secondary">Join Now!!</AwesomeButton>*/}
+                    {/*</Fade>*/}
                 </Stack>
-            </Fade>
 
-            {/*<Stack*/}
-            {/*    direction="column"*/}
-            {/*    justifyContent="space-around"*/}
-            {/*    alignItems="center"*/}
-            {/*    spacing={2}*/}
-            {/*    className="overall-box"*/}
-            {/*>*/}
-            {/*    <Stack*/}
-            {/*        direction="row"*/}
-            {/*        justifyContent="space-around"*/}
-            {/*        alignItems="center"*/}
-            {/*        spacing={2}>*/}
-            {/*        <Stack className="main-title">*/}
-            {/*            Pet<br/>Love*/}
-            {/*        </Stack>*/}
-            {/*        <Stack className="main-title">*/}
-            {/*            <img src={img_back} alt="dogs"/>*/}
-            {/*        </Stack>*/}
-            {/*    </Stack>*/}
-            {/*    <Stack*/}
-            {/*        direction="row"*/}
-            {/*        justifyContent="space-around"*/}
-            {/*        alignItems="center"*/}
-            {/*        spacing={2}>*/}
-            {/*        <Stack className="introduction">*/}
-            {/*            In the pet love, you can share a cute pet with your lover.<br/>*/}
-            {/*            you can pick a new dog in our mall.<br/>*/}
-            {/*            It is unique as the only proof of your love.<br/>*/}
-            {/*            And its age will witness the length your love lasts.<br/>*/}
-            {/*            Now, start your love journey.<br/>*/}
-            {/*        </Stack>*/}
-            {/*        <Stack className="subtitle">*/}
-            {/*            A pet to witness love <br/>keep it with your lover*/}
-            {/*        </Stack>*/}
-            {/*    </Stack>*/}
-            {/*    <Stack>*/}
-            {/*        <AwesomeButton type="secondary">Join Now!!</AwesomeButton>*/}
-            {/*    </Stack>*/}
-            {/*</Stack>*/}
-        </Stack>)
+                {/*<Stack*/}
+                {/*    direction="row"*/}
+                {/*    justifyContent="center"*/}
+                {/*    alignItems="center"*/}
+                {/*    minHeight="10vh"*/}
+                {/*>*/}
+                {/*    {user == null &&*/}
+                {/*        <Stack>*/}
+                {/*            <AwesomeButton type="secondary" onPress={this.onClickLoginButton}>Join Now!!</AwesomeButton>*/}
+                {/*            <Modal*/}
+                {/*                open={this.state.isShowInstallICWarning}*/}
+                {/*                onClose={this.handleCloseInstallICWarning}*/}
+                {/*                aria-labelledby="modal-modal-title"*/}
+                {/*                aria-describedby="modal-modal-description"*/}
+                {/*            >*/}
+                {/*                <Stack sx={ModalStyle} direciton="row" alignItems="center">*/}
+                {/*                    <Typography id="modal-modal-description" sx={{mt: 2}}>*/}
+                {/*                        Please install the chrome extension &nbsp;*/}
+                {/*                        <a target="_blank"*/}
+                {/*                           href="https://chrome.google.com/webstore/detail/plug/cfbfdhimifdmdehjmkdobpcjfefblkjm">*/}
+                {/*                            Plug </a>*/}
+                {/*                        &nbsp; and create your IC wallet in advance for login.*/}
+                {/*                        (We use the wallet id as your only login credential.)*/}
+                {/*                    </Typography>*/}
+                {/*                    <Stack direction="row" mt={3} spacing={2} alignItems="center">*/}
+                {/*                        <GreenButton onClick={this.handleCloseInstallICWarning}>OK</GreenButton>*/}
+                {/*                    </Stack>*/}
+                {/*                </Stack>*/}
+                {/*            </Modal>*/}
+                {/*        </Stack>*/}
+                {/*    }*/}
+                {/*</Stack>*/}
+            </Stack>)
+    }
+
+    render = () => {
+        const {user, setUser} = this.context;
+        return (
+            <div>
+                {user && <ResponsiveAppBar/>}
+                <this.Body/>
+            </div>
+        )
+    }
 }
+
 export default Landing;

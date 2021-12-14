@@ -11,5 +11,8 @@ src/declarations/
 # DS_Store
 .DS_Store
 
+# idea
+.idea
 
-.idea/
+# generated when deploying to ic
+canister_ids.json

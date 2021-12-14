@@ -1,27 +1,23 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import GreenButton from '../../components/green-button';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import UserContext from "../../contexts/user-context";
+import { Principal } from '@dfinity/principal';
+import {PetLove} from "../../../../declarations/PetLove";
+import ModalStyle from "./modal-style";
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4
-};
+const style = ModalStyle;
 
 class PurchaseButton extends React.Component {
+  static contextType = UserContext;
+
   constructor(props) {
     super(props);
+
     this.state = {
       isOpenConfirm: false,
       isOpenEnterPartner: false,
@@ -54,9 +50,9 @@ class PurchaseButton extends React.Component {
     this.setState({txtPartnerAddress: event.target.value});
   };
 
-  handleSubmitPartnerAddress = () => {
+  handleSubmitPartnerAddress = async () => {
     this.setState({
-      isPurchaseSuccessful: this.validatePurchase(),
+      isPurchaseSuccessful: await this.validatePurchase(),
       isOpenPurchaseResult: true,
       isOpenEnterPartner: false
     })
@@ -64,10 +60,33 @@ class PurchaseButton extends React.Component {
   };
 
   // TODO: validate user balance and partner address
-  validatePurchase = () => {
-    if(this.state.txtPartnerAddress == "xxx") {
+  validatePurchase = async () => {
+    const { user } = this.context;
+
+    console.log(user);
+    console.log(user.principal);
+
+    if(user == null || user.principal == null || user.chosenPet == null) return false;
+
+    let mateAddress = this.state.txtPartnerAddress;
+    let matePrincipal = "";
+    try {
+      matePrincipal = Principal.fromText(mateAddress);
+    } catch(err) {
+      console.log("Failed to convert mateAddress: ", mateAddress);
+      return false;
+    }
+
+    const success = await PetLove.purchasePet(user.principal, matePrincipal, user.chosenPet.id);
+
+    if(success === true) {
+      console.log("purchase success.")
+      const profile = await PetLove.getUserProfile(user.principal);
+      console.log(profile);
       return true;
     }
+
+    console.log("purchase failed.");
     return false;
   };
 
@@ -131,7 +150,7 @@ class PurchaseButton extends React.Component {
               <Typography id="modal-modal-description" sx={{ mt: 2 }}>
                 {this.state.isPurchaseSuccessful ? 
                 "You have successfully adopted the pet! Go to the personal center to check it out." 
-                : "Adoption failed, probably you already have a pet with your partner or your balance is not enough."}
+                : "Failed to adopt, please check the wallet address again. Probably you already have a pet with your partner or your balance is not enough."}
               </Typography>
               &nbsp;
               <Stack direction="row" spacing={2} alignItems="center">
@@ -142,6 +161,6 @@ class PurchaseButton extends React.Component {
       </div>
     );
   }
-};
+}
 
 export default PurchaseButton;
