@@ -230,18 +230,20 @@ class Landing extends React.Component {
                             {/*<br/>keep it with your lover<br/>*/}
                         </Stack>
                     </Fade>
-                    <Fade in={this.state.arrowFade} timeout={this.state.arrowDur}>
-                        <Stack
-                            direction="row"
-                            justifyContent="center"
-                            alignItems="center"
-                            spacing={2}
-                        >
-                            <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
-                            <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
-                            <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
-                        </Stack>
-                    </Fade>
+                    {user == null &&
+                        <Fade in={this.state.arrowFade} timeout={this.state.arrowDur}>
+                            <Stack
+                                direction="row"
+                                justifyContent="center"
+                                alignItems="center"
+                                spacing={2}
+                            >
+                                <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
+                                <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
+                                <Stack><ExpandCircleDownTwoToneIcon color="primary" fontSize="large"/></Stack>
+                            </Stack>
+                        </Fade>
+                    }
                 </Stack>
                 <Stack
                     direction="row"
@@ -279,7 +281,7 @@ class Landing extends React.Component {
                             </Modal>
                             <Modal
                                 open={this.state.isShowLoginLoading}
-                                onClose={this.handleOpenLoginLoading}
+                                onClose={this.handleCloseLoginLoading}
                                 aria-labelledby="modal-modal-title"
                                 aria-describedby="modal-modal-description"
                             >
