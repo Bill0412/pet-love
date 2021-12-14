@@ -17,6 +17,7 @@ import Modal from "@mui/material/Modal";
 import ModalStyle from "../mall/components/modal-style";
 import {useState} from "react";
 import {Fade, Zoom} from "@mui/material";
+import LoadingAnimation from "../components/loading-animation";
 
 class Landing extends React.Component {
     static contextType = UserContext;
@@ -26,6 +27,7 @@ class Landing extends React.Component {
 
         this.state = {
             isShowInstallICWarning: false,
+            isShowLoginLoading: false,
             introductionFade: false,
             subtitleFade: false,
             arrowFade: false,
@@ -86,10 +88,22 @@ class Landing extends React.Component {
     }
 
     handleCloseInstallICWarning = () => {
-        this.setState({isShowInstallICWarning: false});
+        this.setState({isShowInstallICWarning: false, isShowLoginLoading: false});
     };
 
+    handleOpenLoginLoading = () => {
+        this.setState({isShowLoginLoading: true});
+    }
+
+    handleCloseLoginLoading = () => {
+        this.setState({isShowLoginLoading: false});
+    }
+
+    // TODO: fix when the user declines to connect with IC wallet, which error is generated asynchronously
     onClickLoginButton = async () => {
+        // Show loading when the user is trying to allow connecting to IC wallet
+        this.handleOpenLoginLoading();
+
         // This is an official canister for user verification
         const nnsCanisterId = 'qoctq-giaaa-aaaaa-aaaea-cai'
         const whitelist = [nnsCanisterId];
@@ -150,6 +164,7 @@ class Landing extends React.Component {
         // in case the DOM refreshes
         sessionStorage.setItem("principal", principal.toText());
 
+        this.handleCloseLoginLoading();
     }
 
     Body = () => {
@@ -260,6 +275,16 @@ class Landing extends React.Component {
                                     <Stack direction="row" mt={3} spacing={2} alignItems="center">
                                         <GreenButton onClick={this.handleCloseInstallICWarning}>OK</GreenButton>
                                     </Stack>
+                                </Stack>
+                            </Modal>
+                            <Modal
+                                open={this.state.isShowLoginLoading}
+                                onClose={this.handleOpenLoginLoading}
+                                aria-labelledby="modal-modal-title"
+                                aria-describedby="modal-modal-description"
+                            >
+                                <Stack sx={ModalStyle} direciton="row" alignItems="center">
+                                    <LoadingAnimation />
                                 </Stack>
                             </Modal>
                         </Stack>

@@ -83,7 +83,7 @@ class RandomPetContent extends React.Component {
         return (
             <div>
             {
-                this.state.pet ? <this.Body /> : <LoadingAnimation />
+                this.state.pet ? <this.Body /> : <Stack mt={10} mb={100}><LoadingAnimation /></Stack>
             }
             </div>
 
