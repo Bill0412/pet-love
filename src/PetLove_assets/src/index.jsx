@@ -9,10 +9,9 @@ import Login from "./login";
 import RandomPet from "./mall/random-pet";
 import PetMarket from "./mall/pet-market";
 import Pcenter from "./personal/Pcenter";
-import Landing2 from "./Landing/Landing";
+import Landing from "./Landing/Landing";
 import Circle from "./components/backgournd/Circle";
 import Footer from "./components/footer";
-import ResponsiveAppBar from "./components/app-bar";
 import {Slide} from "@mui/material";
 import {useEffect, useState} from "react";
 import TestPage from "./test";
@@ -33,17 +32,12 @@ const App = () => {
     return (
         <UserContext.Provider value={userValue}>
             <Router>
-                <Slide in={Boolean(true)} unmountOnExit mountOnEnter direction="down" timeout={2500}>
-                    <div>
-                        <ResponsiveAppBar/>
-                    </div>
-                </Slide>
                 <Routes>
-                    <Route exact path="/" element={<Landing2/>}/>
+                    <Route exact path="/" element={<Landing/>}/>
                     <Route exact path="/random_pet" element={<RandomPet/>}/>
                     <Route exact path="/pet_market" element={<PetMarket/>}/>
                     <Route exact path="/personal" element={<Pcenter login={true}/>}/>
-                    <Route exact path="/landing" element={<Landing2/>}/>
+                    <Route exact path="/landing" element={<Landing/>}/>
                     <Route exact path="/test" element={<TestPage/>}/>
                 </Routes>
             </Router>

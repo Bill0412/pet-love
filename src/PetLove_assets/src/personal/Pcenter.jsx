@@ -19,6 +19,7 @@ const Pcenter = (props) => {
     )
     return (
         <div>
+            <ResponsiveAppBar/>
             {login ?
                 (<Grid container spacing={-10}>
                     <Slide in={Boolean(login)} unmountOnExit mountOnEnter direction="right" timeout={800}>

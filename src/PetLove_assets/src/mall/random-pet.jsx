@@ -93,9 +93,10 @@ class RandomPetContent extends React.Component {
 
 const RandomPet = () => {
   return (
-    <div>
-      <RandomPetContent />
-    </div>
+      <div>
+        <ResponsiveAppBar/>
+        <RandomPetContent />
+      </div>
   );
 }
 

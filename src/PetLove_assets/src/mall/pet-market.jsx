@@ -64,9 +64,10 @@ const PetMarketContent = () => {
 
 const PetMarket = () => {
   return (
-    <div>
-      <PetMarketContent />
-    </div>
+      <div>
+          <ResponsiveAppBar/>
+          <PetMarketContent />
+      </div>
   );
 };
 
