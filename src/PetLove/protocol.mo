@@ -28,23 +28,8 @@ module Protocol {
         private var nfts = HashMap.HashMap<TokenId, TokenMeta>(1, Text.equal, Text.hash);
         private var users = HashMap.HashMap<Principal, UserProfile>(1, Principal.equal, Principal.hash);
         private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Text.equal, Text.hash);
-
-        // Utils for Tokens.
         private var tokenUtil = Utils.TokenUtil();
-
-        // stable var db_nfts : [(TokenId, TokenMeta)] = [];
-        // stable var db_users : [(Principal, UserProfile)] = [];
-        // stable var db_nftToOwners : [(TokenId, List.List<Principal>)] = [];
-
-        // ///mapping from nft to approced principal
-        // private var nftToApproval = HashMap.HashMap<TokenId,Principal>(1,Types.equal,Types.hash);
-        // private var ownerToOperators = HashMap.HashMap<Principal,HashMap.HashMap<Principal,Bool>>(1,Principal.equal,Principal.hash);
-        // ///mapping from owner to their token count
-        // private var ownerToNftCount = HashMap.HashMap<Principal,Nat>(1,Principal.equal,Principal.hash);
-        // ///mapping from owner to their nft tokenId
-        // private var tokens = HashMap.HashMap<Principal,[var TokenId]>(1,Principal.equal,Principal.hash);
         
-
         public func getnfts() : [(TokenId, TokenMeta)] {
             return Iter.toArray(nfts.entries());
         };
@@ -165,7 +150,6 @@ module Protocol {
             var list2 = List.push<Principal>(user1, list1);
             var list3 = List.push<Principal>(user2, list2);
             nftToOwners.put(tokenId, list3);
-            //TODO
             //update users
             users.delete(_unwrap(owner1));
             users.delete(_unwrap(owner2));
