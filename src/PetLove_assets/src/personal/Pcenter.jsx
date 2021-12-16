@@ -25,6 +25,7 @@ import ModalStyle from "../mall/components/modal-style";
 import Typography from '@mui/material/Typography';
 import GreenButton from "../components/green-button";
 import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 
 
 class Pcenter extends React.Component {
@@ -57,20 +58,29 @@ class Pcenter extends React.Component {
             }));
             console.log("loaded principal from session storage")
             console.log(user)
+            console.log(principal)
 
             const userProfiles = await PetLove.getUserProfile(principal);
+            console.log(userProfiles);
 
             if(userProfiles.length === 0) {
                 console.log("No user profile is found.");
+                this.setState({
+                    isDataLoaded: true,
+                    petProfile: null
+                })
                 return;
             }
 
             const userProfile = userProfiles[0];
             const petProfiles = await PetLove.getPetProfile(userProfile.tokenId[0]);
 
-            console.log(userProfile);
-            console.log(petProfiles);
-            console.log(userProfile.mate[0].toText());
+            if(petProfiles.length === 0) {
+                console.log("Not pet profile is found for the user.");
+
+                // this.setState({isUserOwnPet: false});
+                return;
+            }
 
 
             this.setState({
@@ -298,7 +308,8 @@ class Pcenter extends React.Component {
                                     this.setState({
                                         txtInfoMsg: "Successfully abandoned the pet, you don't have a pet now.",
                                         isShowInfoMsg: true,
-                                        isShowAbandonPrompt: false
+                                        isShowAbandonPrompt: false,
+                                        petProfile: null
                                     });
 
                                     return;
@@ -428,12 +439,22 @@ class Pcenter extends React.Component {
         );
     }
 
+    NoPetPrompt = () => {
+        return (
+            <Box mt={5} mb={100} justifyContent="center">
+                <div>You don't have any pet now, you may consider adopt or buy one.</div>
+            </Box>
+        )
+    }
+
     render() {
         return (
             <div>
                 <ResponsiveAppBar />
                 {
-                    this.state.isDataLoaded ? <this.Body /> : <Stack mt={10} mb={100}><LoadingAnimation /></Stack>
+                    this.state.isDataLoaded ? 
+                    (this.state.petProfile ? <this.Body /> : <this.NoPetPrompt />)
+                    : <Stack mt={10} mb={100}><LoadingAnimation /></Stack> 
                 }
 
             </div>
