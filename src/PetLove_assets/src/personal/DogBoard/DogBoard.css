@@ -4,7 +4,7 @@
 
 
 .div-background {
-    background-image: url("./static/dogPortrait1.png");
+    /*background-image: url("./static/dogPortrait1.png");*/
     background-position: center;
     background-repeat: no-repeat;
     width: 489px;

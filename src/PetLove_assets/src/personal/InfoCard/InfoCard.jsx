@@ -5,7 +5,7 @@ import "react-sweet-progress/lib/style.css";
 import './InfoCard.css';
 import Grid from "@mui/material/Grid";
 
-// This file is deprecated and InfoCard component is moed to Pcenter.jsx
+// This file is deprecated and InfoCard component is moved to Pcenter.jsx
 
 // const InfoCard1 = () => {
 //     const falseDate = new Date()

@@ -14,6 +14,8 @@ import * as React from "react";
 import {Fade} from "@mui/material";
 import './DogBoard.css';
 
+// This file is deprecated and the component is moved to Pcenter.jsx
+
 const DogBoard = () => {
     const [happiness, happinessChanger] = useState(23)
     const [fadeIn, setFadeIn] = useState(false)

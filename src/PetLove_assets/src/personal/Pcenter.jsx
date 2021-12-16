@@ -5,14 +5,21 @@ import './Pcenter.css';
 import "react-sweet-progress/lib/style.css";
 import Grid from "@mui/material/Grid";
 import 'react-tiny-fab/dist/styles.css';
-import DogBoard from "./DogBoard/DogBoard";
-import {Slide} from "@mui/material";
+import {Fade, Slide} from "@mui/material";
 import {Principal} from "@dfinity/principal";
 import UserContext from "../contexts/user-context";
 import {PetLove} from "../../../declarations/PetLove";
 import LoadingAnimation from "../components/loading-animation";
 import Stack from "@mui/material/Stack";
-import "./InfoCard/InfoCard.css"
+import "./InfoCard/InfoCard.css";
+import "./DogBoard/DogBoard.css";
+import {useEffect, useState} from "react";
+import {Action, Fab} from "react-tiny-fab";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
+import SmartToyIcon from "@mui/icons-material/SmartToy";
+import {Progress} from "react-sweet-progress";
+import {AwesomeButton} from "react-awesome-button";
+import itemData from "../mall/item-data";
 
 
 class Pcenter extends React.Component {
@@ -61,6 +68,116 @@ class Pcenter extends React.Component {
             })
         }
         // TODO: redirect to login otherwise
+    }
+
+    DogBoard = () => {
+        const [happiness, happinessChanger] = useState(23)
+        const [fadeIn, setFadeIn] = useState(false)
+        const btnStyle = {
+            "--button-default-height": "27px",
+            "--button-default-font-size": "16px",
+            "--button-default-border-radius": "25px",
+            "--button-horizontal-padding": "24px",
+            "--button-raise-level": "5px",
+        }
+        const progressTheme = {
+            success: {
+                symbol: '🏄‍',
+                color: 'rgb(223, 105, 180)'
+            },
+            active: {
+                symbol: '😀',
+                color: '#fbc630'
+            },
+            default: {
+                symbol: '😱',
+                color: '#fbc630'
+            }
+        }
+        useEffect(() => {
+            setInterval(() => {
+                setFadeIn(true)
+            }, 1000)
+            // console.log(styles)
+        }, [])
+        return (
+            <Stack
+                direction="column"
+                justifyContent="center"
+                alignItems="center"
+                height="80vh"
+                maxWidth="50vw"
+                spacing={1}
+                className="dog-back"
+            >
+
+                <div className="div-background"
+                     style={{backgroundImage: "url(" + itemData[parseInt(this.state.petProfile.image)].img +")"}}>
+                    <Fade timeout={2000} in={fadeIn}>
+                        <div>
+                            <Fab
+                                // mainButtonStyles={mainButtonStyles}
+                                // actionButtonStyles={actionButtonStyles}
+                                // style={styles.floatBtn}
+                                icon={<div>+</div>}
+                                // event={event}
+                                alwaysShowTitle={true}
+                                onClick={() => {
+                                    console.log("Fab clicked")
+                                }}
+                                style={{position: "absolute", bottom: "-20%", right: "-20%"}}
+                            >
+                                // The Action components are the "buttons" that appear when the Fab is open. You can use the
+                                out-of-the-box Action
+                                // component or you can use a custom component of any type and style it any way that you'd
+                                like. The "text" prop
+                                // is the popup label that appears when the Action component is hovered.
+                                <Action
+                                    text="Feed"
+                                    onClick={() => {
+                                        console.log("Action Feed clicked")
+                                    }}
+                                >
+                                    <RestaurantIcon/>
+                                </Action>
+                                <Action
+                                    text="Pet"
+                                    onClick={() => {
+                                        console.log("Action Pet Clicked")
+                                    }}
+                                >
+                                    <SmartToyIcon/>
+                                </Action>
+                            </Fab>
+                        </div>
+                    </Fade>
+                </div>
+                <Fade in={fadeIn} timeout={2000}>
+                    <div className="div-progress">
+                        <Progress percent={20}/>
+                    </div>
+                </Fade>
+                <Fade in={fadeIn} timeout={2000}>
+                    <div className="div-button">
+                        <div className="div-subButton-left">
+                            <AwesomeButton
+                                type="primary"
+                                style={btnStyle}
+                                size="large"
+                            >Sell</AwesomeButton>
+                        </div>
+                        <div className="div-subButton-right">
+                            <AwesomeButton
+                                type="primary"
+                                style={btnStyle}
+                                size="large"
+                            >Drop</AwesomeButton>
+                        </div>
+                    </div>
+                </Fade>
+
+            </Stack>
+        )
     }
 
     InfoCard = () => {
@@ -114,7 +231,7 @@ class Pcenter extends React.Component {
                 <Grid container>
                     <Slide in={isLoggedIn} unmountOnExit mountOnEnter direction="right" timeout={800}>
                         <Grid item md={6} sm={12} xs={12} className="column">
-                            <DogBoard/>
+                            <this.DogBoard/>
                         </Grid>
                     </Slide>
 
