@@ -1,55 +1,28 @@
 import * as React from "react";
 import {PetLove, idlFactory} from "../../declarations/PetLove";
-import {IDL} from "@dfinity/candid";
 
 const TestPage = () => {
 
     const [principal, setPrincipal] = React.useState();
     const [pet, setPet] = React.useState();
+    const [actor, setActor] = React.useState();
 
     let onClickLoginButton = async () => {
-        const nnsCanisterId = 'qoctq-giaaa-aaaaa-aaaea-cai'
-        const whitelist = [nnsCanisterId];
+        const backendCanisterId = 'szbmr-7yaaa-aaaai-abaoa-cai'
+        const whitelist = [backendCanisterId];
 
         // Initialise Agent, expects no return value
         await window?.ic?.plug?.requestConnect({
             whitelist,
         });
 
-        // A partial Interface factory
-        // for the NNS Canister UI
-        // Check the `plug authentication - nns` for more
-        const nnsPartialInterfaceFactory = ({ IDL }) => {
-            const BlockHeight = IDL.Nat64;
-            const Stats = IDL.Record({
-                'latest_transaction_block_height' : BlockHeight,
-                'seconds_since_last_ledger_sync' : IDL.Nat64,
-                'sub_accounts_count' : IDL.Nat64,
-                'hardware_wallet_accounts_count' : IDL.Nat64,
-                'accounts_count' : IDL.Nat64,
-                'earliest_transaction_block_height' : BlockHeight,
-                'transactions_count' : IDL.Nat64,
-                'block_height_synced_up_to' : IDL.Opt(IDL.Nat64),
-                'latest_transaction_timestamp_nanos' : IDL.Nat64,
-                'earliest_transaction_timestamp_nanos' : IDL.Nat64,
-            });
-            return IDL.Service({
-                'get_stats' : IDL.Func([], [Stats], ['query']),
-            });
-        };
-
         // Create an actor to interact with the NNS Canister
         // we pass the NNS Canister id and the interface factory
-        const NNSUiActor = await window.ic.plug.createActor({
-            canisterId: nnsCanisterId,
-            interfaceFactory: nnsPartialInterfaceFactory,
+        const backendActor = await window.ic.plug.createActor({
+            canisterId: backendCanisterId,
+            interfaceFactory: idlFactory,
         });
-
-        // We can use any method described in the Candid (IDL)
-        // for example the get_stats()
-        // See https://github.com/dfinity/nns-dapp/blob/cd755b8/canisters/nns_ui/nns_ui.did
-        const stats = await NNSUiActor.get_stats();
-        console.log('NNS stats', stats);
+        setActor(backendActor);
 
         // Get the user principal id
         const principalId = await window.ic.plug.agent.getPrincipal();
@@ -69,7 +42,7 @@ const TestPage = () => {
     }
 
     let onGetUserProfile = async () => {
-        const userProfile = await PetLove.getUserProfile(principal);
+        const userProfile = await actor.getUserProfile(principal);
         console.log(userProfile);
     }
 
@@ -81,7 +54,7 @@ const TestPage = () => {
             param = [pet.id];
         }
 
-        const petProfile = await PetLove.randomGeneratePet(param);
+        const petProfile = await actor.randomGeneratePet(param);
         console.log(petProfile);
 
         if(petProfile != null) {
@@ -93,12 +66,12 @@ const TestPage = () => {
         if(principal == null || pet == null) {
             console.log("not login yet or no pet yet.");
         } else {
-            const success = await PetLove.abandonPet(pet.id);
+            const success = await actor.abandonPet(pet.id);
             if(success === true) {
                 console.log("abandon success.")
-                const userProfile = await PetLove.getUserProfile(principal);
+                const userProfile = await actor.getUserProfile(principal);
                 console.log(userProfile);
-                const petProfile = await PetLove.getPetProfile(pet.id);
+                const petProfile = await actor.getPetProfile(pet.id);
                 console.log(petProfile);
             } else {
                 console.log("abandon failed.")
@@ -110,12 +83,12 @@ const TestPage = () => {
         if(principal == null || pet == null) {
             console.log("not login yet or no pet yet.");
         } else {
-            const success = await PetLove.sellPet(pet.id, BigInt(400));
+            const success = await actor.sellPet(pet.id, BigInt(400));
             if(success === true) {
                 console.log("sell success.")
-                const userProfile = await PetLove.getUserProfile(principal);
+                const userProfile = await actor.getUserProfile(principal);
                 console.log(userProfile);
-                const petProfile = await PetLove.getPetProfile(pet.id);
+                const petProfile = await actor.getPetProfile(pet.id);
                 console.log(petProfile);
             } else {
                 console.log("sell failed.")
@@ -127,10 +100,10 @@ const TestPage = () => {
         if(principal == null || pet == null) {
             console.log("not login yet or no pet yet.");
         } else {
-            const success = await PetLove.purchasePet(principal, principal, pet.id);
+            const success = await actor.purchasePet(principal, principal, pet.id);
             if(success === true) {
                 console.log("purchase success.")
-                const profile = await PetLove.getUserProfile(principal);
+                const profile = await actor.getUserProfile(principal);
                 console.log(profile);
             } else {
                 console.log("purchase failed.")
@@ -142,7 +115,7 @@ const TestPage = () => {
         if (pet == null) {
             console.log("no pet yet.");
         } else {
-            const petProfile = await PetLove.getPetProfile(pet.id);
+            const petProfile = await actor.getPetProfile(pet.id);
             if(petProfile == null) {
                 console.log("pet not exists.")
             } else {
@@ -155,19 +128,19 @@ const TestPage = () => {
         if(principal == null || pet == null) {
             console.log("not login yet or no pet yet.");
         } else {
-            var success1 = await PetLove.interactWithPet(pet.id, {feed: null})
+            var success1 = await actor.interactWithPet(pet.id, {feed: null})
             if(success1 === true) {
                 console.log("feed success.")
-                const profile = await PetLove.getPetProfile(pet.id);
+                const profile = await actor.getPetProfile(pet.id);
                 console.log(profile);
             } else {
                 console.log("feed failed.")
             }
 
-            var success2 = await PetLove.interactWithPet(pet.id, {play: null})
+            var success2 = await actor.interactWithPet(pet.id, {play: null})
             if(success2 === true) {
                 console.log("play success.")
-                const profile = await PetLove.getPetProfile(pet.id);
+                const profile = await actor.getPetProfile(pet.id);
                 console.log(profile);
             } else {
                 console.log("play failed.")
@@ -176,7 +149,7 @@ const TestPage = () => {
     }
 
     let onGetAllPetOnSelling = async () => {
-        var list = await PetLove.getAllPetsOnSelling();
+        var list = await actor.getAllPetsOnSelling();
         console.log(list);
     }
 
