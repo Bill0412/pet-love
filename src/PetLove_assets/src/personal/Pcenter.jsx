@@ -24,6 +24,7 @@ import Modal from '@mui/material/Modal';
 import ModalStyle from "../mall/components/modal-style";
 import Typography from '@mui/material/Typography';
 import GreenButton from "../components/green-button";
+import TextField from '@mui/material/TextField';
 
 
 class Pcenter extends React.Component {
@@ -34,10 +35,12 @@ class Pcenter extends React.Component {
         petProfile: null,
         principalMate: null,
         isDataLoaded: false,
-        isShowFeedSuccess: false,
-        isShowPlaySuccess: false,
         isShowDepressed: false,
-        isShowAbandonPrompt: false
+        isShowAbandonPrompt: false,
+        isShowSellPrompt: false,
+        isShowSellPriceSet: false,
+        txtSellPrice: "",
+        isShowInfoMsg: false
     }
 
     constructor(props) {
@@ -153,7 +156,8 @@ class Pcenter extends React.Component {
                                             await PetLove.interactWithPet(this.state.petProfile.id, {feed: null});
                                         if(success) {
                                             this.setState({
-                                                isShowFeedSuccess: true
+                                                isShowInfoMsg: true,
+                                                txtInfoMsg: "Thanks for feeding me! I'm growing faster and happier!"
                                             })
                                             await this.updatePetProfile();
                                         }
@@ -168,7 +172,8 @@ class Pcenter extends React.Component {
                                             await PetLove.interactWithPet(this.state.petProfile.id, {play: null});
                                         if(success) {
                                             this.setState({
-                                                isShowPlaySuccess: true
+                                                isShowInfoMsg: true,
+                                                txtInfoMsg: "Thanks for playing with me! I'm growing happier!"
                                             })
                                             await this.updatePetProfile();
                                         }
@@ -192,6 +197,9 @@ class Pcenter extends React.Component {
                                 type="primary"
                                 style={btnStyle}
                                 size="large"
+                                onPress={() => {
+                                    this.setState({isShowSellPrompt: true});
+                                }}
                             >Sell</AwesomeButton>
                         </div>
                         <div className="div-subButton-right">
@@ -270,43 +278,7 @@ class Pcenter extends React.Component {
                             <this.InfoCard />
                         </Grid>
                     </Slide>
-                </Grid>
-                <Modal
-                    open={this.state.isShowFeedSuccess}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                    >
-                    <Stack sx={ModalStyle} direciton="row" alignItems="center">
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            Thanks for feeding me! I'm growing faster and happier!
-                        </Typography>
-                        <Stack direction="row" mt={3} spacing={2} alignItems="center">
-                            <GreenButton onClick={() => {
-                                this.setState({isShowFeedSuccess: false});
-                            }}>
-                                OK!
-                            </GreenButton>
-                        </Stack>
-                    </Stack>
-                </Modal>
-                <Modal
-                    open={this.state.isShowPlaySuccess}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                    >
-                    <Stack sx={ModalStyle} direciton="row" alignItems="center">
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            Thanks for playing with me! I'm growing happier!
-                        </Typography>
-                        <Stack direction="row" mt={3} spacing={2} alignItems="center">
-                            <GreenButton onClick={() => {
-                                this.setState({isShowPlaySuccess: false});
-                            }}>
-                                OK
-                            </GreenButton>
-                        </Stack>
-                    </Stack>
-                </Modal>
+                </Grid>    
                 <Modal
                     open={this.state.isShowAbandonPrompt}
                     aria-labelledby="modal-modal-title"
@@ -322,6 +294,14 @@ class Pcenter extends React.Component {
 
                                 if(success) {
                                     // TODO: redirect to pet market or refresh the page
+
+                                    this.setState({
+                                        txtInfoMsg: "Successfully abandoned the pet, you don't have a pet now.",
+                                        isShowInfoMsg: true,
+                                        isShowAbandonPrompt: false
+                                    });
+
+                                    return;
                                 }
 
                                 this.setState({isShowAbandonPrompt: false});
@@ -332,6 +312,114 @@ class Pcenter extends React.Component {
                                 this.setState({isShowAbandonPrompt: false});
                             }}>
                                 Quit
+                            </GreenButton>
+                        </Stack>
+                    </Stack>
+                </Modal>
+                <Modal
+                    open={this.state.isShowSellPrompt}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    >
+                    <Stack sx={ModalStyle} direciton="row" alignItems="center">
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            We don't want you to give up any pet. If you insist, you pet will be on sell in market.
+                        </Typography>
+                        <Stack direction="row" mt={3} spacing={2} alignItems="center">
+                            <GreenButton onClick={async () => {
+                                this.setState({
+                                    isShowSellPrompt: false,
+                                    isShowSellPriceSet: true
+                                });
+                            }}>
+                                I Insist
+                            </GreenButton>
+                            <GreenButton onClick={() => {
+                                this.setState({isShowSellPrompt: false});
+                            }}>
+                                Quit
+                            </GreenButton>
+                        </Stack>
+                    </Stack>
+                </Modal>
+                <Modal
+                    open={this.state.isShowSellPriceSet}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    >
+                    <Stack sx={ModalStyle} direciton="row" alignItems="center">
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            <Stack orientation="column" spacing={2}>
+                                <div>How much do you want to sell it?</div>
+                                <Stack orientation="row" spacing={2} justifyContent="center" alignItems="center">
+                                    <TextField
+                                        size="small"
+                                        required
+                                        // fullWidth
+                                        id="outlined-required"
+                                        onChange={(event) => {
+                                            this.setState({txtSellPrice: event.target.value});
+                                        }}
+                                    />
+                                    <div>icp</div>
+                                </Stack>
+                            </Stack>
+                        </Typography>
+                        <Stack direction="row" mt={3} spacing={2} alignItems="center">
+                            <GreenButton onClick={async () => {
+                                let price = 0;
+                                try {
+                                    price = parseInt(this.state.txtSellPrice);
+                                } catch (err) {
+                                    this.setState({
+                                        isShowInfoMsg: true,
+                                        txtMsg: "Please make sure you entened correct message.",
+                                        isShowSellPriceSet: false
+                                    });
+
+                                    return;
+                                }
+
+                                const success = await PetLove.sellPet(this.state.petProfile.id, BigInt(price));
+
+                                if (success) {
+                                    this.setState({
+                                        isShowInfoMsg: true,
+                                        txtInfoMsg: "Your pet is now on sell!",
+                                        isShowSellPriceSet: false
+                                    })
+                                } else {
+                                    this.setState({
+                                        isShowInfoMsg: true,
+                                        txtInfoMsg: "Unable to sell your pet, please try again later.",
+                                        isShowSellPriceSet: false
+                                    })
+                                }
+                            }}>
+                                I Insist
+                            </GreenButton>
+                            <GreenButton onClick={() => {
+                                this.setState({isShowSellPriceSet: false});
+                            }}>
+                                Quit
+                            </GreenButton>
+                        </Stack>
+                    </Stack>
+                </Modal>
+                <Modal
+                    open={this.state.isShowInfoMsg}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    >
+                    <Stack sx={ModalStyle} direciton="row" alignItems="center">
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            {this.state.txtInfoMsg}
+                        </Typography>
+                        <Stack direction="row" mt={3} spacing={2} alignItems="center">
+                            <GreenButton onClick={() => {
+                                this.setState({isShowInfoMsg: false});
+                            }}>
+                                OK
                             </GreenButton>
                         </Stack>
                     </Stack>
