@@ -21,7 +21,10 @@ import Utils "./utils";
 // Shared NFT Protocol
 module Shared_NFT_Protocol {
 
-    public class snp {
+    public class snp (_maxUsers : Nat, _maxTokens : Nat) {
+
+        let maxUsers = _maxUsers;
+        let maxTokens = _maxTokens;
 
         public type TokenMeta = Types.TokenMeta;
         public type UserMeta = Types.UserMeta;
@@ -87,7 +90,7 @@ module Shared_NFT_Protocol {
             return Iter.toArray(tokens.vals());
         };
 
-        public func transfer (fromRoot : Hash.Hash, token : Text) : Bool {
+        public func transfer ([] : Hash.Hash, token : Text) : Bool {
 
         };
 
