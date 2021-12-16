@@ -49,20 +49,12 @@ shared(msg) actor class PetLove(creator: Principal) {
         Debug.print("Postupgrade Done!");
     };
 
-    public shared(msg) func getUserProfile(user : Principal) : async (?UserProfile) {
-        //assert(user == msg.caller)
-        return protocol.getUserProfile(user);
-        // var tokenId : ?TokenId =  protocol.getNFTByOwner(user);
-        // var mate : ?Principal = mates.get(user);
-        
-        // let res : UserProfile = {
-        //     id = user;
-        //     mate = mate;
-        //     tokenId = tokenId;
-        // };
+    public shared(msg) func getUserProfile() : async (?UserProfile) {
+        return protocol.getUserProfile(msg.caller);
     };
 
     public shared(msg) func getPetProfile(id : TokenId) : async (?PetProfile) {
+        assert(protocol.canAccess(msg.caller, id));
         var pet : ?TokenMeta =  protocol.getNFTByToken(id);
         switch (pet) {
             case (?pet) {
@@ -84,12 +76,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func sellPet(id : TokenId, price : Nat) : async (Bool) {
-        // don't have access for this pet
-        // let hasAccess : Bool =  protocol.canAccess(msg.caller, id);
-        // if ( hasAccess == false ){
-        //     return false;
-        // };
-
+        assert(protocol.canAccess(msg.caller, id));
         var pet : ?TokenMeta =  protocol.getNFTByToken(id); 
         switch (pet) {
             case (?pet) {
@@ -106,12 +93,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func interactWithPet(id : TokenId, action : ActionType) : async (Bool) {
-        // don't have access for this pet
-        // let hasAccess : Bool =  protocol.canAccess(msg.caller, id);
-        // if ( hasAccess == false ){
-        //     return false;
-        // };
-
+        assert(protocol.canAccess(msg.caller, id));
         switch (action) {
             case (#play) {
                 playPet(id);
@@ -153,12 +135,13 @@ shared(msg) actor class PetLove(creator: Principal) {
         return res;
     };
 
-    public shared(msg) func purchasePet(user : Principal, mate : Principal, pet : TokenId) : async (Bool) {
-        let res : Bool = protocol.transferNFT(user, mate, pet);
+    public shared(msg) func purchasePet(mate : Principal, pet : TokenId) : async (Bool) {
+        let res : Bool = protocol.transferNFT(msg.caller, mate, pet);
         return res;
     };
 
     public shared(msg) func abandonPet(pet : TokenId) : async (Bool) {
+        assert(protocol.canAccess(msg.caller, pet));
         let res : Bool = protocol.destroyNFT(pet);
         return res;
     };
@@ -192,6 +175,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
     
     private func playPet(id : TokenId) : () {
+        assert(protocol.canAccess(msg.caller, id));
         var pet : ?TokenMeta =  protocol.getNFTByToken(id); 
         switch (pet) {
             case (?pet) {
@@ -206,6 +190,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     private func feedPet(id : TokenId) : () {
+        assert(protocol.canAccess(msg.caller, id));
         var pet : ?TokenMeta =  protocol.getNFTByToken(id); 
         switch (pet) {
             case (?pet) {

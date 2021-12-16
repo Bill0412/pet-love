@@ -191,20 +191,6 @@ module Protocol {
             }
         };
 
-        // private func canTransfer (user1 : Principal, user2 : Principal, tokenId : TokenId) {
-        //     var _userProfile : ?UserProfile =  getUserProfile(user);
-        //     switch (_userProfile) {
-        //         case (null) {
-        //             return false;
-        //         };
-        //         case (_) {
-        //         };
-        //     };
-        //     assert (user1 != user2);
-        //     if (users.get(user1) == null);
-        //     assert (users.get(user2) == null);
-        // };
-
         private func _unwrap<T>(x : ?T) : T =
             switch x {
                 case null { P.unreachable() };
