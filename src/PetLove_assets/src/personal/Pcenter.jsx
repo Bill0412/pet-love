@@ -36,7 +36,8 @@ class Pcenter extends React.Component {
         isDataLoaded: false,
         isShowFeedSuccess: false,
         isShowPlaySuccess: false,
-        isShowDepressed: false
+        isShowDepressed: false,
+        isShowAbandonPrompt: false
     }
 
     constructor(props) {
@@ -198,11 +199,13 @@ class Pcenter extends React.Component {
                                 type="primary"
                                 style={btnStyle}
                                 size="large"
+                                onPress={() => {
+                                    this.setState({isShowAbandonPrompt: true});
+                                }}
                             >Drop</AwesomeButton>
                         </div>
                     </div>
                 </Fade>
-
             </Stack>
         )
     }
@@ -300,6 +303,35 @@ class Pcenter extends React.Component {
                                 this.setState({isShowPlaySuccess: false});
                             }}>
                                 OK
+                            </GreenButton>
+                        </Stack>
+                    </Stack>
+                </Modal>
+                <Modal
+                    open={this.state.isShowAbandonPrompt}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    >
+                    <Stack sx={ModalStyle} direciton="row" alignItems="center">
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            We don't want you to give up any pet. If you insist, you pet will be destroyed and lost forever.
+                        </Typography>
+                        <Stack direction="row" mt={3} spacing={2} alignItems="center">
+                            <GreenButton onClick={async () => {
+                                const success = await PetLove.abandonPet(this.state.petProfile.id);
+
+                                if(success) {
+                                    // TODO: redirect to pet market or refresh the page
+                                }
+
+                                this.setState({isShowAbandonPrompt: false});
+                            }}>
+                                I Insist
+                            </GreenButton>
+                            <GreenButton onClick={() => {
+                                this.setState({isShowAbandonPrompt: false});
+                            }}>
+                                Quit
                             </GreenButton>
                         </Stack>
                     </Stack>
