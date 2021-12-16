@@ -20,15 +20,23 @@ import SmartToyIcon from "@mui/icons-material/SmartToy";
 import {Progress} from "react-sweet-progress";
 import {AwesomeButton} from "react-awesome-button";
 import itemData from "../mall/item-data";
+import Modal from '@mui/material/Modal';
+import ModalStyle from "../mall/components/modal-style";
+import Typography from '@mui/material/Typography';
+import GreenButton from "../components/green-button";
 
 
 class Pcenter extends React.Component {
     static contextType = UserContext;
 
     state = {
+        userProfile: null,
         petProfile: null,
         principalMate: null,
-        isDataLoaded: false
+        isDataLoaded: false,
+        isShowFeedSuccess: false,
+        isShowPlaySuccess: false,
+        isShowDepressed: false
     }
 
     constructor(props) {
@@ -62,12 +70,18 @@ class Pcenter extends React.Component {
 
 
             this.setState({
+                userProfile: userProfile,
                 petProfile: petProfiles[0],
                 principalMate: userProfile.mate[0],
                 isDataLoaded: true
             })
         }
         // TODO: redirect to login otherwise
+    }
+
+    updatePetProfile = async () => {
+        const petProfiles = await PetLove.getPetProfile(this.state.userProfile.tokenId[0]);
+        this.setState({petProfile: petProfiles[0]});
     }
 
     DogBoard = () => {
@@ -133,16 +147,30 @@ class Pcenter extends React.Component {
                                 // is the popup label that appears when the Action component is hovered.
                                 <Action
                                     text="Feed"
-                                    onClick={() => {
-                                        console.log("Action Feed clicked")
+                                    onClick={async () => {
+                                        var success =
+                                            await PetLove.interactWithPet(this.state.petProfile.id, {feed: null});
+                                        if(success) {
+                                            this.setState({
+                                                isShowFeedSuccess: true
+                                            })
+                                            await this.updatePetProfile();
+                                        }
                                     }}
                                 >
                                     <RestaurantIcon/>
                                 </Action>
                                 <Action
                                     text="Play"
-                                    onClick={() => {
-                                        console.log("Action Play Clicked")
+                                    onClick={async () => {
+                                        var success =
+                                            await PetLove.interactWithPet(this.state.petProfile.id, {play: null});
+                                        if(success) {
+                                            this.setState({
+                                                isShowPlaySuccess: true
+                                            })
+                                            await this.updatePetProfile();
+                                        }
                                     }}
                                 >
                                     <SmartToyIcon/>
@@ -240,6 +268,42 @@ class Pcenter extends React.Component {
                         </Grid>
                     </Slide>
                 </Grid>
+                <Modal
+                    open={this.state.isShowFeedSuccess}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    >
+                    <Stack sx={ModalStyle} direciton="row" alignItems="center">
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            Thanks for feeding me! I'm growing faster and happier!
+                        </Typography>
+                        <Stack direction="row" mt={3} spacing={2} alignItems="center">
+                            <GreenButton onClick={() => {
+                                this.setState({isShowFeedSuccess: false});
+                            }}>
+                                OK!
+                            </GreenButton>
+                        </Stack>
+                    </Stack>
+                </Modal>
+                <Modal
+                    open={this.state.isShowPlaySuccess}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                    >
+                    <Stack sx={ModalStyle} direciton="row" alignItems="center">
+                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                            Thanks for playing with me! I'm growing happier!
+                        </Typography>
+                        <Stack direction="row" mt={3} spacing={2} alignItems="center">
+                            <GreenButton onClick={() => {
+                                this.setState({isShowPlaySuccess: false});
+                            }}>
+                                OK
+                            </GreenButton>
+                        </Stack>
+                    </Stack>
+                </Modal>
             </div>
         );
     }
