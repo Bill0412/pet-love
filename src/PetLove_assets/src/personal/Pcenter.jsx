@@ -71,7 +71,6 @@ class Pcenter extends React.Component {
     }
 
     DogBoard = () => {
-        const [happiness, happinessChanger] = useState(23)
         const [fadeIn, setFadeIn] = useState(false)
         const btnStyle = {
             "--button-default-height": "27px",
@@ -141,9 +140,9 @@ class Pcenter extends React.Component {
                                     <RestaurantIcon/>
                                 </Action>
                                 <Action
-                                    text="Pet"
+                                    text="Play"
                                     onClick={() => {
-                                        console.log("Action Pet Clicked")
+                                        console.log("Action Play Clicked")
                                     }}
                                 >
                                     <SmartToyIcon/>
@@ -154,7 +153,7 @@ class Pcenter extends React.Component {
                 </div>
                 <Fade in={fadeIn} timeout={2000}>
                     <div className="div-progress">
-                        <Progress percent={20}/>
+                        <Progress percent={parseInt(this.state.petProfile.happiness)}/>
                     </div>
                 </Fade>
                 <Fade in={fadeIn} timeout={2000}>
