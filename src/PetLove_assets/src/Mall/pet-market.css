@@ -1,7 +1,10 @@
 .mall-pet-card{
-    background-color: blanchedalmond;
+    background-color: #e0c8d1;
     position: relative;
+    height: 20vh;
+    border-radius: 20%;
 }
+
 
 .div-pet-image{
     max-height: 80%;
@@ -13,9 +16,14 @@
     height: 60vh;
     margin-top: 10%;
     border-radius: 10%;
-    background: #ef3473;
+    background: #ede3e7;
     position: relative;
+    /*background-image: url("./static/market-back.jpg");*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center;*/
+    /*background-size: auto;*/
 }
+
 
 
 .colum-card-row{

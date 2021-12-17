@@ -45,7 +45,7 @@ const PetMarketContent = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = currentPage * itemsPerPage;
     const items = itemData.slice(startIndex, endIndex);
-    let eachCardWidth = 8, ofs = 2;
+    let eachCardWidth = 4, ofs = 2;
     let allColumns = eachCardWidth * 3 + ofs * 2;
 
     const RenderCard = (props) => {
@@ -60,7 +60,7 @@ const PetMarketContent = () => {
         <div className="mall-overall-height">
             <Grid container justifyContent="center" alignItems="center" direction="column" spacing={3}>
                 <Grid container item justifyContent="center" alignItems="center" direction="row" spacing={3}
-                      className="colum-card-row" columns={allColumns}
+                      className="colum-card-row" columns={allColumns} style={{marginTop: '1%'}}
                 >
                     <Grid item xs={ofs}/>
                     {[
