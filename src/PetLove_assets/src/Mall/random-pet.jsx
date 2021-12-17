@@ -9,7 +9,9 @@ import LoadingAnimation from "../components/loading-animation";
 import ResponsiveAppBar from "../components/app-bar";
 import itemData from "./item-data";
 import UserContext from "../Contexts/user-context";
-import {PetLove} from "../../../declarations/PetLove";
+import verifyConnection from "../wallet/verify-connection";
+import {idlFactory} from "../../../declarations/PetLove";
+
 
 
 class RandomPetContent extends React.Component {
@@ -20,7 +22,8 @@ class RandomPetContent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pet: null
+            pet: null,
+            actor: null
         }
     }
 
@@ -29,7 +32,7 @@ class RandomPetContent extends React.Component {
         if(this.state.pet) {
             params.push(this.state.pet.id);
         }
-        const petProfile = await PetLove.randomGeneratePet(params);
+        const petProfile = await this.state.actor.randomGeneratePet(params);
         console.log("onGeneratePet: ", petProfile);
 
         if(petProfile != null) {
@@ -42,9 +45,10 @@ class RandomPetContent extends React.Component {
         }
     }
 
-    componentDidMount = () => {
+    componentDidMount = async () => {
+        const {user, setUser} = this.context;
+
         if(sessionStorage.getItem("principal")) {
-            const {user, setUser} = this.context;
             setUser((prevUser) => ({
                 ...prevUser,
                 principal: Principal.fromText(sessionStorage.getItem("principal"))
@@ -53,6 +57,15 @@ class RandomPetContent extends React.Component {
             this.onGeneratePet();
         }
         // TODO: redirect to login otherwise
+
+        verifyConnection();
+
+        const actor = await window.ic.plug.createActor({
+            canisterId: user.backendCanisterId,
+            interfaceFactory: idlFactory,
+        });
+
+        this.setState({actor: actor});
     }
 
     Body = () => {
