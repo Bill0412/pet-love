@@ -18,13 +18,14 @@ import ModalStyle from "../mall/components/modal-style";
 import {useState} from "react";
 import {Fade, Zoom} from "@mui/material";
 import LoadingAnimation from "../components/loading-animation";
+import {idlFactory} from "../../../declarations/PetLove";
 
 class Landing extends React.Component {
     static contextType = UserContext;
 
     constructor(props) {
         super(props);
-
+        
         this.state = {
             isShowInstallICWarning: false,
             isShowLoginLoading: false,
@@ -74,13 +75,16 @@ class Landing extends React.Component {
         )
         setInterval(
             () => {
-                this.setState({buttonFade: this.context.user == null})
+                this.setState({buttonFade: this.context.user.principal == null})
             }, buttonStart)
+
+        // load user info from 
         const {user, setUser} = this.context;
-        if (user != null) return;
-        if (sessionStorage.getItem("principal")) {
-            setUser(Principal.fromText(sessionStorage.getItem("principal")));
+        if (user.principal != null) return;
+        if (sessionStorage.getItem("principal") && this._isMounted) {
+            setUser((prevUser) => ({...prevUser, principal: Principal.fromText(sessionStorage.getItem("principal"))}));
         }
+        console.log("user:", user);
     }
 
     handleOpenInstallICWarning = () => {
@@ -104,36 +108,18 @@ class Landing extends React.Component {
         // Show loading when the user is trying to allow connecting to IC wallet
         this.handleOpenLoginLoading();
 
+        const {user, setUser} = this.context;
+
         // This is an official canister for user verification
-        const nnsCanisterId = 'qoctq-giaaa-aaaaa-aaaea-cai'
-        const whitelist = [nnsCanisterId];
+        let whitelist = [];
+
+        if(user.backendCanisterId) whitelist.push(user.backendCanisterId);
+        if(user.cryptoCanisterId) whitelist.push(user.cryptoCanisterId);
 
         // Initialise Agent, expects no return value
         await window?.ic?.plug?.requestConnect({
             whitelist,
         });
-
-        // A partial Interface factory
-        // for the NNS Canister UI
-        // Check the `plug authentication - nns` for more
-        const nnsPartialInterfaceFactory = ({IDL}) => {
-            const BlockHeight = IDL.Nat64;
-            const Stats = IDL.Record({
-                'latest_transaction_block_height': BlockHeight,
-                'seconds_since_last_ledger_sync': IDL.Nat64,
-                'sub_accounts_count': IDL.Nat64,
-                'hardware_wallet_accounts_count': IDL.Nat64,
-                'accounts_count': IDL.Nat64,
-                'earliest_transaction_block_height': BlockHeight,
-                'transactions_count': IDL.Nat64,
-                'block_height_synced_up_to': IDL.Opt(IDL.Nat64),
-                'latest_transaction_timestamp_nanos': IDL.Nat64,
-                'earliest_transaction_timestamp_nanos': IDL.Nat64,
-            });
-            return IDL.Service({
-                'get_stats': IDL.Func([], [Stats], ['query']),
-            });
-        };
 
         if (window.ic == null) {
             console.log("ic wallet is not installed yet.");
@@ -143,23 +129,22 @@ class Landing extends React.Component {
 
         // Create an actor to interact with the NNS Canister
         // we pass the NNS Canister id and the interface factory
-        const NNSUiActor = await window.ic.plug.createActor({
-            canisterId: nnsCanisterId,
-            interfaceFactory: nnsPartialInterfaceFactory,
+        const actor = await window.ic.plug.createActor({
+            canisterId: user.backendCanisterId,
+            interfaceFactory: idlFactory,
         });
 
         // We can use any method described in the Candid (IDL)
         // for example the get_stats()
         // See https://github.com/dfinity/nns-dapp/blob/cd755b8/canisters/nns_ui/nns_ui.did
-        const stats = await NNSUiActor.get_stats();
-        console.log('NNS stats', stats);
+        // const stats = await actor.get_stats();
+        // console.log('NNS stats', stats);
 
         // Get the user principal id
         const principal = await window.ic.plug.agent.getPrincipal();
         console.log("principal id:", principal);
 
-        const {user, setUser} = this.context;
-        setUser({principal: principal});
+        setUser((prevUser) => ({...prevUser, principal: principal}));
 
         // in case the DOM refreshes
         sessionStorage.setItem("principal", principal.toText());
@@ -230,7 +215,7 @@ class Landing extends React.Component {
                             {/*<br/>keep it with your lover<br/>*/}
                         </Stack>
                     </Fade>
-                    {user == null &&
+                    {user.principal == null &&
                         <Fade in={this.state.arrowFade} timeout={this.state.arrowDur}>
                             <Stack
                                 direction="row"
@@ -251,7 +236,7 @@ class Landing extends React.Component {
                     alignItems="center"
                     minHeight="10vh"
                 >
-                    {user == null &&
+                    {user.principal == null &&
                         <Stack>
                             <Fade in={this.state.buttonFade} timeout={this.state.buttonDur}>
                                 <Stack>
@@ -335,7 +320,7 @@ class Landing extends React.Component {
         const {user, setUser} = this.context;
         return (
             <div>
-                {user && <ResponsiveAppBar/>}
+                {user.principal && <ResponsiveAppBar/>}
                 <this.Body/>
             </div>
         )

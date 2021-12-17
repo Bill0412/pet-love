@@ -21,14 +21,16 @@ import UserContext from "./contexts/user-context";
 // Since we use HashRouter, the path for /random_pet, for instance,
 // should be /#/random_set
 
+const userConfigInitial = require("../../../config/user.json");
+
 const App = () => {
 
-    const [user, setUser] = React.useState();
+    const [user, setUser] = React.useState({...userConfigInitial, principal: null});
 
     const userValue = React.useMemo(
         () => ({user, setUser}), [user, setUser]
     );
-
+    
     return (
         <UserContext.Provider value={userValue}>
             <Router>
