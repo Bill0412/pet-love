@@ -1,11 +1,10 @@
 import * as React from "react";
-import {useNavigate} from "react-router-dom";
 import ResponsiveAppBar from "../components/app-bar";
 import './Pcenter.css';
 import "react-sweet-progress/lib/style.css";
 import Grid from "@mui/material/Grid";
 import 'react-tiny-fab/dist/styles.css';
-import {Fade, Slide} from "@mui/material";
+import {Fade, Slide, Snackbar} from "@mui/material";
 import {Principal} from "@dfinity/principal";
 import UserContext from "../contexts/user-context";
 import {PetLove} from "../../../declarations/PetLove";
@@ -15,8 +14,6 @@ import "./InfoCard/InfoCard.css";
 import "./DogBoard/DogBoard.css";
 import {useEffect, useState} from "react";
 import {Action, Fab} from "react-tiny-fab";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
 import {Progress} from "react-sweet-progress";
 import {AwesomeButton} from "react-awesome-button";
 import itemData from "../mall/item-data";
@@ -26,7 +23,10 @@ import Typography from '@mui/material/Typography';
 import GreenButton from "../components/green-button";
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
-
+import SellIcon from '@mui/icons-material/Sell';
+import ClearIcon from '@mui/icons-material/Clear';
+import {CopyToClipboard} from "react-copy-to-clipboard";
+import EmptyPet from "./EmptyPet/EmptyPet";
 
 class Pcenter extends React.Component {
     static contextType = UserContext;
@@ -41,7 +41,7 @@ class Pcenter extends React.Component {
         isShowSellPrompt: false,
         isShowSellPriceSet: false,
         txtSellPrice: "",
-        isShowInfoMsg: false
+        isShowInfoMsg: false,
     }
 
     constructor(props) {
@@ -49,8 +49,8 @@ class Pcenter extends React.Component {
     }
 
     componentDidMount = async () => {
-        if(sessionStorage.getItem("principal")) {
-            const { user, setUser } = this.context;
+        if (sessionStorage.getItem("principal")) {
+            const {user, setUser} = this.context;
             const principal = Principal.fromText(sessionStorage.getItem("principal"));
             setUser((prevUser) => ({
                 ...prevUser,
@@ -63,7 +63,7 @@ class Pcenter extends React.Component {
             const userProfiles = await PetLove.getUserProfile(principal);
             console.log(userProfiles);
 
-            if(userProfiles.length === 0) {
+            if (userProfiles.length === 0) {
                 console.log("No user profile is found.");
                 this.setState({
                     isDataLoaded: true,
@@ -75,7 +75,7 @@ class Pcenter extends React.Component {
             const userProfile = userProfiles[0];
             const petProfiles = await PetLove.getPetProfile(userProfile.tokenId[0]);
 
-            if(petProfiles.length === 0) {
+            if (petProfiles.length === 0) {
                 console.log("Not pet profile is found for the user.");
 
                 // this.setState({isUserOwnPet: false});
@@ -121,12 +121,9 @@ class Pcenter extends React.Component {
                 color: '#fbc630'
             }
         }
-        useEffect(() => {
-            setInterval(() => {
-                setFadeIn(true)
-            }, 1000)
-            // console.log(styles)
-        }, [])
+        setInterval(() => {
+            setFadeIn(true)
+        }, 1000)
         return (
             <Stack
                 direction="column"
@@ -139,7 +136,7 @@ class Pcenter extends React.Component {
             >
 
                 <div className="div-background"
-                     style={{backgroundImage: "url(" + itemData[parseInt(this.state.petProfile.image)].img +")"}}>
+                     style={{backgroundImage: "url(" + itemData[parseInt(this.state.petProfile.image)].img + ")"}}>
                     <Fade timeout={2000} in={fadeIn}>
                         <div>
                             <Fab
@@ -154,42 +151,32 @@ class Pcenter extends React.Component {
                                 }}
                                 style={{position: "absolute", bottom: "-20%", right: "-20%"}}
                             >
-                                // The Action components are the "buttons" that appear when the Fab is open. You can use the
+                                // The Action components are the "buttons" that appear when the Fab is open. You can use
+                                the
                                 out-of-the-box Action
-                                // component or you can use a custom component of any type and style it any way that you'd
+                                // component or you can use a custom component of any type and style it any way that
+                                you'd
                                 like. The "text" prop
                                 // is the popup label that appears when the Action component is hovered.
                                 <Action
-                                    text="Feed"
-                                    onClick={async () => {
-                                        var success =
-                                            await PetLove.interactWithPet(this.state.petProfile.id, {feed: null});
-                                        if(success) {
-                                            this.setState({
-                                                isShowInfoMsg: true,
-                                                txtInfoMsg: "Thanks for feeding me! I'm growing faster and happier!"
-                                            })
-                                            await this.updatePetProfile();
+                                    text="Sell"
+                                    onClick={
+                                        () => {
+                                            this.setState({isShowSellPrompt: true});
                                         }
-                                    }}
+                                    }
                                 >
-                                    <RestaurantIcon/>
+                                    <SellIcon/>
                                 </Action>
                                 <Action
-                                    text="Play"
-                                    onClick={async () => {
-                                        var success =
-                                            await PetLove.interactWithPet(this.state.petProfile.id, {play: null});
-                                        if(success) {
-                                            this.setState({
-                                                isShowInfoMsg: true,
-                                                txtInfoMsg: "Thanks for playing with me! I'm growing happier!"
-                                            })
-                                            await this.updatePetProfile();
+                                    text="Abandon"
+                                    onClick={
+                                        () => {
+                                            this.setState({isShowAbandonPrompt: true});
                                         }
-                                    }}
+                                    }
                                 >
-                                    <SmartToyIcon/>
+                                    <ClearIcon/>
                                 </Action>
                             </Fab>
                         </div>
@@ -207,20 +194,40 @@ class Pcenter extends React.Component {
                                 type="primary"
                                 style={btnStyle}
                                 size="large"
-                                onPress={() => {
-                                    this.setState({isShowSellPrompt: true});
-                                }}
-                            >Sell</AwesomeButton>
+                                onPress={
+                                    async () => {
+                                        let success =
+                                            await PetLove.interactWithPet(this.state.petProfile.id, {feed: null});
+                                        if (success) {
+                                            this.setState({
+                                                isShowInfoMsg: true,
+                                                txtInfoMsg: "Thanks for feeding me! I'm growing faster and happier!"
+                                            })
+                                            await this.updatePetProfile();
+                                        }
+                                    }
+                                }
+                            >Feed</AwesomeButton>
                         </div>
                         <div className="div-subButton-right">
                             <AwesomeButton
                                 type="primary"
                                 style={btnStyle}
                                 size="large"
-                                onPress={() => {
-                                    this.setState({isShowAbandonPrompt: true});
-                                }}
-                            >Drop</AwesomeButton>
+                                onPress={
+                                    async () => {
+                                        let success =
+                                            await PetLove.interactWithPet(this.state.petProfile.id, {play: null});
+                                        if (success) {
+                                            this.setState({
+                                                isShowInfoMsg: true,
+                                                txtInfoMsg: "Thanks for playing with me! I'm growing happier!"
+                                            })
+                                            await this.updatePetProfile();
+                                        }
+                                    }
+                                }
+                            >Play</AwesomeButton>
                         </div>
                     </div>
                 </Fade>
@@ -239,32 +246,55 @@ class Pcenter extends React.Component {
 
         const hours = Math.floor((Date.now() - unixTimeStamp) / 1000 / 3600);
         let txtHours = hours.toString() + " Hour";
-        if(hours > 1) txtHours += "s";
-
-        return(
+        if (hours > 1) txtHours += "s";
+        const [openSnack, changeOpenSnack] = useState(false)
+        return (
             <Grid item container md={12} sm={12} xs={12} className="content">
                 <div className="div-abs">My love path</div>
                 <Grid container item md={6} className="sub-column" direction="column">
                     <div className="left-sub-block">
-                        <div>Birthday:</div>
+                        <div>Birthday</div>
                     </div>
                     <div className="left-sub-block">
-                        <div>Age:</div>
+                        <div>Age</div>
                     </div>
                     <div className="left-sub-block">
-                        <div>Partner:</div>
+                        <div>Partner</div>
                     </div>
                     <div className="left-sub-block">
-                        <div>Value:</div>
+                        <div>Value</div>
                     </div>
                 </Grid>
                 <Grid container item md={6} className="sub-column" direction="column">
-
                     <div className="sub-block">
-                        { petCreateTime }
+                        {petCreateTime}
                     </div>
-                    <div className="sub-block">{ txtHours }</div>
-                    <div className="sub-block">{this.state.principalMate.toText().substr(0, 25) + "..."}</div>
+                    <div className="sub-block">{txtHours}</div>
+                    <div className="partner">
+                        <CopyToClipboard
+                            // options={{debug: props.debug, message: ""}}
+                            text={this.state.principalMate ? this.state.principalMate.toText() : ''}
+                            onCopy={
+                                () => {
+                                    // console.log(this.state.principalMate)
+                                    changeOpenSnack(true)
+                                }
+                            }
+                        >
+                            <span> {this.state.principalMate.toText().substr(0, 25) + "..."}
+                            </span>
+                        </CopyToClipboard>
+                        <Snackbar
+                            anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+                            open={openSnack}
+                            onClick={() => {
+                                changeOpenSnack(false)
+                            }}
+                            message="Copied!"
+                            key={"bottom" + "right"}
+                            autoHideDuration={1500}
+                        />
+                    </div>
                     <div className="sub-block">{this.state.petProfile.price.toString()} ICP</div>
                 </Grid>
             </Grid>
@@ -272,8 +302,8 @@ class Pcenter extends React.Component {
     }
 
     Body = () => {
-        const { user } = this.context;
-        const isLoggedIn = user != null &&  user.principal != null;
+        const {user} = this.context;
+        const isLoggedIn = user != null && user.principal != null;
         return (
             <div>
                 <Grid container>
@@ -285,24 +315,25 @@ class Pcenter extends React.Component {
 
                     <Slide in={isLoggedIn} unmountOnExit mountOnEnter direction="left" timeout={800}>
                         <Grid item container md={6} sm={12} xs={12} className="column">
-                            <this.InfoCard />
+                            <this.InfoCard/>
                         </Grid>
                     </Slide>
-                </Grid>    
+                </Grid>
                 <Modal
                     open={this.state.isShowAbandonPrompt}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
-                    >
+                >
                     <Stack sx={ModalStyle} direciton="row" alignItems="center">
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                            We don't want you to give up any pet. If you insist, you pet will be destroyed and lost forever.
+                        <Typography id="modal-modal-description" sx={{mt: 2}}>
+                            We don't want you to give up any pet. If you insist, you pet will be destroyed and lost
+                            forever.
                         </Typography>
                         <Stack direction="row" mt={3} spacing={2} alignItems="center">
                             <GreenButton onClick={async () => {
                                 const success = await PetLove.abandonPet(this.state.petProfile.id);
 
-                                if(success) {
+                                if (success) {
                                     // TODO: redirect to pet market or refresh the page
 
                                     this.setState({
@@ -331,9 +362,9 @@ class Pcenter extends React.Component {
                     open={this.state.isShowSellPrompt}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
-                    >
+                >
                     <Stack sx={ModalStyle} direciton="row" alignItems="center">
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <Typography id="modal-modal-description" sx={{mt: 2}}>
                             We don't want you to give up any pet. If you insist, you pet will be on sell in market.
                         </Typography>
                         <Stack direction="row" mt={3} spacing={2} alignItems="center">
@@ -357,9 +388,9 @@ class Pcenter extends React.Component {
                     open={this.state.isShowSellPriceSet}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
-                    >
+                >
                     <Stack sx={ModalStyle} direciton="row" alignItems="center">
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <Typography id="modal-modal-description" sx={{mt: 2}}>
                             <Stack orientation="column" spacing={2}>
                                 <div>How much do you want to sell it?</div>
                                 <Stack orientation="row" spacing={2} justifyContent="center" alignItems="center">
@@ -421,9 +452,9 @@ class Pcenter extends React.Component {
                     open={this.state.isShowInfoMsg}
                     aria-labelledby="modal-modal-title"
                     aria-describedby="modal-modal-description"
-                    >
+                >
                     <Stack sx={ModalStyle} direciton="row" alignItems="center">
-                        <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                        <Typography id="modal-modal-description" sx={{mt: 2}}>
                             {this.state.txtInfoMsg}
                         </Typography>
                         <Stack direction="row" mt={3} spacing={2} alignItems="center">
@@ -439,22 +470,15 @@ class Pcenter extends React.Component {
         );
     }
 
-    NoPetPrompt = () => {
-        return (
-            <Box mt={5} mb={100} justifyContent="center">
-                <div>You don't have any pet now, you may consider adopt or buy one.</div>
-            </Box>
-        )
-    }
-
     render() {
         return (
             <div>
-                <ResponsiveAppBar />
+                {this.context.user == null && <ResponsiveAppBar/>}
+
                 {
-                    this.state.isDataLoaded ? 
-                    (this.state.petProfile ? <this.Body /> : <this.NoPetPrompt />)
-                    : <Stack mt={10} mb={100}><LoadingAnimation /></Stack> 
+                    this.state.isDataLoaded ?
+                        (this.state.petProfile ? <this.Body/> : <EmptyPet/>)
+                        : <Stack mt={10} mb={100}><LoadingAnimation/></Stack>
                 }
 
             </div>

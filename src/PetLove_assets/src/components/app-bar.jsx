@@ -181,6 +181,11 @@ const ResponsiveAppBar = () => {
                                     Personal Center
                                 </GreenButton>
                             </Link>
+                            <Link to='/test' style={{textDecoration: 'none'}}>
+                                <GreenButton
+                                    key='go to test'
+                                >Go to test</GreenButton>
+                            </Link>
                         </Box>
                     </Toolbar>
                 </Container>

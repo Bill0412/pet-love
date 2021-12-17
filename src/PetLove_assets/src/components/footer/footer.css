@@ -1,0 +1,7 @@
+.foot-wrapper{
+    position: fixed;
+    font-family: Courgette, serif;
+    bottom: 0;
+    color: black;
+    text-align: center;
+}
