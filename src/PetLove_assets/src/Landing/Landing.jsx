@@ -18,6 +18,7 @@ import ModalStyle from "../Mall/components/modal-style";
 import {useState} from "react";
 import {Fade, Zoom} from "@mui/material";
 import LoadingAnimation from "../components/loading-animation";
+import {idlFactory} from "../../../declarations/PetLove";
 
 class Landing extends React.Component {
     static contextType = UserContext;
@@ -74,7 +75,7 @@ class Landing extends React.Component {
         )
         setInterval(
             () => {
-                this.setState({buttonFade: this.context.user == null})
+                this.setState({buttonFade: this.context.user.principal == null})
             }, buttonStart)
         const {user, setUser} = this.context;
         if (user != null) return;
