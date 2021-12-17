@@ -1,0 +1,15 @@
+.random-overall-height {
+    width: inherit;
+    height: 60vh;
+    margin-top: 10%;
+    border-radius: 10%;
+    background: #ede3e7;
+    position: relative;
+    align-content: center;
+    align-items: center;
+    vertical-align: center;
+}
+
+.wrap-img-btn-all {
+
+}
