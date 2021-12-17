@@ -8,7 +8,7 @@ import PurchaseButton from "./components/purchase-button";
 import LoadingAnimation from "../components/loading-animation";
 import ResponsiveAppBar from "../components/app-bar";
 import itemData from "./item-data";
-import UserContext from "../contexts/user-context";
+import UserContext from "../Contexts/user-context";
 import {PetLove} from "../../../declarations/PetLove";
 
 

@@ -6,17 +6,17 @@ import {
     Route
 } from "react-router-dom";
 import Login from "./login";
-import RandomPet from "./mall/random-pet";
-import PetMarket from "./mall/pet-market";
-import Pcenter from "./personal/Pcenter";
+import RandomPet from "./Mall/random-pet";
+import PetMarket from "./Mall/pet-market";
+import Pcenter from "./Personal/Pcenter";
 import Landing from "./Landing/Landing";
-import Circle from "./components/backgournd/Circle";
-import Footer from "./components/footer/footer";
+import Circle from "./components/Backgournd/Circle";
+import Footer from "./components/Footer/footer";
 import {Slide} from "@mui/material";
 import {useEffect, useState} from "react";
 import TestPage from "./test";
-import UserContext from "./contexts/user-context";
-import EmptyPet from "./personal/EmptyPet/EmptyPet";
+import UserContext from "./Contexts/user-context";
+import EmptyPet from "./Personal/EmptyPet/EmptyPet";
 import './index.css';
 
 // Since we use HashRouter, the path for /random_pet, for instance,

@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import GreenButton from '../../components/green-button';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import UserContext from "../../contexts/user-context";
+import UserContext from "../../Contexts/user-context";
 import { Principal } from '@dfinity/principal';
 import {PetLove} from "../../../../declarations/PetLove";
 import ModalStyle from "./modal-style";
