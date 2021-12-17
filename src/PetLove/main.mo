@@ -110,18 +110,7 @@ shared(msg) actor class PetLove(creator: Principal) {
         }
     };
 
-    public shared(msg) func randomGeneratePet(last : ?TokenId) : async (PetProfile) {
-        switch(last) {
-            case (?last) {
-                // abandon the last one
-                var success = protocol.destroyNFT(last);
-                assert(success == true);
-            };
-            case (null) {
-
-            };
-        };
-
+    public shared(msg) func randomGeneratePet() : async (PetProfile) {
         var pet : TokenMeta = protocol.createNFT(_defaultUser);
         let res : PetProfile = {
             id = pet.id;
@@ -175,12 +164,11 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
     
     private func playPet(id : TokenId) : () {
-        assert(protocol.canAccess(msg.caller, id));
         var pet : ?TokenMeta =  protocol.getNFTByToken(id); 
         switch (pet) {
             case (?pet) {
                 var _pet : TokenMeta = pet;
-                _pet.happiness += 5;
+                _pet.happiness := addHappiness(_pet.happiness, 5);
                  protocol.setNFTByToken(id, _pet);
             };
             case (null) {
@@ -190,17 +178,24 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     private func feedPet(id : TokenId) : () {
-        assert(protocol.canAccess(msg.caller, id));
         var pet : ?TokenMeta =  protocol.getNFTByToken(id); 
         switch (pet) {
             case (?pet) {
                 var _pet : TokenMeta = pet;
-                _pet.happiness += 10;
+                _pet.happiness := addHappiness(_pet.happiness, 10);
                  protocol.setNFTByToken(id, _pet);
             };
             case (null) {
                 return;
             };
         }
-    }
+    };
+
+    private func addHappiness(origin: Nat, add: Nat) : Nat {
+        var now : Nat = origin + add;
+        if (now > 90) {
+            now := 90;
+        };
+        return now
+    };
 }

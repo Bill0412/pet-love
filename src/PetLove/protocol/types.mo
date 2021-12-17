@@ -10,7 +10,7 @@ module {
 
         createTime : Text; 
  
-        //Custome Attributes
+        //Custom Attributes
 
     };
 
