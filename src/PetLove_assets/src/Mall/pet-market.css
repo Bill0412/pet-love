@@ -1,0 +1,25 @@
+.mall-pet-card{
+    background-color: blanchedalmond;
+    position: relative;
+}
+
+.div-pet-image{
+    max-height: 80%;
+    max-width: 50%;
+}
+
+.mall-overall-height{
+    width: inherit;
+    height: 60vh;
+    margin-top: 10%;
+    border-radius: 10%;
+    background: #ef3473;
+    position: relative;
+}
+
+
+.colum-card-row{
+    width: inherit;
+    max-height: 40%;
+}
+
