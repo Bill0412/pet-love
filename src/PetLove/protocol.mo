@@ -138,10 +138,7 @@ module Protocol {
             };
         };
 
-        public func transferNFT (user1 : Principal, user2 : Principal, tokenId : TokenId) :  Bool {
-
-            //canTransfer(user1, user2, tokenId);
-            
+        public func transferNFT (user1 : Principal, user2 : Principal, tokenId : TokenId) :  Bool { 
             //update nftToOwners
             var userList = _unwrap(nftToOwners.get(tokenId));
             let (owner1, l1) = List.pop<Principal>(userList);
@@ -153,8 +150,8 @@ module Protocol {
             //update users
             users.delete(_unwrap(owner1));
             users.delete(_unwrap(owner2));
-            Debug.print(Principal.toText(user1));
-            Debug.print(Principal.toText(user2));
+            // Debug.print(Principal.toText(user1));
+            // Debug.print(Principal.toText(user2));
             users.put(user1, {
                 id = user1;
                 mate = ?user2;
