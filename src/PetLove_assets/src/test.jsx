@@ -46,7 +46,7 @@ const TestPage = () => {
     }
 
     let onGetUserProfile = async () => {
-        const userProfile = await actor.getUserProfile(principal);
+        const userProfile = await actor.getUserProfile();
         console.log(userProfile);
     }
 
