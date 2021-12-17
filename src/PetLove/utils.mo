@@ -7,6 +7,7 @@ import Array "mo:base/Array";
 import Buffer "mo:base/Buffer";
 import Blob "mo:base/Blob";
 import Debug "mo:base/Debug";
+import List "mo:base/List";
 
 import Types "./types";
 
@@ -26,14 +27,13 @@ module Utils {
         var _next : Nat = 0;
 
         // remain imgs for token: Demo only
-        var remainTokenImgs : [Nat] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+        var remainTokenImgs = List.fromArray<Nat>([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]);
 
         public func generate() : TokenMeta {
-            var image = getImage();
             let tokenMeta : TokenMeta = {
                 id = getTokenId();
                 createTime = getTimestamp();
-                image = image;
+                image = getImage();
 
                 var state = #notAdopted;
                 var happiness = _initHappiness;
@@ -56,38 +56,31 @@ module Utils {
         };
 
         // get a random index of imgs in remainTokenImgs: Demo only
+        // in this time we return the first index
         private func getRandomImg() : Nat {
-            assert(remainTokenImgs.size() != 0);
+            assert(List.size<Nat>(remainTokenImgs) != 0);
 
-            var blob = Blob.fromArray([1,2,3,4,5,6,7,8,9,10]);
-            var generator = Random.Finite(blob);
-
+            // var blob = Blob.fromArray([1,2,3,4,5,6,7,8,9,10]);
+            // var generator = Random.Finite(blob);
             // get a ?Nat
-            var nullOrNat = generator.range(16);
+            // var nullOrNat = generator.range(16);
             // Nat
-            var number = Option.unwrap(nullOrNat);
+            // var number = Option.unwrap(nullOrNat);
             
-            // get a number in range(0, size)
-            let maxValue = Nat.pow(2, 16)-1;
-            let result = remainTokenImgs[number*remainTokenImgs.size()/maxValue];
-
-            // modify imgs array to delete this result
-            remainTokenImgs := Array.filter(remainTokenImgs, func (a: Nat) : Bool {
+            // get a number in the first index of the list
+            let resultOrNull : ?Nat = List.get<Nat>(remainTokenImgs, 0);
+            let result = Option.unwrap<Nat>(resultOrNull);
+            
+            // modify imgs list to delete this result
+            remainTokenImgs := List.filter<Nat>(remainTokenImgs, func (a: Nat) : Bool {
                 return a != result;
             });
 
+            // add this result in the last place
+            remainTokenImgs := List.append<Nat>(remainTokenImgs, List.fromArray<Nat>([result]));
+
             return result;
         };
-
-        // add the img into remainTokenImgs again: Demo only.
-        public func resetImg(img : Nat) {
-            // create buffer that contains this img
-            var buffer = Buffer.Buffer<Nat>(1);
-            buffer.add(img);
-
-            // append this image to remaining tokens imgs array again.
-            remainTokenImgs := Array.append(remainTokenImgs, buffer.toArray());
-        }
      };
 
 }
