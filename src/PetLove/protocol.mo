@@ -132,7 +132,6 @@ module Protocol {
                     // delete this nft's info
                     // and add this image agin: Demo only
                     nfts.delete(tokenId);
-                    tokenUtil.resetImg(token.image);
                     return true;
                 };
             };
