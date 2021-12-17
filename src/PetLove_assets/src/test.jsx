@@ -1,6 +1,8 @@
 import * as React from "react";
 import {PetLove, idlFactory} from "../../declarations/PetLove";
 
+const canisterIds = require("../../../config/user.json")
+
 const TestPage = () => {
 
     const [principal, setPrincipal] = React.useState();
@@ -8,7 +10,8 @@ const TestPage = () => {
     const [actor, setActor] = React.useState();
 
     let onClickLoginButton = async () => {
-        const backendCanisterId = 'szbmr-7yaaa-aaaai-abaoa-cai'
+        const backendCanisterId = canisterIds.backendCanisterId;
+        console.log("test using canister: ", backendCanisterId);
         const whitelist = [backendCanisterId];
 
         // Initialise Agent, expects no return value
@@ -23,6 +26,7 @@ const TestPage = () => {
             interfaceFactory: idlFactory,
         });
         setActor(backendActor);
+        console.log("backendActor: ", backendActor);
 
         // Get the user principal id
         const principalId = await window.ic.plug.agent.getPrincipal();

@@ -22,21 +22,31 @@ class RandomPetContent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pet: null,
-            actor: null
+            pet: null
         }
     }
 
     onGeneratePet = async () => {
         let params = [];
-        if(this.state.pet) {
-            params.push(this.state.pet.id);
-        }
-        const petProfile = await this.state.actor.randomGeneratePet(params);
+        // if(this.state.pet) {
+        //     params.push(this.state.pet.id);
+        // }
+        
+        const {user, setUser} = this.context;
+
+        verifyConnection();
+
+        const actor = await window.ic.plug.createActor({
+            canisterId: user.backendCanisterId,
+            interfaceFactory: idlFactory,
+        });
+
+        console.log("onGeneratePet actor: ", actor);
+
+        const petProfile = await actor.randomGeneratePet(params);
         console.log("onGeneratePet: ", petProfile);
 
         if(petProfile != null) {
-            const {user, setUser} = this.context;
             this.setState({
                 pet: petProfile
             });
@@ -59,13 +69,6 @@ class RandomPetContent extends React.Component {
         // TODO: redirect to login otherwise
 
         verifyConnection();
-
-        const actor = await window.ic.plug.createActor({
-            canisterId: user.backendCanisterId,
-            interfaceFactory: idlFactory,
-        });
-
-        this.setState({actor: actor});
     }
 
     Body = () => {

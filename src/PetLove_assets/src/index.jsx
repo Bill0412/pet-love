@@ -41,7 +41,7 @@ const App = () => {
                         <Route exact path="/random_pet" element={<RandomPet/>}/>
                         <Route exact path="/pet_market" element={<PetMarket/>}/>
                         <Route exact path="/personal" element={<Pcenter/>}/>
-                        <Route exact path="/test" element={<EmptyPet/>}/>
+                        <Route exact path="/test" element={<TestPage/>}/>
                     </Routes>
                 </Router>
                 <Circle bg={true}/>
