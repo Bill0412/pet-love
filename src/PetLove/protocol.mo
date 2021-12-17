@@ -132,6 +132,7 @@ module Protocol {
                     // delete this nft's info
                     // and add this image agin: Demo only
                     nfts.delete(tokenId);
+                    tokenUtil.resetImg(token.image);
                     return true;
                 };
             };
@@ -151,17 +152,31 @@ module Protocol {
             users.delete(_unwrap(owner2));
             // Debug.print(Principal.toText(user1));
             // Debug.print(Principal.toText(user2));
-            users.put(user1, {
-                id = user1;
-                mate = ?user2;
-                tokenId = ?tokenId;
-            });
+            switch (users.get(user1)) {
+                case (null) {
+                    users.put(user1, {
+                        id = user1;
+                        mate = ?user2;
+                        tokenId = ?tokenId;
+                    });
+                };
+                case (_) {
+                    return false;
+                };
+            };
             if (user1 != user2) {
-                users.put(user2, {
-                    id = user2;
-                    mate = ?user1;
-                    tokenId = ?tokenId;
-                });
+                switch (users.get(user2)) {
+                    case (null) {
+                        users.put(user2, {
+                        id = user2;
+                        mate = ?user1;
+                        tokenId = ?tokenId;
+                        });
+                    };
+                    case (_) {
+                        return false;
+                    };
+                };
             };
             return true;
         };
