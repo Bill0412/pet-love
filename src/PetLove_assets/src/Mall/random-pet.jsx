@@ -9,7 +9,7 @@ import LoadingAnimation from "../components/loading-animation";
 import ResponsiveAppBar from "../components/app-bar";
 import itemData from "./item-data";
 import UserContext from "../Contexts/user-context";
-import verifyConnection from "../wallet/verify-connection";
+import verifyConnection from "../Wallet/VerifyConnection";
 import {idlFactory} from "../../../declarations/PetLove";
 
 
