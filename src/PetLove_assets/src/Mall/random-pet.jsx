@@ -84,14 +84,35 @@ class RandomPetContent extends React.Component {
                         <Grid item xs={4}>
                             <Grid item container spacing={2} direction="column" justifyContent="center"
                                   alignItems="center">
-                                <Grid>Sale: {this.state.pet.price.toString()} ICP</Grid>
-                                <Grid>Age: {Math.floor((Date.now() - this.state.pet.createTime / 1000000) / 1000 / 86400)} Day</Grid>
-                                <Grid><PurchaseButton label="Choose me!"/></Grid>
-                                <Grid>
-                                    <GreenButton onClick={this.onGeneratePet}>
-                                        Another One!
-                                    </GreenButton>
+                                <Grid item container spacing={2} direction="row" justifyContent="center"
+                                      alignItems="center" columns={12}>
+                                    <Grid xs={2}/>
+                                    <Grid item xs={4}>Sale: </Grid>
+                                    <Grid item xs={4}>{this.state.pet.price.toString()} ICP</Grid>
+                                    <Grid xs={2}/>
                                 </Grid>
+                                <Grid item container spacing={2} direction="row" justifyContent="center"
+                                      alignItems="center" columns={12}>
+                                    <Grid xs={2}/>
+                                    <Grid item xs={4}>Age: </Grid>
+                                    <Grid item
+                                          xs={4}>{Math.floor((Date.now() - this.state.pet.createTime / 1000000) / 1000 / 86400)} Day</Grid>
+                                    <Grid xs={2}/>
+                                </Grid>
+                                <Grid item container spacing={2} direction="row" justifyContent="center"
+                                      alignItems="center" columns={12}>
+                                    <Grid item xs={1}/>
+                                    <Grid item xs={5}>
+                                        <PurchaseButton label="Choose me!"/>
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                        <GreenButton onClick={this.onGeneratePet}>
+                                            Another One!
+                                        </GreenButton>
+                                    </Grid>
+                                    <Grid item xs={1}/>
+                                </Grid>
+
                             </Grid>
                         </Grid>
                         <Grid item xs={2}/>

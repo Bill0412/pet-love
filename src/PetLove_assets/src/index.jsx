@@ -27,8 +27,8 @@ const userConfigInitial = require("../../../config/user.json");
 const App = () => {
 
     const [user, setUser] = React.useState({
-        ...userConfigInitial, 
-        principal: null, 
+        ...userConfigInitial,
+        principal: null,
         backendActor: null,
         tokenActor: null});
 
@@ -45,7 +45,7 @@ const App = () => {
                         <Route exact path="/random_pet" element={<RandomPet/>}/>
                         <Route exact path="/pet_market" element={<PetMarket/>}/>
                         <Route exact path="/personal" element={<Pcenter/>}/>
-                        <Route exact path="/test" element={<TestPage/>}/>
+                        {/*<Route exact path="/test" element={<EmptyPet/>}/>*/}
                     </Routes>
                 </Router>
                 <Circle bg={true}/>
