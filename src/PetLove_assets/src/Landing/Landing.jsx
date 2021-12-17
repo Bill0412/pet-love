@@ -8,24 +8,23 @@ import {
 import 'react-awesome-button/dist/themes/theme-rickiest.css';
 import ExpandCircleDownTwoToneIcon from '@mui/icons-material/ExpandCircleDownTwoTone';
 import './Landing.css';
-import UserContext from '../contexts/user-context';
+import UserContext from '../Contexts/user-context';
 import {Principal} from "@dfinity/principal";
 import ResponsiveAppBar from "../components/app-bar";
 import Typography from "@mui/material/Typography";
 import GreenButton from "../components/green-button";
 import Modal from "@mui/material/Modal";
-import ModalStyle from "../mall/components/modal-style";
+import ModalStyle from "../Mall/components/modal-style";
 import {useState} from "react";
 import {Fade, Zoom} from "@mui/material";
 import LoadingAnimation from "../components/loading-animation";
-import {idlFactory} from "../../../declarations/PetLove";
 
 class Landing extends React.Component {
     static contextType = UserContext;
 
     constructor(props) {
         super(props);
-        
+
         this.state = {
             isShowInstallICWarning: false,
             isShowLoginLoading: false,
@@ -75,16 +74,13 @@ class Landing extends React.Component {
         )
         setInterval(
             () => {
-                this.setState({buttonFade: this.context.user.principal == null})
+                this.setState({buttonFade: this.context.user == null})
             }, buttonStart)
-
-        // load user info from 
         const {user, setUser} = this.context;
-        if (user.principal != null) return;
-        if (sessionStorage.getItem("principal") && this._isMounted) {
-            setUser((prevUser) => ({...prevUser, principal: Principal.fromText(sessionStorage.getItem("principal"))}));
+        if (user != null) return;
+        if (sessionStorage.getItem("principal")) {
+            setUser(Principal.fromText(sessionStorage.getItem("principal")));
         }
-        console.log("user:", user);
     }
 
     handleOpenInstallICWarning = () => {
@@ -276,43 +272,7 @@ class Landing extends React.Component {
                             </Modal>
                         </Stack>
                     }
-                    {/*<Fade in={buttonFade} timeout={buttonDur}>*/}
-                    {/*    <AwesomeButton type="secondary">Join Now!!</AwesomeButton>*/}
-                    {/*</Fade>*/}
                 </Stack>
-
-                {/*<Stack*/}
-                {/*    direction="row"*/}
-                {/*    justifyContent="center"*/}
-                {/*    alignItems="center"*/}
-                {/*    minHeight="10vh"*/}
-                {/*>*/}
-                {/*    {user == null &&*/}
-                {/*        <Stack>*/}
-                {/*            <AwesomeButton type="secondary" onPress={this.onClickLoginButton}>Join Now!!</AwesomeButton>*/}
-                {/*            <Modal*/}
-                {/*                open={this.state.isShowInstallICWarning}*/}
-                {/*                onClose={this.handleCloseInstallICWarning}*/}
-                {/*                aria-labelledby="modal-modal-title"*/}
-                {/*                aria-describedby="modal-modal-description"*/}
-                {/*            >*/}
-                {/*                <Stack sx={ModalStyle} direciton="row" alignItems="center">*/}
-                {/*                    <Typography id="modal-modal-description" sx={{mt: 2}}>*/}
-                {/*                        Please install the chrome extension &nbsp;*/}
-                {/*                        <a target="_blank"*/}
-                {/*                           href="https://chrome.google.com/webstore/detail/plug/cfbfdhimifdmdehjmkdobpcjfefblkjm">*/}
-                {/*                            Plug </a>*/}
-                {/*                        &nbsp; and create your IC wallet in advance for login.*/}
-                {/*                        (We use the wallet id as your only login credential.)*/}
-                {/*                    </Typography>*/}
-                {/*                    <Stack direction="row" mt={3} spacing={2} alignItems="center">*/}
-                {/*                        <GreenButton onClick={this.handleCloseInstallICWarning}>OK</GreenButton>*/}
-                {/*                    </Stack>*/}
-                {/*                </Stack>*/}
-                {/*            </Modal>*/}
-                {/*        </Stack>*/}
-                {/*    }*/}
-                {/*</Stack>*/}
             </Stack>)
     }
 

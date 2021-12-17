@@ -1,0 +1,54 @@
+.right-content {
+    text-align: left;
+}
+
+
+.div-background {
+    /*background-image: url("./static/dogPortrait1.png");*/
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 489px;
+    height: 448px;
+    position: relative;
+}
+
+.div-progress {
+    position: relative;
+    top: 10%;
+    width: 600px;
+}
+
+
+.dog-back {
+    border-radius: 10% 10%;
+    width: inherit;
+    height: auto;
+    position: relative;
+    top: auto;
+    left: auto;
+}
+
+
+.div-button {
+    position: relative;
+    top: 10%;
+    width: 70%;
+    height: auto;
+}
+
+.div-subButton-left {
+    float: left;
+    height: 50%;
+}
+
+.div-subButton-right {
+    float: right;
+    height: 50%;
+}
+
+
+.fab-position {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}

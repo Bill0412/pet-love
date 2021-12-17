@@ -1,0 +1,21 @@
+.logo {
+    height: 50px;
+    width: 50px;
+}
+
+.app-bar-title {
+    font-family: "LuxuriousScript", serif;
+    color: gray;
+    font-size: 36px;
+}
+
+.logo-text {
+    font-family: 'Anton', serif;
+    font-size: 30px;
+    color: #000000;
+}
+
+.footer {
+    font-size: 18px;
+    color: gray;
+}
