@@ -7,7 +7,6 @@ import './EmptyPet.css';
 const EmptyPet = () => {
     return (
         <div>
-            <ResponsiveAppBar/>
             <div className="no-pet-father">
                 <Grid container direction="row" justifyContent="center" alignItems="center">
                     <Grid item xs={1}/>

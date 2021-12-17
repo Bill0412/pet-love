@@ -473,7 +473,7 @@ class Pcenter extends React.Component {
     render() {
         return (
             <div>
-                {this.context.user == null && <ResponsiveAppBar/>}
+                {this.context.user && <ResponsiveAppBar/>}
 
                 {
                     this.state.isDataLoaded ?
