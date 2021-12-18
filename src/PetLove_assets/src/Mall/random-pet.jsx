@@ -84,8 +84,8 @@ class RandomPetContent extends React.Component {
                                 <Grid item container spacing={2} direction="row" justifyContent="center"
                                       alignItems="center" columns={12}>
                                     <Grid xs={1}/>
-                                    <Grid item xs={6}>Balance: </Grid>
-                                    <Grid item xs={4}>{user.balance} QBit</Grid>
+                                    <Grid item xs={4}>Balance: </Grid>
+                                    <Grid item xs={6}>{user.balance} QBit</Grid>
                                     <Grid xs={1}/>
                                 </Grid>
                                 <Grid item container spacing={2} direction="row" justifyContent="center"
