@@ -6,7 +6,15 @@ You can visit it [here](https://s6akf-saaaa-aaaai-abaoq-cai.raw.ic0.app/).
 
 The project is submitted using the HackerLink Account: https://hackerlink.io/hacker/33614.
 ## Architecture
-TODO
+
+### User Interface & Experience
+Since Internet Computer is a comparatively slow network. We optimized our user experience using the most most advanced front-end technology like React.js and Material-UI.
+### Authentication
+
+We used the IC wallet to get the user identity, including the principal and an [actor](https://docs.plugwallet.ooo/getting-started/connect-to-plug/#making-calls-to-canisters-with-plug) that in a representitive of the user to interact with our backend. With the actor, we were able to secure the user while providing login and cryptocurrency transfer services.
+
+### Cryptocurrency
+We are able to trade with the help of a canister that issues a cryptocurrency of our own. And the user can get an initial account balance to try our service.
 
 ## Deployment
 1. Clone the project
