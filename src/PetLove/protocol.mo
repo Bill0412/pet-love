@@ -152,7 +152,7 @@ module Protocol {
             //update users
             Debug.print("2");
             Debug.print(Principal.toText(_unwrap(owner1)));
-            
+
             users.delete(_unwrap(owner1));
             Debug.print("3");
             Debug.print(Principal.toText(_unwrap(owner2)));

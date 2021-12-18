@@ -77,11 +77,16 @@ class PurchaseButton extends React.Component {
       return false;
     }
 
-    const success = await PetLove.purchasePet(matePrincipal, user.chosenPet.id);
+    console.log("mate: ", matePrincipal);
+    console.log("chosenPet: ", user.chosenPet);
+
+    const success = await user.backendActor.purchasePet(matePrincipal, user.chosenPet.id);
+
+    console.log("purchase success: ", success);
 
     if(success === true) {
       console.log("purchase success.")
-      const profile = await PetLove.getUserProfile(user.principal);
+      const profile = await user.backendActor.getUserProfile(user.principal);
       console.log(profile);
       return true;
     }
