@@ -2,7 +2,9 @@
 
 ## Introduction
 PetLove Application in Internet Computer Platform for Dfinity Hackthon 2021. The app is deployed on the IC chain for demonstration.
-You can visit it [here](https://s6akf-saaaa-aaaai-abaoq-cai.raw.ic0.app/#/landing).
+You can visit it [here](https://s6akf-saaaa-aaaai-abaoq-cai.raw.ic0.app/).
+
+The project is submitted using the HackerLink Account: https://hackerlink.io/hacker/33614.
 ## Architecture
 TODO
 
