@@ -141,7 +141,7 @@ module Protocol {
             //update nftToOwners
             var userList = _unwrap(nftToOwners.get(tokenId));
             let (owner1, l1) = List.pop<Principal>(userList);
-            let (owner2, l2) = List.pop<Principal>(userList);
+            let (owner2, l2) = List.pop<Principal>(l1);
             var list1 = List.nil<Principal>();
             var list2 = List.push<Principal>(user1, list1);
             var list3 = List.push<Principal>(user2, list2);
@@ -151,32 +151,42 @@ module Protocol {
             users.delete(_unwrap(owner2));
             // Debug.print(Principal.toText(user1));
             // Debug.print(Principal.toText(user2));
-            switch (users.get(user1)) {
-                case (null) {
-                    users.put(user1, {
-                        id = user1;
-                        mate = ?user2;
-                        tokenId = ?tokenId;
-                    });
-                };
-                case (_) {
-                    return false;
-                };
-            };
-            if (user1 != user2) {
-                switch (users.get(user2)) {
-                    case (null) {
-                        users.put(user2, {
-                        id = user2;
-                        mate = ?user1;
-                        tokenId = ?tokenId;
-                        });
-                    };
-                    case (_) {
-                        return false;
-                    };
-                };
-            };
+            // switch (users.get(user1)) {
+            //     case (null) {
+            //         users.put(user1, {
+            //             id = user1;
+            //             mate = ?user2;
+            //             tokenId = ?tokenId;
+            //         });
+            //     };
+            //     case (_) {
+            //         return false;
+            //     };
+            // };
+            // if (user1 != user2) {
+            //     switch (users.get(user2)) {
+            //         case (null) {
+            //             users.put(user2, {
+            //             id = user2;
+            //             mate = ?user1;
+            //             tokenId = ?tokenId;
+            //             });
+            //         };
+            //         case (_) {
+            //             return false;
+            //         };
+            //     };
+            // };
+            users.put(user1, {
+                id = user1;
+                mate = ?user2;
+                tokenId = ?tokenId;
+            });
+            users.put(user2, {
+                id = user2;
+                mate = ?user1;
+                tokenId = ?tokenId;
+            });
             return true;
         };
 
