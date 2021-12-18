@@ -139,6 +139,9 @@ module Protocol {
 
         public func transferNFT (user1 : Principal, user2 : Principal, tokenId : TokenId) :  Bool { 
             //update nftToOwners
+            Debug.print(Principal.toText(user1));
+            Debug.print(Principal.toText(user2));
+            Debug.print("1");
             var userList = _unwrap(nftToOwners.get(tokenId));
             let (owner1, l1) = List.pop<Principal>(userList);
             let (owner2, l2) = List.pop<Principal>(l1);
@@ -147,7 +150,12 @@ module Protocol {
             var list3 = List.push<Principal>(user2, list2);
             nftToOwners.put(tokenId, list3);
             //update users
+            Debug.print("2");
+            Debug.print(Principal.toText(_unwrap(owner1)));
+            
             users.delete(_unwrap(owner1));
+            Debug.print("3");
+            Debug.print(Principal.toText(_unwrap(owner2)));
             users.delete(_unwrap(owner2));
             // Debug.print(Principal.toText(user1));
             // Debug.print(Principal.toText(user2));

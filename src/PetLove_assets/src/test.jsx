@@ -73,7 +73,7 @@ const TestPage = () => {
             const success = await actor.abandonPet(pet.id);
             if(success === true) {
                 console.log("abandon success.")
-                const userProfile = await actor.getUserProfile(principal);
+                const userProfile = await actor.getUserProfile();
                 console.log(userProfile);
                 const petProfile = await actor.getPetProfile(pet.id);
                 console.log(petProfile);
@@ -90,7 +90,7 @@ const TestPage = () => {
             const success = await actor.sellPet(pet.id, BigInt(400));
             if(success === true) {
                 console.log("sell success.")
-                const userProfile = await actor.getUserProfile(principal);
+                const userProfile = await actor.getUserProfile();
                 console.log(userProfile);
                 const petProfile = await actor.getPetProfile(pet.id);
                 console.log(petProfile);
@@ -104,10 +104,10 @@ const TestPage = () => {
         if(principal == null || pet == null) {
             console.log("not login yet or no pet yet.");
         } else {
-            const success = await actor.purchasePet(principal, principal, pet.id);
+            const success = await actor.purchasePet(principal, pet.id);
             if(success === true) {
                 console.log("purchase success.")
-                const profile = await actor.getUserProfile(principal);
+                const profile = await actor.getUserProfile();
                 console.log(profile);
             } else {
                 console.log("purchase failed.")

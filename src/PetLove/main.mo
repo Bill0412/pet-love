@@ -111,6 +111,8 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func randomGeneratePet() : async (PetProfile) {
+        Debug.print("randomGeneratePet");
+        Debug.print(Principal.toText(_defaultUser));
         var pet : TokenMeta = protocol.createNFT(_defaultUser);
         let res : PetProfile = {
             id = pet.id;
