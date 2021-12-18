@@ -23,8 +23,7 @@ class RandomPetContent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pet: null,
-            balance: 0
+            pet: null
         }
     }
 
@@ -49,10 +48,9 @@ class RandomPetContent extends React.Component {
         const petProfile = await user.backendActor.randomGeneratePet();
         console.log("onGeneratePet: ", petProfile);
         this.setState({pet: petProfile});
-        setUser((prevUser) => ({...prevUser, chosenPet: petProfile}));
-
+        
         const balance = await user.tokenActor.balanceOf(user.principal);
-        this.setState({balance: parseInt(balance)});
+        setUser((prevUser) => ({...prevUser, chosenPet: petProfile, balance: parseInt(balance)}));
     }
 
     componentDidMount = async () => {
@@ -70,6 +68,7 @@ class RandomPetContent extends React.Component {
     }
 
     Body = () => {
+        const { user } = this.context;
         return (
             <Grid container mt={10}>
                 <Grid item xs={12} md={6}>
@@ -83,7 +82,7 @@ class RandomPetContent extends React.Component {
                 </Grid>
                 <Grid item xs={12} md={6} mt={14}>
                     <Stack spacing={2} direction="column" justifyContent="center" alignItems="center">
-                        <p>Balance: {this.state.balance} QBit</p>
+                        <p>Balance: {user.balance} QBit</p>
                         <p>Sale: {this.state.pet.price.toString()} QBit</p>
                         <p>Age: {Math.floor((Date.now() - this.state.pet.createTime/1000000) / 1000 / 86400)} Day</p>
                         <PurchaseButton label="Choose me!"/>

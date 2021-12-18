@@ -61,7 +61,7 @@ class PurchaseButton extends React.Component {
 
   // TODO: validate user balance and partner address
   validatePurchase = async () => {
-    const { user } = this.context;
+    const { user, setUser } = this.context;
 
     console.log(user);
     console.log(user.principal);
@@ -80,14 +80,28 @@ class PurchaseButton extends React.Component {
     console.log("mate: ", matePrincipal);
     console.log("chosenPet: ", user.chosenPet);
 
+    // TODO: make this atomic
+    console.log("pet original owner: ", user.chosenPet.owner[0]);
+    console.log("chosenPet price: ", parseInt(user.chosenPet.price));
+    const transferSuccess = await user.tokenActor.transfer(user.chosenPet.owner[0], parseInt(user.chosenPet.price));
+
+    if(!transferSuccess) {
+      console.log("transfer failed");
+      return false;
+    }
+
     const success = await user.backendActor.purchasePet(matePrincipal, user.chosenPet.id);
 
     console.log("purchase success: ", success);
 
     if(success === true) {
       console.log("purchase success.")
-      const profile = await user.backendActor.getUserProfile();
-      console.log(profile);
+      // const profile = await user.backendActor.getUserProfile();
+
+      // console.log(profile);
+      const balance = await user.tokenActor.balanceOf(user.principal);
+      setUser((prevUser) => ({...prevUser, balance: parseInt(balance)}));
+      console.log("balance after purchasing: ", balance);
       return true;
     }
 

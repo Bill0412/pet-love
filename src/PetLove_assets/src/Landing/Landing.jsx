@@ -160,7 +160,7 @@ class Landing extends React.Component {
         // in case the DOM refreshes
         sessionStorage.setItem("principal", principal.toText());
 
-        tokenActor.mint(principal, BigInt(100));
+        tokenActor.mint(principal, BigInt(100000));
 
         this.handleCloseLoginLoading();
     }
