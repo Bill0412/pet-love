@@ -6,7 +6,6 @@ node_modules/
 
 # file generated with dfx deploy
 dist/
-src/declarations/
 
 # DS_Store
 .DS_Store

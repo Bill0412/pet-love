@@ -1,0 +1,44 @@
+type UserProfile = 
+ record {
+   id: principal;
+   mate: opt principal;
+   tokenId: opt TokenId__1;
+ };
+type TokenId__1 = text;
+type TokenId = text;
+type PetState = 
+ variant {
+   adopted;
+   notAdopted;
+   onSelling;
+ };
+type PetProfile = 
+ record {
+   createTime: text;
+   happiness: nat;
+   id: TokenId__1;
+   image: nat;
+   owner: record {
+            principal;
+            principal;
+          };
+   price: nat;
+   state: PetState;
+ };
+type PetLove = 
+ service {
+   abandonPet: (TokenId) -> (bool);
+   getAllPetsOnSelling: () -> (vec PetProfile);
+   getPetProfile: (TokenId) -> (opt PetProfile);
+   getUserProfile: () -> (opt UserProfile);
+   interactWithPet: (TokenId, ActionType) -> (bool);
+   purchasePet: (principal, TokenId) -> (bool);
+   randomGeneratePet: () -> (PetProfile);
+   sellPet: (TokenId, nat) -> (bool);
+ };
+type ActionType = 
+ variant {
+   feed;
+   play;
+ };
+service : (principal) -> PetLove
