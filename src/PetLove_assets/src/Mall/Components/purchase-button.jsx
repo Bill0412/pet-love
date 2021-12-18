@@ -76,12 +76,17 @@ class PurchaseButton extends React.Component {
       console.log("Failed to convert mateAddress: ", mateAddress);
       return false;
     }
+    
+    console.log("mate: ", matePrincipal);
+    console.log("chosenPet: ", user.chosenPet);
 
-    const success = await PetLove.purchasePet(matePrincipal, user.chosenPet.id);
+    const success = await user.backendActor.purchasePet(matePrincipal, user.chosenPet.id);
+
+    console.log("purchase success: ", success);
 
     if(success === true) {
       console.log("purchase success.")
-      const profile = await PetLove.getUserProfile(user.principal);
+      const profile = await user.backendActor.getUserProfile(user.principal);
       console.log(profile);
       return true;
     }

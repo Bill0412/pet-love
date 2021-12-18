@@ -60,7 +60,7 @@ class Pcenter extends React.Component {
             console.log(user)
             console.log(principal)
 
-            const userProfiles = await PetLove.getUserProfile(principal);
+            const userProfiles = await user.backendActor.getUserProfile();
             console.log(userProfiles);
 
             if (userProfiles.length === 0) {
@@ -73,7 +73,7 @@ class Pcenter extends React.Component {
             }
 
             const userProfile = userProfiles[0];
-            const petProfiles = await PetLove.getPetProfile(userProfile.tokenId[0]);
+            const petProfiles = await user.backendActor.getPetProfile(userProfile.tokenId[0]);
 
             if (petProfiles.length === 0) {
                 console.log("Not pet profile is found for the user.");
@@ -94,7 +94,8 @@ class Pcenter extends React.Component {
     }
 
     updatePetProfile = async () => {
-        const petProfiles = await PetLove.getPetProfile(this.state.userProfile.tokenId[0]);
+        const {user} = this.context;
+        const petProfiles = await user.backendActor.getPetProfile(this.state.userProfile.tokenId[0]);
         this.setState({petProfile: petProfiles[0]});
     }
 
@@ -196,8 +197,9 @@ class Pcenter extends React.Component {
                                 size="large"
                                 onPress={
                                     async () => {
+                                        const {user} = this.context;
                                         let success =
-                                            await PetLove.interactWithPet(this.state.petProfile.id, {feed: null});
+                                            await user.backendActor.interactWithPet(this.state.petProfile.id, {feed: null});
                                         if (success) {
                                             this.setState({
                                                 isShowInfoMsg: true,
@@ -216,8 +218,9 @@ class Pcenter extends React.Component {
                                 size="large"
                                 onPress={
                                     async () => {
+                                        const {user} = this.context;
                                         let success =
-                                            await PetLove.interactWithPet(this.state.petProfile.id, {play: null});
+                                            await user.backendActor.interactWithPet(this.state.petProfile.id, {play: null});
                                         if (success) {
                                             this.setState({
                                                 isShowInfoMsg: true,
@@ -331,7 +334,8 @@ class Pcenter extends React.Component {
                         </Typography>
                         <Stack direction="row" mt={3} spacing={2} alignItems="center">
                             <GreenButton onClick={async () => {
-                                const success = await PetLove.abandonPet(this.state.petProfile.id);
+                                const {user} = this.context;
+                                const success = await user.backendActor.abandonPet(this.state.petProfile.id);
 
                                 if (success) {
                                     // TODO: redirect to pet market or refresh the page
@@ -421,8 +425,9 @@ class Pcenter extends React.Component {
 
                                     return;
                                 }
-
-                                const success = await PetLove.sellPet(this.state.petProfile.id, BigInt(price));
+                                
+                                const {user} = this.context;
+                                const success = await user.backendActor.sellPet(this.state.petProfile.id, BigInt(price));
 
                                 if (success) {
                                     this.setState({

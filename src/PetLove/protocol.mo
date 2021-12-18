@@ -151,32 +151,32 @@ module Protocol {
             users.delete(_unwrap(owner2));
             // Debug.print(Principal.toText(user1));
             // Debug.print(Principal.toText(user2));
-            // switch (users.get(user1)) {
-            //     case (null) {
-            //         users.put(user1, {
-            //             id = user1;
-            //             mate = ?user2;
-            //             tokenId = ?tokenId;
-            //         });
-            //     };
-            //     case (_) {
-            //         return false;
-            //     };
-            // };
-            // if (user1 != user2) {
-            //     switch (users.get(user2)) {
-            //         case (null) {
-            //             users.put(user2, {
-            //             id = user2;
-            //             mate = ?user1;
-            //             tokenId = ?tokenId;
-            //             });
-            //         };
-            //         case (_) {
-            //             return false;
-            //         };
-            //     };
-            // };
+            switch (users.get(user1)) {
+                case (null) {
+                    users.put(user1, {
+                        id = user1;
+                        mate = ?user2;
+                        tokenId = ?tokenId;
+                    });
+                };
+                case (_) {
+                    return false;
+                };
+            };
+            if (user1 != user2) {
+                switch (users.get(user2)) {
+                    case (null) {
+                        users.put(user2, {
+                        id = user2;
+                        mate = ?user1;
+                        tokenId = ?tokenId;
+                        });
+                    };
+                    case (_) {
+                        return false;
+                    };
+                };
+            };
             users.put(user1, {
                 id = user1;
                 mate = ?user2;
