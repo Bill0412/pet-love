@@ -86,7 +86,7 @@ class PurchaseButton extends React.Component {
 
     if(success === true) {
       console.log("purchase success.")
-      const profile = await user.backendActor.getUserProfile(user.principal);
+      const profile = await user.backendActor.getUserProfile();
       console.log(profile);
       return true;
     }
