@@ -8,6 +8,42 @@ The project is submitted using the HackerLink Account: https://hackerlink.io/hac
 ## Architecture
 TODO
 
+## Deployment
+1. Clone the project
+```console
+$ git clone https://github.com/Bill0412/pet-love.git
+$ cd pet-love
+$ npm install
+```
+
+2. Create a user config file
+In the project root, run the following commands
+```console
+$ mkdir config
+$ cd config
+$ touch user.json
+```
+
+Then you can open the `config/user.json` file with your favorite text editor to edit it. Following is an example,
+
+```json
+{
+    "backendCanisterId": "szbmr-7yaaa-aaaai-abaoa-cai",
+    "cryptoCanisterId": "kfj54-ziaaa-aaaai-qbd2a-cai"
+}
+```
+
+- `backendCanisterId`: the id for your specific backend
+- `cryptoCanisterId`: the id of [the canister](https://ic.rocks/principal/kfj54-ziaaa-aaaai-qbd2a-cai) that we published a cryptocurrency in accordance with ERC20
+
+
+3. Deploy the project on the Internet Computer
+
+```console
+$ npm install
+$ dfx deploy --network ic --argument '(principal "'$(dfx identity get-principal)'")' 
+```
+
 ## Development
 You should have `npm`, `node.js`, `dfx` installed in advance.
 
@@ -17,30 +53,24 @@ $ git commit -m 'your commit message'
 $ git pull origin <branch name>
 $ git push origin <branch name>
 ```
-### Frontend
-The frontend code is at `src/PetLove_assets/src`.
+The frontend code is at `src/PetLove_assets/src` and backend code is at `src/PetLove/src`. You can follow the following instructions to start your development.
 
-0. You should switch to the `frontend` branch for frontend development. 
+1. You should switch to your target branch for development. 
 ```
-$ git checkout frontend
+$ git checkout <your branch>
 ```
 
-1. Install `npm` package dependencies
+2. Install `npm` package dependencies
 ```
 $ npm install
 ```
 
-2. Start development.
+3. Start development.
 ```
 $ dfx start --background
 $ dfx deploy --argument '(principal "'$(dfx identity get-principal)'")'
 $ npm start
 ```
-
-### Backend
-TODO
-## Deployment
-TODO
 
 ## References
 1. [Deploy React-based web application on IC](https://smartcontracts.org/docs/developers-guide/tutorials/custom-frontend.html)
