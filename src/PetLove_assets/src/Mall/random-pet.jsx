@@ -78,7 +78,7 @@ class RandomPetContent extends React.Component {
                 <Grid container spacing={2} direction="column" justifyContent="center" alignItems="center">
                     <Grid item container direction="row" justifyContent="center" alignItems="center" columns={14}>
                         <Grid item xs={2}/>
-                        <Grid item xs={6}>
+                        <Grid item xs={6} className="pet-seat">
                             <img src={itemData[this.state.pet.image].img} alt="Pet Image"/>
                         </Grid>
                         <Grid item xs={4}>
