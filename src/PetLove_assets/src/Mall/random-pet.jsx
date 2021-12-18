@@ -83,25 +83,25 @@ class RandomPetContent extends React.Component {
                                   alignItems="center">
                                 <Grid item container spacing={2} direction="row" justifyContent="center"
                                       alignItems="center" columns={12}>
-                                    <Grid xs={2}/>
-                                    <Grid item xs={4}>Balance: </Grid>
+                                    <Grid xs={1}/>
+                                    <Grid item xs={6}>Balance: </Grid>
                                     <Grid item xs={4}>{user.balance} QBit</Grid>
-                                    <Grid xs={2}/>
+                                    <Grid xs={1}/>
                                 </Grid>
                                 <Grid item container spacing={2} direction="row" justifyContent="center"
                                       alignItems="center" columns={12}>
-                                    <Grid xs={2}/>
-                                    <Grid item xs={4}>Sale: </Grid>
+                                    <Grid xs={1}/>
+                                    <Grid item xs={6}>Sale: </Grid>
                                     <Grid item xs={4}>{this.state.pet.price.toString()} QBit</Grid>
-                                    <Grid xs={2}/>
+                                    <Grid xs={1}/>
                                 </Grid>
                                 <Grid item container spacing={2} direction="row" justifyContent="center"
                                       alignItems="center" columns={12}>
-                                    <Grid xs={2}/>
-                                    <Grid item xs={4}>Age: </Grid>
+                                    <Grid xs={1}/>
+                                    <Grid item xs={6}>Age: </Grid>
                                     <Grid item
                                           xs={4}>{Math.floor((Date.now() - this.state.pet.createTime / 1000000) / 1000 / 86400)} Day</Grid>
-                                    <Grid xs={2}/>
+                                    <Grid xs={1}/>
                                 </Grid>
                                 <Grid item container spacing={2} direction="row" justifyContent="center"
                                       alignItems="center" columns={12}>
