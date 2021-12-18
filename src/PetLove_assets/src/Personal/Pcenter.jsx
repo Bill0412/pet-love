@@ -298,7 +298,7 @@ class Pcenter extends React.Component {
                             autoHideDuration={1500}
                         />
                     </div>
-                    <div className="sub-block">{this.state.petProfile.price.toString()} ICP</div>
+                    <div className="sub-block">{this.state.petProfile.price.toString()} QBit</div>
                 </Grid>
             </Grid>
         )
