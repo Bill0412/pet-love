@@ -151,8 +151,8 @@ class Landing extends React.Component {
         console.log("principal id:", principal);
 
         setUser((prevUser) => ({
-            ...prevUser, 
-            principal: principal, 
+            ...prevUser,
+            principal: principal,
             backendActor: backendActor,
             tokenActor: tokenActor
         }));
@@ -283,14 +283,13 @@ class Landing extends React.Component {
                                 aria-labelledby="modal-modal-title"
                                 aria-describedby="modal-modal-description"
                             >
-                                <Stack sx={ModalStyle} direciton="row" alignItems="center">
-                                    <LoadingAnimation />
-                                </Stack>
+                                <LoadingAnimation/>
                             </Modal>
                         </Stack>
                     }
                 </Stack>
-            </Stack>)
+            </Stack>
+        )
     }
 
     render = () => {

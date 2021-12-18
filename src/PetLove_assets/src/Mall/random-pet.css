@@ -1,0 +1,20 @@
+.random-overall-height {
+    width: inherit;
+    height: 60vh;
+    margin-top: 10%;
+    border-radius: 5% ;
+    background: rgba(250, 227, 182, 0.25);
+    position: relative;
+    align-content: center;
+    align-items: center;
+    vertical-align: center;
+}
+
+.pet-seat {
+    /*background-image: url("./static/dog-seat.png");*/
+    /*background-position: center;*/
+    /*background-repeat: no-repeat;*/
+    /*width: 1010px;*/
+    /*height: 785px;*/
+    /*background-size: 1010px 785px;*/
+}

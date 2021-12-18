@@ -1,9 +1,7 @@
 import * as React from "react";
 import Stack from '@mui/material/Stack';
-import Box from '@mui/material/Box';
 import Pagination from '@mui/material/Pagination';
 import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
 import itemData from './item-data';
 import './pet-market.css';
 
@@ -15,15 +13,22 @@ const PetCard = (props) => {
 
     return (
         <div className="mall-pet-card">
-            <Stack direction="row" spacing={0} justifyContent="space-evenly" sx={{flexWrap: 'wrap'}}>
+            <Stack direction="row" spacing={0} justifyContent="center" alignItems="center" sx={{flexWrap: 'wrap'}}>
                 <div className="div-pet-image">
                     <Stack>
                         <img src={item.img} alt="Pet Image" className="card-image"/>
                     </Stack>
                 </div>
-                <Stack direction="column" alignItems="center" justifyContent="center" spacing={2}>
-                    <p className="pet-detail-text">sale: {item.price} ICP</p>
-                    <p className="pet-detail-text">age: {item.age} days</p>
+                <Stack direction="column" alignItems="center" justifyContent="center" spacing={2}
+                       className="pet-description">
+                    <Stack direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                        <Stack>sale: </Stack>
+                        <Stack>{item.price} ICP</Stack>
+                    </Stack>
+                    <Stack direction="row" alignItems="center" justifyContent="center" spacing={2}>
+                        <Stack>age: </Stack>
+                        <Stack>{item.age} days</Stack>
+                    </Stack>
                     <PurchaseButton label="Take me!"/>
                 </Stack>
             </Stack>
@@ -45,7 +50,7 @@ const PetMarketContent = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = currentPage * itemsPerPage;
     const items = itemData.slice(startIndex, endIndex);
-    let eachCardWidth = 8, ofs = 2;
+    let eachCardWidth = 4, ofs = 2;
     let allColumns = eachCardWidth * 3 + ofs * 2;
 
     const RenderCard = (props) => {
@@ -60,7 +65,7 @@ const PetMarketContent = () => {
         <div className="mall-overall-height">
             <Grid container justifyContent="center" alignItems="center" direction="column" spacing={3}>
                 <Grid container item justifyContent="center" alignItems="center" direction="row" spacing={3}
-                      className="colum-card-row" columns={allColumns}
+                      className="colum-card-row" columns={allColumns} style={{marginTop: '1%'}}
                 >
                     <Grid item xs={ofs}/>
                     {[
