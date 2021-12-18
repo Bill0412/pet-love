@@ -1,5 +1,9 @@
 # PetLove
 
+[[OUR WEBSITE](https://s6akf-saaaa-aaaai-abaoq-cai.raw.ic0.app/)]
+
+![logo image](./images/1.png)
+
 ## Introduction
 PetLove Application in Internet Computer Platform for Dfinity Hackthon 2021. The app is deployed on the IC chain for demonstration.
 You can visit it [here](https://s6akf-saaaa-aaaai-abaoq-cai.raw.ic0.app/).
