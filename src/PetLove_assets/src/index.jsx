@@ -26,7 +26,11 @@ const userConfigInitial = require("../../../config/user.json");
 
 const App = () => {
 
-    const [user, setUser] = React.useState({...userConfigInitial, principal: null});
+    const [user, setUser] = React.useState({
+        ...userConfigInitial, 
+        principal: null, 
+        backendActor: null,
+        tokenActor: null});
 
     const userValue = React.useMemo(
         () => ({user, setUser}), [user, setUser]

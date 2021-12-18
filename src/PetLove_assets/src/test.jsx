@@ -58,7 +58,7 @@ const TestPage = () => {
             param = [pet.id];
         }
 
-        const petProfile = await actor.randomGeneratePet(param);
+        const petProfile = await actor.randomGeneratePet();
         console.log(petProfile);
 
         if(petProfile != null) {

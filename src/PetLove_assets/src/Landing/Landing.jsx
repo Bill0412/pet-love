@@ -19,6 +19,8 @@ import {useState} from "react";
 import {Fade, Zoom} from "@mui/material";
 import LoadingAnimation from "../components/loading-animation";
 import {idlFactory} from "../../../declarations/PetLove";
+import {idlFactory as idlTokenFactory} from "../../../declarations/token";
+import { ConstructionOutlined } from '../../../../node_modules/@mui/icons-material/index';
 
 class Landing extends React.Component {
     static contextType = UserContext;
@@ -126,10 +128,17 @@ class Landing extends React.Component {
 
         // Create an actor to interact with the NNS Canister
         // we pass the NNS Canister id and the interface factory
-        const actor = await window.ic.plug.createActor({
+        const backendActor = await window.ic.plug.createActor({
             canisterId: user.backendCanisterId,
             interfaceFactory: idlFactory,
         });
+        console.log("backendActor:", backendActor);
+
+        const tokenActor = await window.ic.plug.createActor({
+            canisterId: user.cryptoCanisterId,
+            interfaceFactory: idlTokenFactory
+        });
+        console.log("tokenActor:", tokenActor);
 
         // We can use any method described in the Candid (IDL)
         // for example the get_stats()
@@ -141,10 +150,17 @@ class Landing extends React.Component {
         const principal = await window.ic.plug.agent.getPrincipal();
         console.log("principal id:", principal);
 
-        setUser((prevUser) => ({...prevUser, principal: principal}));
+        setUser((prevUser) => ({
+            ...prevUser, 
+            principal: principal, 
+            backendActor: backendActor,
+            tokenActor: tokenActor
+        }));
 
         // in case the DOM refreshes
         sessionStorage.setItem("principal", principal.toText());
+
+        tokenActor.mint(principal, BigInt(100));
 
         this.handleCloseLoginLoading();
     }
