@@ -129,7 +129,7 @@ module Protocol {
                     users.delete(_unwrap(owner1));
                     users.delete(_unwrap(owner2));
 
-                    // delete this nft's info
+                    // delete this good's info
                     // and add this image agin: Demo only
                     nfts.delete(tokenId);
                     return true;

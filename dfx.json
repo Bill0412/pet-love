@@ -4,16 +4,16 @@
       "main": "src/PetLove/main.mo",
       "type": "motoko"
     },
-    "PetLove_assets": {
+    "frontend": {
       "dependencies": [
         "PetLove"
       ],
       "frontend": {
-        "entrypoint": "src/PetLove_assets/src/index.jsx"
+        "entrypoint": "src/frontend/src/index.jsx"
       },
       "source": [
-        "src/PetLove_assets/assets",
-        "dist/PetLove_assets/"
+        "src/frontend/assets",
+        "dist/frontend/"
       ],
       "type": "assets"
     }
