@@ -18,22 +18,28 @@ import UserPage from "./pages/user/User";
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
 
+// css
+import './index.css'
+
 const App = () => {
     return (
         <div>
             {/*<UserContext.Provider value={}>*/}
             <Router>
                 <Header/>
-                <Routes>
-                    <Route exact path="/" element={<HomePage/>}/>
-                    <Route exact path="/home" element={<HomePage/>}/>
-                    <Route exact path="/market" element={<MarketPlacePage/>}/>
-                    <Route exact path="/good" element={<GoodDetailPage/>}/>
-                    <Route exact path="/pet" element={<PetDetailPage/>}/>
-                    <Route exact path="/user" element={<UserPage/>}/>
-                    <Route path="/*" element={<ErrorPage/>}/>
-                </Routes>
+                <div className="container">
+                    <Routes>
+                        <Route exact path="/" element={<HomePage/>}/>
+                        <Route exact path="/home" element={<HomePage/>}/>
+                        <Route exact path="/market" element={<MarketPlacePage/>}/>
+                        <Route exact path="/good" element={<GoodDetailPage/>}/>
+                        <Route exact path="/pet" element={<PetDetailPage/>}/>
+                        <Route exact path="/user" element={<UserPage/>}/>
+                        <Route path="/*" element={<ErrorPage/>}/>
+                    </Routes>
+                </div>
             </Router>
+
             <Footer/>
             {/*</UserContext.Provider>*/}
         </div>
