@@ -1,0 +1,8 @@
+.homeButton {
+    padding-left: 35px;
+    padding-right: 35px;
+    font-size:32px;
+    font-weight:100;
+    border-radius: 20px !important;
+    outline: none;
+}

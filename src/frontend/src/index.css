@@ -675,7 +675,7 @@ model-viewer {
     font-size: 66px;
     font-weight: bold;
     font-family: "Helvetica";
-    background: linear-gradient(to right, #7db6e0, #0B5ED7);
+    background: linear-gradient(to right, #FFC0CB, #0B5ED7);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -683,7 +683,7 @@ model-viewer {
     font-size: 66px;
     font-weight: bold;
     font-family: "Helvetica";
-    background: linear-gradient(to right, #0B5ED7, #7db6e0);
+    background: linear-gradient(to right, #FFC0CB, #7db6e0);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
