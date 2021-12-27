@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 
 import './HomePage.css'
 import ReactPlaceholder from "react-placeholder";
+import NFTCard from "../../components/nft-card/NFTCard";
 
 const HomePage = () => {
 
@@ -91,101 +92,68 @@ const HomePage = () => {
                         </div>
                         <br/>
                         <br/>
-                        <div className="row justify-content-around">
+                        <div className="row justify-content-around explore-adj">
                             <h4 className="text-light">Newest Sold Pets </h4>
                             <ReactPlaceholder type='rect' ready={!onQuerying} showLoadingAnimation={true}
                                               color='#333' style={{
                                 width: '300px',
-                                height: '300px',
+                                height: '350px',
                                 marginTop: '15px',
                                 borderRadius: '15px'
                             }}>
-                                <div>123</div>
-                                {/*{this.state.images.map((id, key) => {*/}
-                                {/*    return (*/}
-                                {/*        (false === true) ?*/}
-                                {/*            (*/}
-                                {/*                <div key={key} className="col-md-2 card bg-light m-3 p-2">*/}
-                                {/*                    <Link to={{*/}
-                                {/*                        pathname: `/nft/${this.state.imageData_id[key]}`,*/}
-                                {/*                        // state: {name: "vikas"}*/}
-                                {/*                    }}>*/}
-                                {/*                        <form onSubmit={(event) => {*/}
-
-                                {/*                        }}>*/}
-
-                                {/*                            <div className="col-auto max-250">*/}
-                                {/*                                <div className="text-secondary idbadge"*/}
-                                {/*                                     align="center">ID*/}
-                                {/*                                    #{this.state.imageData_id[key]}</div>*/}
-                                {/*                                {(typeof this.state.imageData_nftData[key] !== 'undefined') ? (*/}
-
-                                {/*                                    (this.state.imageData_mimeType[key] === "image/jpeg" || this.state.imageData_mimeType[key] === "image/png" || this.state.imageData_mimeType[key] === "image/gif") ? (*/}
-                                {/*                                        <Img alt="NFT" className="token rounded"*/}
-                                {/*                                             src={"https://ipfs.sy.finance/ipfs/" + this.state.imageData_nftData[key]}*/}
-                                {/*                                             cache style={{background: "#000"}}/>*/}
-                                {/*                                    ) : (this.state.imageData_mimeType[key] === "video/mp4") ? (*/}
-                                {/*                                        <video alt="NFT" className="token rounded"*/}
-                                {/*                                               autoPlay playsInline muted loop*/}
-                                {/*                                               controls*/}
-                                {/*                                               src={"https://ipfs.sy.finance/ipfs/" + this.state.imageData_nftData[key]}*/}
-                                {/*                                               type="video/mp4">*/}
-                                {/*                                            <source*/}
-                                {/*                                                src={"https://ipfs.sy.finance/ipfs/" + this.state.imageData_nftData[key]}*/}
-                                {/*                                                type="video/mp4"></source>*/}
-                                {/*                                        </video>*/}
-                                {/*                                    ) : (this.state.imageData_mimeType[key] === "model/gltf-binary") ? (*/}
-                                {/*                                        <model-viewer*/}
-                                {/*                                            src={"https://ipfs.sy.finance/ipfs/" + this.state.imageData_nftData[key]}*/}
-                                {/*                                            alt={this.state.imageData_name[key]} ar*/}
-                                {/*                                            ar-modes="webxr scene-viewer quick-look"*/}
-                                {/*                                            environment-image="neutral" auto-rotate*/}
-                                {/*                                            camera-controls style={{*/}
-                                {/*                                            width: "100%",*/}
-                                {/*                                            height: "250px"*/}
-                                {/*                                        }}></model-viewer>*/}
-                                {/*                                    ) : (null)*/}
-                                {/*                                ) : (null)*/}
-                                {/*                                }*/}
-
-                                {/*                            </div>*/}
-                                {/*                            <div className="m-2"*/}
-                                {/*                                 align="center">{this.state.imageData_name[key]}</div>*/}
-                                {/*                            /!* <div className="m-2" align="center">{this.state.approved[key] ? ( "Price: " + this.state.imageData_price[key] )*/}
-                                {/*                : ( "Not For Sale" )*/}
-                                {/*                }*/}
-                                {/*                    <img alt="main" className="eth-class" src="../logo.png" />*/}
-                                {/*                </div> *!/*/}
-
-
-                                {/*                        </form>*/}
-                                {/*                    </Link>*/}
-                                {/*                </div>*/}
-                                {/*            ) : null*/}
-                                {/*    )*/}
-                                {/*})*/}
-                                {/*}*/}
+                                <NFTCard size={{width: '300px', height: '350px'}}/>
                             </ReactPlaceholder>
-                            {/*<ReactPlaceholder type='rect' ready={false} showLoadingAnimation={true}*/}
-                            {/*                  color='#333' style={{*/}
-                            {/*    width: '300px',*/}
-                            {/*    height: '300px',*/}
-                            {/*    marginTop: '15px',*/}
-                            {/*    borderRadius: '15px'*/}
-                            {/*}}>*/}
-                            {/*    <span style={{display: "none"}}>&nbsp;</span>*/}
-                            {/*</ReactPlaceholder>*/}
-                            {/*<ReactPlaceholder type='rect' ready={false} showLoadingAnimation={true}*/}
-                            {/*                  color='#333' style={{*/}
-                            {/*    width: '300px',*/}
-                            {/*    height: '300px',*/}
-                            {/*    marginTop: '15px',*/}
-                            {/*    borderRadius: '15px'*/}
-                            {/*}}>*/}
-                            {/*    <span style={{display: "none"}}>&nbsp;</span>*/}
-                            {/*</ReactPlaceholder>*/}
+                            <ReactPlaceholder type='rect' ready={!onQuerying} showLoadingAnimation={true}
+                                              color='#333' style={{
+                                width: '300px',
+                                height: '350px',
+                                marginTop: '15px',
+                                borderRadius: '15px'
+                            }}>
+                                <NFTCard size={{width: '300px', height: '350px'}}/>
+                            </ReactPlaceholder>
+                            <ReactPlaceholder type='rect' ready={!onQuerying} showLoadingAnimation={true}
+                                              color='#333' style={{
+                                width: '300px',
+                                height: '350px',
+                                marginTop: '15px',
+                                borderRadius: '15px'
+                            }}>
+                                <NFTCard size={{width: '300px', height: '350px'}}/>
+                            </ReactPlaceholder>
                         </div>
                         <br/>
+                        <br/>
+                        <div className="row justify-content-around explore-adj">
+                            <h4 className="text-light">Newest Born Pets </h4>
+                            <ReactPlaceholder type='rect' ready={!onQuerying} showLoadingAnimation={true}
+                                              color='#333' style={{
+                                width: '300px',
+                                height: '350px',
+                                marginTop: '15px',
+                                borderRadius: '15px'
+                            }}>
+                                <NFTCard size={{width: '300px', height: '350px'}}/>
+                            </ReactPlaceholder>
+                            <ReactPlaceholder type='rect' ready={!onQuerying} showLoadingAnimation={true}
+                                              color='#333' style={{
+                                width: '300px',
+                                height: '350px',
+                                marginTop: '15px',
+                                borderRadius: '15px'
+                            }}>
+                                <NFTCard size={{width: '300px', height: '350px'}}/>
+                            </ReactPlaceholder>
+                            <ReactPlaceholder type='rect' ready={!onQuerying} showLoadingAnimation={true}
+                                              color='#333' style={{
+                                width: '300px',
+                                height: '350px',
+                                marginTop: '15px',
+                                borderRadius: '15px'
+                            }}>
+                                <NFTCard size={{width: '300px', height: '350px'}}/>
+                            </ReactPlaceholder>
+                        </div>
                         {/*<div className="row justify-content-around">*/}
                         {/*    <h4 className="text-light">Fresh off the mint!</h4>*/}
                         {/*    <ReactPlaceholder type='rect' ready={falsemint} showLoadingAnimation={true}*/}
