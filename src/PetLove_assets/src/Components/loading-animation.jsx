@@ -1,13 +1,18 @@
-import Stack from "@mui/material/Stack";
-import CircularProgress from '@mui/material/CircularProgress';
 import * as React from "react";
-
+import load from './assets/load-big.svg';
+import {Grid} from "@mui/material";
+import './loading-animation.css';
 
 const LoadingAnimation = () => {
     return (
-        <Stack sx={{ display: 'flex' }} alignItems="center">
-            <CircularProgress color="success" />
-        </Stack>
+        <Grid container item direction="row" justifyContent="center" alignItems="center" className="loading-position">
+            <Grid item xs={3}>
+            </Grid>
+            <Grid item xs={6}>
+                <img src={load} alt='Loading!'/>
+            </Grid>
+            <Grid item xs={3}/>
+        </Grid>
     )
 };
 

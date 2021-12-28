@@ -7,9 +7,10 @@
     height: 60%;
     /*top: 20%;*/
     border-radius: 10% 10%;
-    background-image: url("../DogBoard/static/dashBoard-2.png");
-    background-repeat: no-repeat;
-    background-position: center;
+    /*background-image: url("../DogBoard/static/dashBoard-2.png");*/
+    /*background-repeat: no-repeat;*/
+    /*background-position: center;*/
+    background: rgba(250, 227, 182, 0.25);
 }
 
 

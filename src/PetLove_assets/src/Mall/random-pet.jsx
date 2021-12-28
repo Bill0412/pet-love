@@ -9,8 +9,9 @@ import LoadingAnimation from "../components/loading-animation";
 import ResponsiveAppBar from "../components/app-bar";
 import itemData from "./item-data";
 import UserContext from "../Contexts/user-context";
+import './random-pet.css';
 import verifyConnection from "../Wallet/VerifyConnection";
-import {idlFactory} from "../../../declarations/PetLove";
+import { idlFactory } from "../../../declarations/PetLove";
 import { useRef } from "react";
 
 
@@ -23,8 +24,7 @@ class RandomPetContent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            pet: null,
-            balance: 0
+            pet: null
         }
     }
 
@@ -49,10 +49,9 @@ class RandomPetContent extends React.Component {
         const petProfile = await user.backendActor.randomGeneratePet();
         console.log("onGeneratePet: ", petProfile);
         this.setState({pet: petProfile});
-        setUser((prevUser) => ({...prevUser, chosenPet: petProfile}));
 
         const balance = await user.tokenActor.balanceOf(user.principal);
-        this.setState({balance: parseInt(balance)});
+        setUser((prevUser) => ({...prevUser, chosenPet: petProfile, balance: parseInt(balance)}));
     }
 
     componentDidMount = async () => {
@@ -70,27 +69,61 @@ class RandomPetContent extends React.Component {
     }
 
     Body = () => {
+        const { user } = this.context;
         return (
-            <Grid container mt={10}>
-                <Grid item xs={12} md={6}>
-                    <Stack spacing={2} direction="column" justifyContent="center" alignItems="center">
-                        <img src={itemData[this.state.pet.image].img} alt="Pet Image"/>
-                        &nbsp;
-                        <GreenButton startIcon={<ReplayIcon />} onClick={this.onGeneratePet}>
-                            See Other Pets
-                        </GreenButton>
-                    </Stack>
+            <div className="random-overall-height">
+                <Grid container spacing={2} direction="column" justifyContent="center" alignItems="center">
+                    <Grid item container direction="row" justifyContent="center" alignItems="center" columns={14}>
+                        <Grid item xs={2}/>
+                        <Grid item xs={6} className="pet-seat">
+                            <img src={itemData[this.state.pet.image].img} alt="Pet Image"/>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Grid item container spacing={2} direction="column" justifyContent="center"
+                                  alignItems="center">
+                                <Grid item container spacing={2} direction="row" justifyContent="center"
+                                      alignItems="center" columns={12}>
+                                    <Grid xs={1}/>
+                                    <Grid item xs={4}>Balance: </Grid>
+                                    <Grid item xs={6}>{user.balance} QBit</Grid>
+                                    <Grid xs={1}/>
+                                </Grid>
+                                <Grid item container spacing={2} direction="row" justifyContent="center"
+                                      alignItems="center" columns={12}>
+                                    <Grid xs={1}/>
+                                    <Grid item xs={6}>Sale: </Grid>
+                                    <Grid item xs={4}>{this.state.pet.price.toString()} QBit</Grid>
+                                    <Grid xs={1}/>
+                                </Grid>
+                                <Grid item container spacing={2} direction="row" justifyContent="center"
+                                      alignItems="center" columns={12}>
+                                    <Grid xs={1}/>
+                                    <Grid item xs={6}>Age: </Grid>
+                                    <Grid item
+                                          xs={4}>{Math.floor((Date.now() - this.state.pet.createTime / 1000000) / 1000 / 86400)} Day</Grid>
+                                    <Grid xs={1}/>
+                                </Grid>
+                                <Grid item container spacing={2} direction="row" justifyContent="center"
+                                      alignItems="center" columns={12}>
+                                    <Grid item xs={1}/>
+                                    <Grid item xs={5}>
+                                        <PurchaseButton label="Choose me!"/>
+                                    </Grid>
+                                    <Grid item xs={5}>
+                                        <GreenButton onClick={this.onGeneratePet}>
+                                            Another One!
+                                        </GreenButton>
+                                    </Grid>
+                                    <Grid item xs={1}/>
+                                </Grid>
+
+                            </Grid>
+                        </Grid>
+                        <Grid item xs={2}/>
+                    </Grid>
                 </Grid>
-                <Grid item xs={12} md={6} mt={14}>
-                    <Stack spacing={2} direction="column" justifyContent="center" alignItems="center">
-                        <p>Balance: {this.state.balance} QBit</p>
-                        <p>Sale: {this.state.pet.price.toString()} QBit</p>
-                        <p>Age: {Math.floor((Date.now() - this.state.pet.createTime/1000000) / 1000 / 86400)} Day</p>
-                        <PurchaseButton label="Choose me!"/>
-                    </Stack>
-                </Grid>
-            </Grid>
-        );
+            </div>
+        )
     }
 
 

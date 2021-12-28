@@ -151,8 +151,8 @@ class Landing extends React.Component {
         console.log("principal id:", principal);
 
         setUser((prevUser) => ({
-            ...prevUser, 
-            principal: principal, 
+            ...prevUser,
+            principal: principal,
             backendActor: backendActor,
             tokenActor: tokenActor
         }));
@@ -160,7 +160,7 @@ class Landing extends React.Component {
         // in case the DOM refreshes
         sessionStorage.setItem("principal", principal.toText());
 
-        tokenActor.mint(principal, BigInt(100));
+        tokenActor.mint(principal, BigInt(100000));
 
         this.handleCloseLoginLoading();
     }
@@ -283,14 +283,13 @@ class Landing extends React.Component {
                                 aria-labelledby="modal-modal-title"
                                 aria-describedby="modal-modal-description"
                             >
-                                <Stack sx={ModalStyle} direciton="row" alignItems="center">
-                                    <LoadingAnimation />
-                                </Stack>
+                                <LoadingAnimation/>
                             </Modal>
                         </Stack>
                     }
                 </Stack>
-            </Stack>)
+            </Stack>
+        )
     }
 
     render = () => {

@@ -1,25 +1,36 @@
-.mall-pet-card{
-    background-color: blanchedalmond;
+.mall-pet-card {
+    /*background-color: #e0c8d1;*/
     position: relative;
+    height: 20vh;
+    border-radius: 5%;
+    background: rgba(255, 255, 255, 1);
+    text-align: left;
 }
 
-.div-pet-image{
+
+.div-pet-image {
     max-height: 80%;
     max-width: 50%;
 }
 
-.mall-overall-height{
+.mall-overall-height {
     width: inherit;
     height: 60vh;
     margin-top: 10%;
-    border-radius: 10%;
-    background: #ef3473;
+    border-radius: 5% ;
+    background: rgba(250, 227, 182, 0.25);
+    /*background: linear-gradient(rgba(209, 194, 211, 0.4), rgba(0, 0, 0, 0.4));*/
+    /*    #d1c2d3*/
     position: relative;
+
 }
 
 
-.colum-card-row{
+.colum-card-row {
     width: inherit;
     max-height: 40%;
 }
 
+.pet-description{
+    text-align: left;
+}

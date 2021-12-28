@@ -30,7 +30,8 @@ const App = () => {
         ...userConfigInitial, 
         principal: null, 
         backendActor: null,
-        tokenActor: null});
+        tokenActor: null,
+        balance: 0});
 
     const userValue = React.useMemo(
         () => ({user, setUser}), [user, setUser]

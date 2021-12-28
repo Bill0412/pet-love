@@ -280,7 +280,12 @@ class Pcenter extends React.Component {
                             onCopy={
                                 () => {
                                     // console.log(this.state.principalMate)
-                                    changeOpenSnack(true)
+                                    changeOpenSnack(true);
+                                    setInterval(
+                                        () => {
+                                            changeOpenSnack(false)
+                                        }, 1500
+                                    )
                                 }
                             }
                         >
@@ -298,7 +303,7 @@ class Pcenter extends React.Component {
                             autoHideDuration={1500}
                         />
                     </div>
-                    <div className="sub-block">{this.state.petProfile.price.toString()} ICP</div>
+                    <div className="sub-block">{this.state.petProfile.price.toString()} QBit</div>
                 </Grid>
             </Grid>
         )
@@ -419,7 +424,7 @@ class Pcenter extends React.Component {
                                 } catch (err) {
                                     this.setState({
                                         isShowInfoMsg: true,
-                                        txtMsg: "Please make sure you entened correct message.",
+                                        txtMsg: "Please make sure you entered correct message.",
                                         isShowSellPriceSet: false
                                     });
 
