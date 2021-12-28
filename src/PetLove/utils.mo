@@ -34,18 +34,24 @@ module Utils {
                 id = getTokenId();
                 createTime = getTimestamp();
                 image = getImage();
-
                 var state = #notAdopted;
                 var happiness = _initHappiness;
                 var price = _initPrice;
             }
         };
 
-        private func getTokenId() : TokenId {
+        public func getTokenId() : TokenId {
             var next = _next;
             _next += 1;
             return Int.toText(Time.now()) # Int.toText(next);
         };
+
+        public func getRequestId() : Text {
+            var next = _next;
+            _next += 1;
+            return Int.toText(Time.now()) # Int.toText(next);
+        };
+
 
         private func getTimestamp() : Text {
             return Int.toText(Time.now());

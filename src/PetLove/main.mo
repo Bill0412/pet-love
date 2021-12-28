@@ -1,12 +1,17 @@
 import Principal "mo:base/Principal";
+import HashMap "mo:base/HashMap";
 import Time "mo:base/Time";
 import Array "mo:base/Array";
 import Bool "mo:base/Bool";
 import Debug "mo:base/Debug";
 import List "mo:base/List";
+import Text "mo:base/Text";
+import Iter "mo:base/Iter";
+import Option "mo:base/Option";
 
 import Types "./types";
 import Protocol "./protocol";
+import Utils "./utils";
 
 shared(msg) actor class PetLove(creator: Principal) {
 
@@ -16,15 +21,19 @@ shared(msg) actor class PetLove(creator: Principal) {
     public type PetProfile = Types.PetProfile;
     public type PetState = Types.PetState;
     public type ActionType = Types.ActionType;
+    public type EventType = Types.EventType;
+    public type Request = Types.Request;
+    public type EventState = Types.EventState;
 
     // create information
+    private var requests = HashMap.HashMap<Text, Request>(1, Text.equal, Text.hash);
     private stable var _defaultUser : Principal = creator;
     private stable var _createTime : Time.Time = Time.now();
     private stable var _next : Nat = 0;
 
     // protocol of MUN
     private var protocol = Protocol.MUN_Protocol();
-
+    private var tokenUtil = Utils.TokenUtil();
 
     stable var db_nfts : [(TokenId, TokenMeta)] = [];
     stable var db_users : [(Principal, UserProfile)] = [];
@@ -75,23 +84,6 @@ shared(msg) actor class PetLove(creator: Principal) {
         }
     };
 
-    public shared(msg) func sellPet(id : TokenId, price : Nat) : async (Bool) {
-        assert(protocol.canAccess(msg.caller, id));
-        var pet : ?TokenMeta =  protocol.getNFTByToken(id); 
-        switch (pet) {
-            case (?pet) {
-                var _pet : TokenMeta = pet;
-                _pet.state := #onSelling;
-                _pet.price := price;
-                protocol.setNFTByToken(id, _pet);
-                return true;
-            };
-            case (null) {
-                return false;
-            };
-        }
-    };
-
     public shared(msg) func interactWithPet(id : TokenId, action : ActionType) : async (Bool) {
         assert(protocol.canAccess(msg.caller, id));
         switch (action) {
@@ -127,43 +119,82 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func purchasePet(mate : Principal, pet : TokenId) : async (Bool) {
-        let res : Bool = protocol.transferNFT(msg.caller, mate, pet);
-        return res;
+        sendRequest(msg.caller, mate, #buy, pet);
+        return true;
+    };
+
+    public shared(msg) func sellPet(id : TokenId, price : Nat) : async (Bool) {
+        assert(protocol.canAccess(msg.caller, id));
+        sendRequest(msg.caller, Option.unwrap(protocol.getMate(msg.caller)), #sell, id);
+        var pet : ?TokenMeta =  protocol.getNFTByToken(id); 
+        switch (pet) {
+            case (?pet) {
+                var _pet : TokenMeta = pet;
+                _pet.price := price;
+                protocol.setNFTByToken(id, _pet);
+                return true;
+            };
+            case (null) {
+                return false;
+            };
+        };
+        return true;
     };
 
     public shared(msg) func abandonPet(pet : TokenId) : async (Bool) {
         assert(protocol.canAccess(msg.caller, pet));
-        let res : Bool = protocol.destroyNFT(pet);
-        return res;
+        sendRequest(msg.caller, Option.unwrap(protocol.getMate(msg.caller)), #abandon, pet);
+        return true;
     };
+
+    public shared(msg) func reponseACK(requestId : Text) : async (Bool) {
+        changeRequestState(requestId, #success);
+        var request = Option.unwrap(requests.get(requestId));
+        var tokenId = request.tokenId;
+        assert(protocol.canAccess(msg.caller, tokenId));
+        switch (request.event) {
+            case (#buy) {
+                var res = protocol.transferNFT(request.sender, request.receiver, tokenId);
+                if (res) {
+                    protocol.setNFTByToken(tokenId, changePetState(tokenId, #adopted));
+                };
+            };
+            case (#sell) {
+                protocol.setNFTByToken(tokenId, changePetState(tokenId, #onSelling));
+            };
+            case (#abandon) {
+                var res = protocol.destroyNFT(tokenId);
+                if (res) {
+                    protocol.setNFTByToken(tokenId, changePetState(tokenId, #deprecated));
+                };
+            };
+        };
+        return true;
+    };
+    
+    public shared(msg) func reponseNAK(requestId : Text) : async (Bool) {
+        changeRequestState(requestId, #failed);
+        return true;
+    };
+
 
     public shared(msg) func getAllPetsOnSelling() : async ([PetProfile]) {
-        let allPets : [TokenMeta] =  protocol.getAllNFT();
-        let allPetsOnSelling : [TokenMeta] = Array.filter(
-            allPets, 
-            func (token: TokenMeta) : Bool { 
-                token.state == #onSelling 
-            }
-        );
-
-        let petProfiles : [PetProfile] = Array.mapFilter<TokenMeta, PetProfile>(
-            allPetsOnSelling,
-            func (meta: TokenMeta) : ?PetProfile {
-                let res :PetProfile = {
-                    id = meta.id;
-                    createTime = meta.createTime;
-                    image = meta.image;
-                    state = meta.state;
-                    happiness = meta.happiness;
-                    price = meta.price;
-                    owner =  protocol.getOwners(meta.id);
-                };
-                ?res
-            }
-        );
-
-        return petProfiles;
+        return getPetsByState(#onSelling);
     };
+
+    public shared(msg) func getAllPetsnotAdopted() : async ([PetProfile]) {
+        return getPetsByState(#adopted);
+    };
+
+    public shared(msg) func getAllRequests() : async ([Request]) {
+        return Array.filter(
+            Iter.toArray(requests.vals()), 
+            func (request: Request) : Bool { 
+                request.receiver == msg.caller;
+            }
+        );
+    };
+    
     
     private func playPet(id : TokenId) : () {
         var pet : ?TokenMeta =  protocol.getNFTByToken(id); 
@@ -171,7 +202,7 @@ shared(msg) actor class PetLove(creator: Principal) {
             case (?pet) {
                 var _pet : TokenMeta = pet;
                 _pet.happiness := addHappiness(_pet.happiness, 5);
-                 protocol.setNFTByToken(id, _pet);
+                protocol.setNFTByToken(id, _pet);
             };
             case (null) {
                 return;
@@ -199,5 +230,68 @@ shared(msg) actor class PetLove(creator: Principal) {
             now := 90;
         };
         return now
+    };
+
+    private func sendRequest (_sender : Principal, _receiver : Principal, _event : EventType, _tokenId : TokenId) {
+        let request : Request = {
+            requestId = tokenUtil.getRequestId();
+            sender = _sender;
+            receiver = _receiver;
+            event = _event;
+            state = #waiting;
+            tokenId = _tokenId;
+        };
+        requests.put(request.requestId, request);
+    };
+
+    private func changeRequestState (_requestId : Text, _state : EventState) {
+        var request = Option.unwrap(requests.get(_requestId));
+        let _request : Request = {
+            requestId = request.requestId;
+            sender = request.sender;
+            receiver = request.receiver;
+            event = request.event;
+            state = _state;
+            tokenId = request.tokenId;
+        };
+        requests.put(_requestId, _request);
+    };
+
+    private func changePetState (_tokenId : TokenId, _state : PetState) : TokenMeta{
+        var pet : ?TokenMeta =  protocol.getNFTByToken(_tokenId); 
+        switch (pet) {
+            case (?pet) {
+                var _pet : TokenMeta = pet;
+                _pet.state := _state;
+                return _pet;
+            };
+        };
+    };
+
+
+    private func getPetsByState(_state : PetState) : ([PetProfile]) {
+        let allPets : [TokenMeta] =  protocol.getAllNFT();
+        let pets : [TokenMeta] = Array.filter(
+            allPets, 
+            func (token: TokenMeta) : Bool { 
+                token.state == _state; 
+            }
+        );
+        let petProfiles : [PetProfile] = Array.mapFilter<TokenMeta, PetProfile>(
+            pets,
+            func (meta: TokenMeta) : ?PetProfile {
+                let res : PetProfile = {
+                    id = meta.id;
+                    createTime = meta.createTime;
+                    image = meta.image;
+                    state = meta.state;
+                    happiness = meta.happiness;
+                    price = meta.price;
+                    owner = protocol.getOwners(meta.id);
+                };
+                ?res
+            }
+        );
+        return petProfiles;
     };
 }

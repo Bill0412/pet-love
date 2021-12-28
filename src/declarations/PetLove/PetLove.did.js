@@ -3,6 +3,7 @@ export const idlFactory = ({ IDL }) => {
   const TokenId__1 = IDL.Text;
   const PetState = IDL.Variant({
     'onSelling' : IDL.Null,
+    'deprecated' : IDL.Null,
     'notAdopted' : IDL.Null,
     'adopted' : IDL.Null,
   });
@@ -15,6 +16,24 @@ export const idlFactory = ({ IDL }) => {
     'image' : IDL.Nat,
     'price' : IDL.Nat,
   });
+  const EventType = IDL.Variant({
+    'buy' : IDL.Null,
+    'abandon' : IDL.Null,
+    'sell' : IDL.Null,
+  });
+  const EventState = IDL.Variant({
+    'success' : IDL.Null,
+    'waiting' : IDL.Null,
+    'failed' : IDL.Null,
+  });
+  const Request = IDL.Record({
+    'requestId' : IDL.Text,
+    'tokenId' : TokenId__1,
+    'sender' : IDL.Principal,
+    'event' : EventType,
+    'state' : EventState,
+    'receiver' : IDL.Principal,
+  });
   const UserProfile = IDL.Record({
     'id' : IDL.Principal,
     'tokenId' : IDL.Opt(TokenId__1),
@@ -24,11 +43,15 @@ export const idlFactory = ({ IDL }) => {
   const PetLove = IDL.Service({
     'abandonPet' : IDL.Func([TokenId], [IDL.Bool], []),
     'getAllPetsOnSelling' : IDL.Func([], [IDL.Vec(PetProfile)], []),
+    'getAllPetsnotAdopted' : IDL.Func([], [IDL.Vec(PetProfile)], []),
+    'getAllRequests' : IDL.Func([], [IDL.Vec(Request)], []),
     'getPetProfile' : IDL.Func([TokenId], [IDL.Opt(PetProfile)], []),
     'getUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], []),
     'interactWithPet' : IDL.Func([TokenId, ActionType], [IDL.Bool], []),
     'purchasePet' : IDL.Func([IDL.Principal, TokenId], [IDL.Bool], []),
     'randomGeneratePet' : IDL.Func([], [PetProfile], []),
+    'reponseACK' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'reponseNAK' : IDL.Func([IDL.Text], [IDL.Bool], []),
     'sellPet' : IDL.Func([TokenId, IDL.Nat], [IDL.Bool], []),
   });
   return PetLove;

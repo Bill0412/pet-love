@@ -11,12 +11,26 @@ module {
         #adopted;
         #notAdopted;
         #onSelling;
+        #deprecated;
     };
 
     public type ActionType = {
         #play;
         #feed;
     };
+
+    public type EventType = {
+        #buy;
+        #sell;
+        #abandon;
+    };
+
+    public type EventState = {
+        #waiting;
+        #success;
+        #failed;
+    };
+
 
     public type TokenId = Text;
 
@@ -61,5 +75,21 @@ module {
         // info mutable when selling
         price : Nat;
         owner : (Principal, Principal);
+    };
+
+    public type Request = {
+
+        requestId : Text;
+
+        sender : Principal;
+
+        receiver : Principal;
+
+        event : EventType;
+
+        state : EventState;
+
+        tokenId : TokenId;
+
     };
 }
