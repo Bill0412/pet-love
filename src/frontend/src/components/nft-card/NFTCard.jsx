@@ -5,8 +5,6 @@ import Img from "react-cool-img";
 import {Link} from "react-router-dom";
 
 const NFTCard = (props) => {
-
-    // card size
     let [size, setSize] = useState(props.size)
 
     // let [info, setInfo] = useState(props.info)

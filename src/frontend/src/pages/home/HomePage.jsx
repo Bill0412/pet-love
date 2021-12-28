@@ -1,5 +1,4 @@
-import React, {Component, useEffect, useState} from 'react'
-import {render} from "react-dom";
+import React, {useEffect, useState} from 'react'
 import ScrollToTop from 'react-scroll-to-top'
 import LoadingOverlay from 'react-loading-overlay';
 import Modal from 'react-modal';
