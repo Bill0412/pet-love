@@ -1,0 +1,17 @@
+.message-container{
+    width: 100%;
+    text-align: left;
+    font-family: "Times New Roman", serif;
+    display: -webkit-flex;
+    -webkit-flex-direction: column;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-box{
+    border-radius: 0.125rem;
+    background: #7db6e0;
+    width: 80%;
+    margin: 10px auto;
+    height: 50px;
+}
