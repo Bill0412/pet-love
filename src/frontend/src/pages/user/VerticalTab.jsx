@@ -1,6 +1,8 @@
 import React from "react";
 import './tab.css';
 
+
+
 class Tabs extends React.Component{
     state ={
         activeTab: this.props.children[0].props.label
