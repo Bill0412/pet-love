@@ -2,12 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 
 import {Navbar, Nav, NavDropdown} from "react-bootstrap";
 import Jazzicon, {jsNumberForAddress} from 'react-jazzicon'; // icon for ethereum user
-<<<<<<< HEAD
-import UserContext from '../Contexts/user-context';
-import {Principal} from "@dfinity/principal";
-=======
 import UserContext from '../../context/user-context';
->>>>>>> 5545e2da774253753131229164f435d0032d73f4
 
 import './Header.css'
 import {Principal} from "@dfinity/principal";
