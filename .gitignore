@@ -6,6 +6,8 @@ node_modules/
 
 # file generated with dfx deploy
 dist/
+src/declarations/frontend
+src/declarations/PetLove
 
 # DS_Store
 .DS_Store
@@ -15,6 +17,3 @@ dist/
 
 # generated when deploying to ic
 canister_ids.json
-
-# config files
-config/
