@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 
 import {Navbar, Nav, NavDropdown} from "react-bootstrap";
 import Jazzicon, {jsNumberForAddress} from 'react-jazzicon'; // icon for ethereum user
+import UserContext from '../Contexts/user-context';
+import {Principal} from "@dfinity/principal";
 
 import './Header.css'
 
@@ -17,7 +19,6 @@ export default function Header() {
     })
 
     let handleClickLoginBtn = () => {
-
     }
 
     return (
