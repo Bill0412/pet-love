@@ -6,7 +6,8 @@ node_modules/
 
 # file generated with dfx deploy
 dist/
-src/declarations/
+src/declarations/frontend
+src/declarations/PetLove
 
 # DS_Store
 .DS_Store

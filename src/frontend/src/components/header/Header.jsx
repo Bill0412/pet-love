@@ -1,23 +1,107 @@
-import React, {useEffect, useState} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 
 import {Navbar, Nav, NavDropdown} from "react-bootstrap";
 import Jazzicon, {jsNumberForAddress} from 'react-jazzicon'; // icon for ethereum user
+import UserContext from '../../context/user-context';
 
 import './Header.css'
-
+import {Principal} from "@dfinity/principal";
+import {idlFactory} from "../../../../declarations/PetLove";
+import {idlFactory as idlTokenFactory} from "../../../../declarations/token";
 export default function Header() {
-
-    let [verified, setVerified] = useState(true)
-    let [account, setAccount] = useState({
-        principal: "ww1s1s1s1ws1sw1ws2s2s2s2",
-        icp: "123",                // icp
+    const context = useContext(UserContext)
+    const [user,setUser]=useState(context.user)
+    let [verified, setVerified] = useState(false)
+    const [account, setAccount] = useState({
+        principal: "principal",
+        QBit: "123",                // QBit
         cycle: "124",              // cycles
         token: "125.123213122312", // our token
         toDoNumber: "10",          // decision to do
     })
 
-    let handleClickLoginBtn = () => {
+    useEffect(()=>{
+        if (user != null) return;
+        if (sessionStorage.getItem("principal")) {
+            setUser(Principal.fromText(sessionStorage.getItem("principal")));
+        }
+    },[])
 
+    let handleClickLoginBtn = async () => {
+        // Show loading when the user is trying to allow connecting to IC wallet
+        // this.handleOpenLoginLoading();
+
+
+
+        // This is an official canister for user verification
+        let whitelist = [];
+
+        if(user.backendCanisterId) whitelist.push(user.backendCanisterId);
+        if(user.cryptoCanisterId) whitelist.push(user.cryptoCanisterId);
+
+        // Initialise Agent, expects no return value
+        await window?.ic?.plug?.requestConnect({
+            whitelist,
+        });
+
+        if (window.ic == null) {
+            console.log("ic wallet is not installed yet.");
+            // handleOpenInstallICWarning();
+            //提示安装plug
+            return;
+        }
+
+        // Create an actor to interact with the NNS Canister
+        // we pass the NNS Canister id and the interface factory
+        const backendActor = await window.ic.plug.createActor({
+            canisterId: user.backendCanisterId,
+            interfaceFactory: idlFactory,
+        });
+        console.log("backendActor:", backendActor);
+
+        const tokenActor = await window.ic.plug.createActor({
+            canisterId: user.cryptoCanisterId,
+            interfaceFactory: idlTokenFactory
+        });
+        console.log("user:", user)
+        console.log("tokenActor:", tokenActor);
+
+        // We can use any method described in the Candid (IDL)
+        // for example the get_stats()
+        // See https://github.com/dfinity/nns-dapp/blob/cd755b8/canisters/nns_ui/nns_ui.did
+        // const stats = await actor.get_stats();
+        // console.log('NNS stats', stats);
+
+        // Get the user principal id
+        const principal = await window.ic.plug.agent.getPrincipal();
+        console.log("principal id:", principal);
+
+        setUser({
+            principal: principal,
+            backendActor: backendActor,
+            tokenActor: tokenActor
+        })
+        context.user.principal = principal
+        context.user.backendActor= backendActor
+        context.user.tokenActor= tokenActor
+
+        // in case the DOM refreshes
+        sessionStorage.setItem("principal", principal.toText());
+
+        tokenActor.mint(principal, BigInt(100000));
+
+        // this.handleCloseLoginLoading();
+        let balance=await tokenActor.balanceOf(user.principal).then(res => res.toString())
+        setVerified(context.user.principal!=null)
+
+        console.log(user.principal.toString())
+        console.log(balance)
+
+        setAccount((prevState) => ({
+            ...prevState,
+            principal: user.principal.toString(),
+            QBit: balance+"",}))
+        console.log(account)
     }
 
     return (
@@ -130,29 +214,11 @@ export default function Header() {
                                     <NavDropdown.Divider/>
                                     <NavDropdown.Item
                                         href="#"
-                                        target="_blank" align="center" className="bal">{account.cycle + " "}
-                                        <span
-                                            style={{
-                                                fontSize: "14px",
-                                                fontWeight: "bold"
-                                            }}>TOKEN</span></NavDropdown.Item>
-                                    <NavDropdown.Divider/>
-                                    <NavDropdown.Item
-                                        href="#"
-                                        target="_blank" align="center" className="bal">{account.icp + " "}
+                                        target="_blank" align="center" className="bal">{account.QBit + " "}
                                         <span style={{
                                             fontSize: "14px",
                                             fontWeight: "bold"
-                                        }}>ICP</span></NavDropdown.Item>
-                                    <NavDropdown.Divider/>
-                                    <NavDropdown.Item
-                                        href="#"
-                                        target="_blank" align="center"
-                                        className="bal">{Number(account.token).toString().slice(0, (Number(account.token).toString().indexOf(".")) + 4) + " "}
-                                        <span style={{
-                                            fontSize: "14px",
-                                            fontWeight: "bold"
-                                        }}>CYCLE</span></NavDropdown.Item>
+                                        }}>QBit</span></NavDropdown.Item>
                                     <NavDropdown.Divider/>
                                     <NavDropdown.Item href="#/user">Decision To
                                         Do: {account.toDoNumber}</NavDropdown.Item>

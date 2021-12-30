@@ -21,10 +21,25 @@ import Footer from "./components/footer/Footer";
 // css
 import './index.css'
 
+
+const userConfigInitial = require("../config/user.json");
+
+
 const App = () => {
+    const [user, setUser] = React.useState({
+        ...userConfigInitial,
+        principal: null,
+        backendActor: null,
+        tokenActor: null,
+        balance: 0});
+
+    const userValue = React.useMemo(
+        () => ({user, setUser}), [user, setUser]
+    );
+
     return (
         <div>
-            {/*<UserContext.Provider value={}>*/}
+            <UserContext.Provider value={userValue}>
             <Router>
                 <Header/>
                 <div className="container">
@@ -41,7 +56,7 @@ const App = () => {
             </Router>
 
             <Footer/>
-            {/*</UserContext.Provider>*/}
+            </UserContext.Provider>
         </div>
     )
 };
