@@ -11,28 +11,28 @@ img{
 }
 
 .tab-buttons{
-    margin-bottom:50px;
+    /*margin-bottom:50px;*/
     display: -webkit-flex;
     -webkit-flex-direction: column;
     display: flex;
     flex-direction: column;
-    width: 100px;
-    padding-right: 5px;
+    width: 150px;
     position: absolute;
     top: 128px;
     left: 0;
-    height: 200px;
-    transform: translateX(-110%);
-
-    border: 1px solid black;
+    height: 300px;
+    transform: translateX(-100%);
+    border-radius: 1.25rem 0 0 1.25rem;
+    background-color: rgba(231,231,231,1);
 }
 
 button{
     /*margin-right:15px;*/
     font-size:20px;
-    margin-top: auto;
-    margin-bottom: auto;
-    background:transparent;
+    /*margin-top: auto;*/
+    /*background-color: rgb(255,255,255);*/
+    /*margin-bottom: auto;*/
+    /*background:transparent;*/
     border:none;
     outline:none;
     /*padding:10px 20px ;*/
@@ -40,11 +40,14 @@ button{
     color:rgba(0,0,0,.4);
     transition:all ease-in-out .2s;
     border-bottom:2px solid transparent;
-
+    height: 20%;
+    background-color: inherit;
 }
+
 .active{
-    border-bottom:2px solid #42b3f4;
-    color:black;
+    border-left:5px solid #42b3f4;
+    background-color:  rgb(196,196,196);
+    animation: change .49s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .wrapper-tabs{
@@ -60,6 +63,21 @@ button{
     width: 100%;
     height: 100%;
     margin: 0 auto;
-    border: 1px solid black;
+    /*border: 1px solid black;*/
     position: relative;
+    background-color: #E7E7E7;
+    border-radius: 0 2.25rem 2.25rem 2.25rem;
+}
+
+@keyframes change {
+    0% {
+        /*transform: translateY(5%);*/
+        opacity: 0.8;
+    }
+    100% {
+        /*transform: translateY(0);*/
+        opacity: 1;
+        background-color:  rgb(196,196,196);
+
+    }
 }

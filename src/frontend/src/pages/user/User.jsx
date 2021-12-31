@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import './User.css';
 import avatar from '../../avatar.png';
-import {Tabs,Tab} from './VerticalTab';
+import {Tabs,Tab} from './user-components/tabs/VerticalTab';
 import FeedRecord from "./user-components/feedRecord/FeedRecord";
 import Profile from "./user-components/profile/Profile";
 import MyPet from "./user-components/myPet/MyPet";

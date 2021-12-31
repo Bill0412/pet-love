@@ -14,6 +14,7 @@ model-viewer {
 .container{
     margin-top: 20px;
     margin-bottom: 80px;
+    padding: 0;
 }
 .navbar-brand{
     margin: 5px;
@@ -314,7 +315,7 @@ body::-webkit-scrollbar-thumb {
         font-size: 16px;
     }
     .container {
-        max-width: 90% !important;
+        max-width: 100% !important;
     }
 }
 
