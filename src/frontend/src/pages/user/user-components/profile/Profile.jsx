@@ -1,6 +1,7 @@
 import React from "react";
 import './Profile.css';
 import PetIcon from "./petIcon/PetIcon";
+import userAvatar from '../../../../avatar.png';
 
 const Profile=(props)=>{
     return(
@@ -18,7 +19,17 @@ const Profile=(props)=>{
                     <div className="profile-text-p">♂Boy</div>
                     <div className="profile-text-p">Dog</div>
                     <div className="profile-text-p">a process bar</div>
-                    <div className="profile-text-p">avatar ... ※  avatar ...</div>
+                    <div className="profile-text-p profile-text-avatar">
+                        <div className="profile-avatar-container">
+                            <img src={userAvatar} alt="userAvatar" className="profile-avatar"/>
+                        </div>
+                        <div className="profile-avatar-container">
+                            ❤
+                        </div>
+                        <div className="profile-avatar-container">
+                            <img className="profile-avatar" src={userAvatar} alt="userAvatar"/>
+                        </div>
+                    </div>
                     <div className="profile-text-p">2021年12月30日</div>
                     <div className="profile-text-p">2021年12月30日</div>
                 </div>
