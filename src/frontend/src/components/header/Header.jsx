@@ -108,7 +108,7 @@ export default function Header() {
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Navbar.Brand href="/">
                 <img alt="icon" className="icon-image d-inline-block align-top" src="petlove-logo.png"
-                     style={{marginLeft: "10px", maxHeight: "50px", maxWidth: "350px"}}/>{' '}
+                     style={{marginLeft: "10px", marginRight: "30px", maxHeight: "50px", maxWidth: "100px"}}/>{' '}
             </Navbar.Brand>
 
             <Navbar.Collapse id="responsive-navbar-nav">

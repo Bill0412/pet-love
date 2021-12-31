@@ -10,7 +10,7 @@ import UserContext from "./context/user-context";
 import MarketPlacePage from "./pages/market/Market";
 import HomePage from "./pages/home/HomePage";
 import ErrorPage from "./pages/error/ErrorPage";
-import GoodDetailPage from "./pages/good/GoodDetailPage";
+import GoodDetailPage from "./pages/good/GoodDetail";
 import PetDetailPage from "./pages/pet/PetDetail";
 import UserPage from "./pages/user/User";
 

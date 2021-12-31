@@ -39,7 +39,7 @@ table {
 .navbar-adj{height:80px}
 /* nft-detail */
 .nft-detail-adj .table-adj tr th, .table-adj tr td {padding: 15px;}
-.nft-detail-adj .table-adj tr th{width: 20%; color:#FFF;}
+.nft-detail-adj .table-adj tr th{width: 23%; color:#FFF;}
 .nft-detail-adj .table-adj tr{border: 1px solid #80808052;}
 .nft-detail-adj .table-adj {}
 .nft-detail-adj:hover .table-adj:hover {
