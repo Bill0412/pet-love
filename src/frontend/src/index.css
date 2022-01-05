@@ -324,6 +324,9 @@ body::-webkit-scrollbar-thumb {
     .addy {
         font-size: 12px;
     }
+    .todo-btn {
+        margin-right: 0px !important;
+    }
 
     .login-btn {
         margin-right: 0px !important;
@@ -484,6 +487,27 @@ model-viewer {
 }
 
 .login-btn:hover {
+    color: #FFF;
+    transform: scale(1.05);
+    transition: 0.5s;
+}
+
+.todo-btn {
+    background: rgb(4,15,30);
+    background: linear-gradient(to right, #FFC0CB, #7db6e0);
+    border-radius: 10px;
+    border: none;
+    padding: 15px;
+    font-weight: 600;
+    margin-top: 3px;
+    margin-right:15px;
+    padding-left: 25px;
+    padding-right: 25px;
+    color: #FFF;
+    font-weight: bold;
+}
+
+.todo-btn:hover {
     color: #FFF;
     transform: scale(1.05);
     transition: 0.5s;

@@ -3,10 +3,31 @@ import {useParams} from "react-router-dom";
 import ReactPlaceholder from "react-placeholder";
 import Img from "react-cool-img";
 import Jazzicon from "react-jazzicon";
+import Modal from "react-modal"
+
+const customStyle = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        backgroundColor: '#000',
+        borderColor: '#004A8B',
+        borderRadius: '15px',
+        padding: '40px',
+        color: '#FFF',
+        bottom: 'auto',
+        maxWidth: '550px',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+    },
+};
 
 const GoodDetailPage = (props) => {
     // id is the NFT id obtained in route.
     const {id} = useParams()
+
+    // buy modal
+    const [buyModalShow, setBuyModalShow] = useState(false)
 
     // ready to show
     let [readyShow, setReadyShow] = useState(true)
@@ -26,12 +47,53 @@ const GoodDetailPage = (props) => {
         state: "Onsale / Not on sale"
     })
 
+    const [matePrincipal, setMatePrincipal] = useState("")
+
     useEffect(() => {
         // TODO obtain data
     }, [])
 
+    function changeMatePrincipal(value) {
+        setMatePrincipal(value)
+    }
+
+    function handleCancelBtn() {
+        setBuyModalShow(false)
+    }
+
+    function handleOkayBtn() {
+        setBuyModalShow(false)
+        // TODO confirm the transaction
+    }
+
     return (
         <div>
+            <Modal
+                animationDuration={1000}
+                isOpen={buyModalShow}
+                contentLabel="Disclaimer"
+                id="modalwarn"
+                align="center"
+                style={customStyle}
+                overlayClassName="myoverlay"
+                onRequestClose={()=>{}}
+            >
+                <div align="center">
+                    <p><strong>Input the Principal of your mate:</strong></p>
+                    <input type="text" autoComplete="off" step="any"
+                           className="form-control" border="0" id="mate-principal"
+                           onChange={event => changeMatePrincipal(event.target.value)}
+                           placeholder="Mate's principal: " style={{padding: "20px"}}/>
+                    <div style={{marginTop: "20px"}}>
+                        <button className="btn btn-primary" align="center" style={{marginRight: "5px"}} onClick={handleCancelBtn}>
+                            Cancel
+                        </button>
+                        <button className="btn btn-primary" align="center" style={{marginLeft: "5px"}} onClick={handleOkayBtn}>
+                            Okay!
+                        </button>
+                    </div>
+                </div>
+            </Modal>
             <div className="head-title col-auto mx-4">
                 <h4 className="mb-0 font-weight-normal">Pet #{id} Details</h4>
             </div>
@@ -64,7 +126,9 @@ const GoodDetailPage = (props) => {
                             <div className="mx-2">
                                 <button type="submit"
                                         className='btn btn-block btn-primary rounded-15 text-light p-3 buybtn'
-                                        disabled={false}>
+                                        disabled={false}
+                                        onClick={() => { setBuyModalShow(true)}}
+                                >
                                     <strong>ADOPT WITH LOVER</strong>
                                     <br/>{goodDetail.price}&nbsp;Token
                                     ( ≈ 100
