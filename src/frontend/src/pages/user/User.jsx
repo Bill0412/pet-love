@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import './User.css';
 import avatar from '../../avatar.png';
-import {Tabs,Tab} from './user-components/tabs/VerticalTab';
+import {Tabs,Tab} from "./user-components/tabs/VerticalTab";
 import FeedRecord from "./user-components/feedRecord/FeedRecord";
 import Profile from "./user-components/profile/Profile";
 import MyPet from "./user-components/myPet/MyPet";
@@ -10,9 +10,6 @@ import Wallet from "./user-components/wallet/Wallet";
 
 const tagName=['个人资料','我的宠物','最近消息','养宠记录','我的钱包']
 const tagElement=[<Profile/>,<MyPet/>,<Message/>,<FeedRecord/>,<Wallet/>]
-
-
-
 
 export default function UserPage() {
     const [nickName, setNickName]=useState("Nickname")

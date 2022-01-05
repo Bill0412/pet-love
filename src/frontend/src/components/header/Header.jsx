@@ -1,17 +1,18 @@
 import React, {useContext, useEffect, useState} from 'react'
 
 import {Navbar, Nav, NavDropdown} from "react-bootstrap";
-import Jazzicon, {jsNumberForAddress} from 'react-jazzicon'; // icon for ethereum user
+import Jazzicon from 'react-jazzicon'; // icon for ethereum user
 import UserContext from '../../context/user-context';
 
 import './Header.css'
 import {Principal} from "@dfinity/principal";
 import {idlFactory} from "../../../../declarations/PetLove";
 import {idlFactory as idlTokenFactory} from "../../../../declarations/token";
-export default function Header() {
+
+export default function Header(props) {
     const context = useContext(UserContext)
     const [user,setUser]=useState(context.user)
-    let [verified, setVerified] = useState(false)
+    const [verified, setVerified] = useState(false)
     const [account, setAccount] = useState({
         principal: "principal",
         QBit: "123",                // QBit
@@ -30,6 +31,7 @@ export default function Header() {
     let handleClickLoginBtn = async () => {
         // Show loading when the user is trying to allow connecting to IC wallet
         // this.handleOpenLoginLoading();
+
         // This is an official canister for user verification
         let whitelist = [];
 
@@ -165,14 +167,21 @@ export default function Header() {
 
                     </Nav>
 
-                    <Nav>
-
+                    <Nav className="ms-auto">
                         <Nav.Link>
                             <a
                                 type='button'
                                 className='btn login-btn'
                                 onClick={handleClickLoginBtn}
-                            >Login</a></Nav.Link>
+                            >Login</a>
+                        </Nav.Link>
+                        {verified !== false &&
+                        <Nav.Link href="/#/user">
+                            <a
+                                type='button'
+                                className='btn todo-btn'
+                            >TODO</a>
+                        </Nav.Link>}
                         <NavDropdown title={
                             <div style={{position: "relative", width: "38px", margin: "0 auto"}}>
                                 <Jazzicon diameter={38} seed={Math.round(Math.random() * 10000000)}/>
