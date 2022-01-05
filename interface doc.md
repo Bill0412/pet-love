@@ -1,49 +1,35 @@
-## 接口文档
+## 事件相关接口文档
+
+
+### 1、定义
+```
+public type Request = {
+        requestId : Text;       //ID
+        sender : Principal;     //发送者
+        receiver : Principal;   //接收者
+        event : EventType;      //事件类型 {#buy, #sell, #abandon}
+        state : EventState;     //事件状态 {#waiting, #success, #failed}
+        tokenId : TokenId;      //事件对应的宠物
+};
+```
+
+### 2、说明
+purchase，sell，abandon均会产生事件，事件发送者是msg.caller，接收者是mate
 
 
 
-public shared(msg) func getUserProfile() : async (?UserProfile)
+### 3、待接入接口
+
+接收者点击同意时回复
+
+reponseACK(requestId : Text) : async (Bool)
 
 
+接收者点击不同意时回复
 
-public shared(msg) func getPetProfile(id : TokenId) : async (?PetProfile)
-
-
-
-public shared(msg) func interactWithPet(id : TokenId, action : ActionType) : async (Bool)
+reponseNAK(requestId : Text) : async (Bool)
 
 
+接收者获取事件列表
 
-public shared(msg) func randomGeneratePet() : async (PetProfile)
-
-
-
-public shared(msg) func purchasePet(mate : Principal, pet : TokenId) : async (Bool)
-
-
-
-public shared(msg) func sellPet(id : TokenId, price : Nat) : async (Bool)
-
-
-
-public shared(msg) func abandonPet(pet : TokenId) : async (Bool)
-
-
-
-public shared(msg) func reponseACK(requestId : Text) : async (Bool)
-
-
-
-public shared(msg) func reponseNAK(requestId : Text) : async (Bool)
-
-
-
-public shared(msg) func getAllPetsOnSelling() : async ([PetProfile])
-
-
-
-public shared(msg) func getAllPetsnotAdopted() : async ([PetProfile]) 
-
-
-
-public shared(msg) func getAllRequests() : async ([Request])
+getAllRequests() : async ([Request])

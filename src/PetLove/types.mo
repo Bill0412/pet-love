@@ -64,8 +64,6 @@ module {
 
         // info immutable
         createTime : Text;
-        // kind : Int;
-        // specy : Int;
         image : Nat;
 
         // info mutable

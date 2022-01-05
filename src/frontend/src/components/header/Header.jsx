@@ -30,9 +30,6 @@ export default function Header() {
     let handleClickLoginBtn = async () => {
         // Show loading when the user is trying to allow connecting to IC wallet
         // this.handleOpenLoginLoading();
-
-
-
         // This is an official canister for user verification
         let whitelist = [];
 
