@@ -38,7 +38,7 @@ const canisterEnvVariables = initCanisterEnv();
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
-const frontendDirectory = "PetLove_assets";
+const frontendDirectory = "frontend";
 
 const asset_entry = path.join("src", frontendDirectory, "src", "index.html");
 
@@ -78,7 +78,7 @@ module.exports = {
   module: {
     rules: [
       { 
-        test: /\.css$/,
+        test: /\.s?css$/,
         use: ['style-loader','css-loader']
       },
       {
