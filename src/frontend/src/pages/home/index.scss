@@ -1,14 +1,15 @@
 @import '../../index.scss';
 
-.container {
-  width: 100vw;
-
+.wrapper {
   background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .slogan {
   position: absolute;
-  left: 39%;
   top: 70%;
 
   display: flex;

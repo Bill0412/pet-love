@@ -16,13 +16,13 @@ const HeaderComp = () => {
     return (
         <Header className='header'>
             <div className='logo'>
-                <Image className='logo-img' src={LogoImage} />
+                <Image className='logo-img' src={LogoImage} preview={false}/>
                 <div className='logo-name'>Pet Love</div>
             </div>
             <Menu mode='horizontal' className='menu'>
-                <Menu.Item>Home</Menu.Item>
-                <Menu.Item>Market</Menu.Item>
-                <Menu.Item>My Pet</Menu.Item>
+                <Menu.Item><a href='/#/home'>Home</a></Menu.Item>
+                <Menu.Item><a href='/#/market'>Market</a></Menu.Item>
+                <Menu.Item><a href='/#/user'>My Pet</a></Menu.Item>
             </Menu>
             <div className='state'>
                 { login ?

@@ -5,7 +5,7 @@ import './index.scss'
 const HomePage = () => {
 
     return (
-        <div className='container'>
+        <div className='wrapper'>
             <div className='slogan'>
                 <div className='title'>Pet Love</div>
                 <div className='note'>Adopt a cute, sharable pet with the one you love!</div>

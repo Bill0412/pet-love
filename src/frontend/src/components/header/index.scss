@@ -8,7 +8,7 @@
   z-index: 1;
   width: 100%;
   background: transparent;
-  padding: 0 100px;
+  padding: 0 150px;
 }
 
 .logo {
@@ -46,6 +46,14 @@
   color: #EA580B !important;
 }
 
+.ant-menu-item-selected a {
+  color: #EA580B !important;
+}
+
+.ant-menu-item-active a {
+  color: #EA580B !important;
+}
+
 .ant-menu-horizontal {
   line-height: 46px;
   border: 0;
@@ -66,7 +74,6 @@
 
   color: #000000;
 }
-
 
 .state {
   display: flex;
