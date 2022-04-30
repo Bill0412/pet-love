@@ -27,7 +27,7 @@ type PetProfile =
    createTime: text;
    happiness: nat;
    id: TokenId__1;
-   image: nat;
+   image: text;
    owner: record {
             principal;
             principal;

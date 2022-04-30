@@ -27,7 +27,7 @@ export interface PetProfile {
   'owner' : [Principal, Principal],
   'createTime' : string,
   'state' : PetState,
-  'image' : bigint,
+  'image' : string,
   'price' : bigint,
 }
 export type PetState = { 'onSelling' : null } |

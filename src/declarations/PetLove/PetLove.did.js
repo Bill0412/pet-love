@@ -13,7 +13,7 @@ export const idlFactory = ({ IDL }) => {
     'owner' : IDL.Tuple(IDL.Principal, IDL.Principal),
     'createTime' : IDL.Text,
     'state' : PetState,
-    'image' : IDL.Nat,
+    'image' : IDL.Text,
     'price' : IDL.Nat,
   });
   const EventType = IDL.Variant({

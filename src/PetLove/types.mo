@@ -42,7 +42,7 @@ module {
         createTime : Text;
         // kind : Int;
         // specy : Int;
-        image : Nat;
+        image : Text;
 
         // info mutable
         var state : PetState;
@@ -64,7 +64,7 @@ module {
 
         // info immutable
         createTime : Text;
-        image : Nat;
+        image : Text;
 
         // info mutable
         state : PetState;
