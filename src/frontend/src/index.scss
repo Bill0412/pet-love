@@ -1,0 +1,47 @@
+@import '~antd/dist/antd.css';
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url("../assets/fonts/OpenSans-Regular.ttf");
+}
+
+@font-face {
+  font-family: 'Black Han Sans';
+  src: url("../assets/fonts/BlackHanSans-Regular.ttf");
+}
+
+$primary-color: #EA580B;
+
+
+html {
+  --antd-wave-shadow-color: $primary-color;
+}
+
+body {
+  background-color: #000;
+  background-image: url('../assets/home-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+  font-family: 'Lato', sans-serif;
+}
+
+.container {
+  padding: 0;
+  margin: 0;
+}
+
+.flex {
+  display: flex;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}

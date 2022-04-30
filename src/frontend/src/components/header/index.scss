@@ -1,0 +1,83 @@
+.header {
+  position: fixed;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  z-index: 1;
+  width: 100%;
+  background: transparent;
+  padding: 0 100px;
+}
+
+.logo {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+
+  width: 220px;
+}
+
+.logo-name {
+  font-family: 'Black Han Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 30px;
+
+  color: #000000;
+
+  margin-left: 20px;
+}
+
+.logo-img {
+  width: 80px;
+  height: 40px;
+}
+
+.menu {
+  background: transparent;
+  line-height: 24px !important;
+}
+
+.ant-menu-item-selected {
+  color: #EA580B !important;
+}
+
+.ant-menu-horizontal {
+  line-height: 46px;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  box-shadow: none;
+}
+
+.ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item:hover::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu:hover::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-active::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-active::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-open::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-open::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-item-selected::after, .ant-menu-horizontal:not(.ant-menu-dark) > .ant-menu-submenu-selected::after {
+  border-bottom: 2px solid #EA580B !important;;
+}
+
+.menu .ant-menu-title-content {
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 25px;
+
+  color: #000000;
+}
+
+
+.state {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  width: 220px;
+}
+
+.c-ipvTzC {
+  position: relative;
+  top: 20px;
+}
