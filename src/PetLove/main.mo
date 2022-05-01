@@ -34,7 +34,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     // protocol of MUN
     private var protocol = Protocol.MUN_Protocol();
     private var tokenUtil = Utils.TokenUtil();
-    private var flag = false;
+    private var flag = 0;
 
     stable var db_nfts : [(TokenId, TokenMeta)] = [];
     stable var db_users : [(Principal, UserProfile)] = [];
@@ -60,9 +60,9 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func mint(creator : Principal) : async Bool {
-        if (flag == false) {
+        if (flag == 0) {
             return protocol.mint(creator);
-            flag = ture;
+            flag := 1;
         };
         return true;
     };
