@@ -16,6 +16,7 @@ import Home from "./pages/home";
 import ErrorPage from "./pages/error";
 import UserPage from "./pages/user";
 import PetPage from "./pages/pet";
+import {happinessToLevel, UTC2Date} from "./api/constant";
 
 const {Content} = Layout
 
@@ -32,9 +33,31 @@ const App = () => {
     const [state, dispatch] = useReducer(reducer,{
         'backendActor': null,
         'tokenActor': null,
-        'userPrincipal':null,
-        'userProfile': null,
-        'login':false
+        'userPrincipal':'',
+        'userProfile': {
+            matePrincipal:''
+        },
+        'login':false,
+        'event':[{
+            title: 'May 1st Labour Festival Limits!',
+            content: 'Spend May Day with your  lovely pet.',
+            time: new Date(),
+            type: 0
+        }, {
+            title: 'Invitation from 0x1dasasdd2312312e211asdaswd1.',
+            content: 'Come to adopt a pet 0 with me!',
+            time: new Date(),
+            type: 1 // 1 is an event to click
+        }],
+        onePet:{
+            birthday:'birthday',
+            level:'Very heigh level',
+            id:"16514061131914830005",
+            image:"https://bafybeiercqwuc2ws23fuse5zpvp2j754uaylpu7pvtmhjsrr353naylazq.ipfs.dweb.link/6.png",
+            owner:['', ''],
+            price:10n,
+            state:{notAdopted: null}
+        }
     });
     return (
         <Layout>

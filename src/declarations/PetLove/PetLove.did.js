@@ -13,7 +13,7 @@ export const idlFactory = ({ IDL }) => {
     'owner' : IDL.Tuple(IDL.Principal, IDL.Principal),
     'createTime' : IDL.Text,
     'state' : PetState,
-    'image' : IDL.Nat,
+    'image' : IDL.Text,
     'price' : IDL.Nat,
   });
   const EventType = IDL.Variant({
@@ -37,6 +37,7 @@ export const idlFactory = ({ IDL }) => {
   const UserProfile = IDL.Record({
     'id' : IDL.Principal,
     'tokenId' : IDL.Opt(TokenId__1),
+    'balance' : IDL.Nat,
     'mate' : IDL.Opt(IDL.Principal),
   });
   const ActionType = IDL.Variant({ 'feed' : IDL.Null, 'play' : IDL.Null });

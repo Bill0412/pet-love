@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import {Image} from "antd";
 import {HeartFilled, SketchOutlined, UserOutlined} from "@ant-design/icons";
@@ -6,6 +6,7 @@ import {HeartFilled, SketchOutlined, UserOutlined} from "@ant-design/icons";
 import './index.scss';
 import {randomInt} from "../../utils/random";
 import {Link} from "react-router-dom";
+import appContext from "../../api/context";
 
 interface NFTCardProps {
     nft: {
@@ -18,7 +19,8 @@ interface NFTCardProps {
 }
 
 const NFTCard = (props: NFTCardProps) => {
-    const {id, name, price, owner, imageUrl} = props.nft
+    const context= useContext(appContext)
+    const {id, name, price, owner, image} = context.state.onePet
 
     return (
         <div className='nftcard' >
@@ -29,12 +31,12 @@ const NFTCard = (props: NFTCardProps) => {
                 }
             }}>
                 <div className='nftimage'>
-                    <Image src={imageUrl} style={{background: '#F2E3DC'}} preview={false} placeholder={true}/>
+                    <Image src={image} style={{background: '#F2E3DC'}} preview={false} placeholder={true}/>
                 </div>
                 <div className='nftinfo'>
                     <div className='nftinfo-item name'>{name}</div>
                     <div className='nftinfo-item type'>
-                        <div className='type-name'>Dog</div>
+                        <div className='type-name'>Cat</div>
                     </div>
                     <div className='nftinfo-item with-icon'>
                         <SketchOutlined style={{fontSize: '17px', marginRight: '8px'}}/>

@@ -1,19 +1,15 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Menu} from "antd";
 
 import './index.scss'
 import NFTCard from "../../components/NFTCard";
+import appContext from "../../api/context";
 
-const testData = Array(16).fill({
-    id: 0,
-    name: 'DoggieX',
-    price: 16,
-    owner: 'Andrew L.',
-    imageUrl: 'https://bafybeiercnchpy27fencjvkw5rzxwfvzooknkpyci3mn7plo4q6xuu5asy.ipfs.dweb.link/17.png'
-})
+
 
 const MarketPage = () => {
-
+    const context = useContext(appContext)
+    const testData = Array(16).fill(context.state.onePet)
     return (
         <div className='market'>
             <Menu mode='horizontal' className='market-menu' defaultSelectedKeys={['0']}>
