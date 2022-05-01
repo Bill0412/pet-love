@@ -4,10 +4,9 @@ import Jazzicon from 'react-jazzicon';
 import './index.scss';
 import {randomJazzicon} from "../../utils/random";
 import {formatPrincipal} from "../../utils/fstring";
-import {Image, Menu, Modal} from "antd";
+import {Menu, Modal} from "antd";
 import {useNavigate} from 'react-router-dom'
 import EventCard from "../../components/eventCard";
-import Input from "antd/es/input/Input";
 
 const testData = {
     principal: '0x213232132112312edwdw1d1wd1',

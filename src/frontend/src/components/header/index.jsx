@@ -9,6 +9,7 @@ import {MailOutlined, UserOutlined} from "@ant-design/icons";
 import appContext from "../../api/context";
 import {getBackendActor, getTokenActor} from "../../api/getActor";
 import {reducerOperation} from "../../api/constant";
+import {Link} from "react-router-dom";
 
 const {Header} = Layout
 
@@ -29,11 +30,15 @@ const HeaderComp = () => {
             <div className='state'>
                 { context.state.login ?
                     <>
-                        <MailOutlined style={{fontSize: '24px', marginRight: '48px'}}/>
                         <Link to={{
                             pathname: `/user`,
                         }}>
-                            <UserOutlined style={{fontSize: '24px'}}/>
+                            <MailOutlined style={{fontSize: '24px', marginRight: '48px', color: '#000'}}/>
+                        </Link>
+                        <Link to={{
+                            pathname: `/user`,
+                        }}>
+                            <UserOutlined style={{fontSize: '24px', color: '#000'}}/>
                         </Link>
                     </> :
                     <>

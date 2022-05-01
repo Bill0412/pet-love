@@ -1,0 +1,211 @@
+@import '../../index.scss';
+
+.outer {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pet-container {
+  display: flex;
+  flex-direction: column;
+
+  padding: 0 200px 50px;
+  width: 100%;
+}
+
+.row {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+}
+
+.row .item {
+  width: 44%;
+  height: 300px;
+
+  margin-top: 60px;
+}
+
+.row .basic-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.row .basic-info .name {
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 49px;
+
+  color: #000000;
+}
+
+.row .basic-info .attr {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 27px;
+
+  color: #000000;
+}
+
+.row .basic-info .attr .key {
+  width: 100px;
+  font-weight: 800;
+}
+
+.row .basic-info .attr .value {
+  width: 200px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.row .basic-info .buttons {
+  display: flex;
+  width: 100%;
+}
+
+.row .basic-info .btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 150px;
+  height: 50px;
+
+  color: #FFF;
+  background: #FC923C;
+  border-radius: 10px;
+}
+
+.row .img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #FFFFFF;
+  box-shadow: 4px 4px 6px 2px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.row .section {
+  height: 250px;
+
+  background: #FFFFFF;
+  border: 1px solid #C4C4C4;
+  box-sizing: border-box;
+  border-radius: 15px;
+
+  padding: 20px 30px;
+}
+
+.row .section .head {
+  width: 100%;
+  height: 50px;
+}
+
+.row .section .head .content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  width: 100%;
+
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 27px;
+
+  color: #000000;
+  padding-left: 16px;
+}
+
+.row .section .head .divider {
+  width: 100%;
+  height: 0;
+  border: 0.5px solid #C4C4C4;
+
+  margin-top: 8px;
+}
+
+.row .section .main-col {
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.row .section .main-row {
+  height: 150px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.row .section .tool {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25px;
+
+  color: #000000;
+}
+
+.row .section .main-col .attr {
+  width: 100%;
+
+  display: flex;
+  justify-content: flex-start;
+  align-content: center;
+
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25px;
+
+  color: #000000;
+}
+
+.row .section .main-col .attr .key {
+  width: 40%;
+}
+
+.row .section .main-col .attr .value {
+  width: 50%;
+}
+
+.row .section .main-col .attr .master {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row .section .main-col .attr .person {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

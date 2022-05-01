@@ -15,6 +15,7 @@ import {reducer} from "./api/reducer";
 import Home from "./pages/home";
 import ErrorPage from "./pages/error";
 import UserPage from "./pages/user";
+import PetPage from "./pages/pet";
 
 const {Content} = Layout
 
@@ -42,10 +43,11 @@ const App = () => {
                     <HeaderComp/>
                     <Content className="container">
                         <Routes>
-                            <Route exact path="/" element={<UserPage/>}/>
+                            <Route exact path="/" element={<HomePage/>}/>
                             <Route exact path="/home" element={<HomePage/>}/>
                             <Route exact path="/market" element={pageWrapper(<MarketPage/>)}/>
                             <Route path="/market/nft/:id" element={pageWrapper(<NFTDetailPage/>)}/>
+                            <Route exact path="/pet" element={pageWrapper(<PetPage/>)}/>
                             <Route exact path="/user" element={<UserPage/>}/>
                             <Route exact path="/test" element={pageWrapper(<TestAPI/>)}/>
                             <Route path="/*" element={pageWrapper(<ErrorPage />)}/>

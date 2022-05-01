@@ -5,3 +5,7 @@ export const formatPrincipal = (principal) => {
 export const formatDatetime = (time) => {
    return time.toDateString()
 }
+
+export const formatDate = (time) => {
+   return `${time.getFullYear()}/${time.getMonth()+1}/${time.getDate()}`
+}
