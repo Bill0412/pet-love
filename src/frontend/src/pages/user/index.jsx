@@ -1,36 +1,25 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Jazzicon from 'react-jazzicon';
 
 import './index.scss';
 import {randomJazzicon} from "../../utils/random";
 import {formatPrincipal} from "../../utils/fstring";
-import {Image, Menu, Modal} from "antd";
+import {Menu, Modal} from "antd";
 import {useNavigate} from 'react-router-dom'
 import EventCard from "../../components/eventCard";
-import Input from "antd/es/input/Input";
-
-const testData = {
-    principal: '0x213232132112312edwdw1d1wd1',
-    matePrincipal: '0x1dasasdd2312312e211asdaswd1',
-
-    event: [{
-        title: 'May 1st Labour Festival Limits!',
-        content: 'Spend May Day with your  lovely pet.',
-        time: new Date(),
-        type: 0
-    }, {
-        title: 'Invitation from 0x1dasasdd2312312e211asdaswd1.',
-        content: 'Come to adopt a pet 0 with me!',
-        time: new Date(),
-        type: 1 // 1 is an event to click
-    }]
-}
+import appContext from "../../api/context";
 
 const UserPage = () => {
     const navigate = useNavigate()
     const [selectedMenu, setSelectedMenu] = useState('0')
     const [isModalVisible, setModalVisible] = useState(false)
     const iconSeed = randomJazzicon()
+    const context = useContext(appContext)
+    const testData={
+        principal: context.state.userPrincipal,
+        matePrincipal: '',
+        event: context.state.event
+    }
 
     function menuChange(e) {
         setSelectedMenu(e.key)
@@ -54,7 +43,7 @@ const UserPage = () => {
             <div className='user-wrapper'/>
             <div className='profile'>
                 <Jazzicon diameter={100} seed={iconSeed}/>
-                <div className='principal'>{formatPrincipal(testData.principal)}...</div>
+                <div className='principal'>{formatPrincipal(context.state.userPrincipal)}...</div>
             </div>
             <div className='user-main'>
                 <Menu
@@ -91,11 +80,11 @@ const UserPage = () => {
                             <div className='info'>
                                 <div className='item'>
                                     <div className='key'>Name</div>
-                                    <div className='value'>{formatPrincipal(testData.principal)}...</div>
+                                    <div className='value'>{formatPrincipal(context.state.userPrincipal)}...</div>
                                 </div>
                                 <div className='item'>
                                     <div className='key'>Mate</div>
-                                    <div className='value'>{formatPrincipal(testData.matePrincipal)}...</div>
+                                    <div className='value'>{formatPrincipal(context.state.userProfile.matePrincipal)}...</div>
                                 </div>
                                 <div className='item'>
                                     <div className='key'>Location</div>

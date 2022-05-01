@@ -1,5 +1,6 @@
 type UserProfile = 
  record {
+   balance: nat;
    id: principal;
    mate: opt principal;
    tokenId: opt TokenId__1;
@@ -27,7 +28,7 @@ type PetProfile =
    createTime: text;
    happiness: nat;
    id: TokenId__1;
-   image: nat;
+   image: text;
    owner: record {
             principal;
             principal;

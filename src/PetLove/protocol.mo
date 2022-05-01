@@ -108,12 +108,13 @@ module Protocol {
         public func createNFT (user : Principal) : TokenMeta {
             // generate meta
             var meta : TokenMeta = tokenUtil.generate();
-
             var list1 = List.nil<Principal>();
             var list2 = List.push<Principal>(user, list1);
             var list3 = List.push<Principal>(user, list2);
+
             users.put(user, {
                 id = user;
+                balance = 50;
                 mate = ?user;
                 tokenId = ?meta.id;
             });
@@ -164,16 +165,35 @@ module Protocol {
             users.delete(_unwrap(owner1));
             Debug.print(Principal.toText(_unwrap(owner2)));
             users.delete(_unwrap(owner2));
-            users.put(user1, {
-                id = user1;
-                mate = ?user2;
-                tokenId = ?tokenId;
-            });
-            users.put(user2, {
-                id = user2;
-                mate = ?user1;
-                tokenId = ?tokenId;
-            });
+
+            var pet = _unwrap(nfts.get(tokenId));
+            
+                    users.put(user1, {
+                        id = user1;
+                        balance = _unwrap(users.get(user1)).balance - pet.price / 2;
+                        mate = ?user2;
+                        tokenId = ?tokenId;
+                    });
+                    users.put(user2, {
+                        id = user2;
+                        balance = _unwrap(users.get(user2)).balance - pet.price / 2;
+                        mate = ?user1;
+                        tokenId = ?tokenId;
+                    });
+
+                    users.put(_unwrap(owner1), {
+                        id = _unwrap(owner1);
+                        balance = _unwrap(users.get(_unwrap(owner1))).balance + pet.price / 2;
+                        mate = null;
+                        tokenId = null;
+                    });
+                    users.put(_unwrap(owner2), {
+                        id = _unwrap(owner2);
+                        balance = _unwrap(users.get(_unwrap(owner2))).balance + pet.price / 2;
+                        mate = null;
+                        tokenId = null;
+                    });
+            
             return true;
         };
 

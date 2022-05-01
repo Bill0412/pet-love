@@ -1,6 +1,5 @@
 import React, {useContext} from 'react'
 import {Image, Layout, Menu} from "antd";
-
 import './index.scss'
 import {LogoImage} from "../../../assets/images";
 import PlugConnect from "@psychedelic/plug-connect/src/index";
@@ -8,7 +7,9 @@ import {canisterWhiteLists} from "../../config";
 import {MailOutlined, UserOutlined} from "@ant-design/icons";
 import appContext from "../../api/context";
 import {getBackendActor, getTokenActor} from "../../api/getActor";
-import {reducerOperation} from "../../api/constant";
+import {getRandomName, reducerOperation} from "../../api/constant";
+import {Link} from "react-router-dom";
+import {getUserProfile} from "../../api/backendApi_local";
 
 const {Header} = Layout
 
@@ -43,7 +44,23 @@ const HeaderComp = () => {
                                 let backendActor = await getBackendActor()
                                 let tokenActor = await getTokenActor()
                                 let principal = await window.ic.plug.getPrincipal()
-                                context.dispatch({'type':reducerOperation.login,backendActor,tokenActor,principal})
+                                // let userProfile = await getUserProfile()
+                                let userProfile = {
+                                    'matePrincipal':''
+                                }
+                                const onePet= {
+                                    createTime:"1651406113191483000",
+                                    happiness:0n,
+                                    name:getRandomName(),
+                                    id:"16514061131914830005",
+                                    image:"https://bafybeiercqwuc2ws23fuse5zpvp2j754uaylpu7pvtmhjsrr353naylazq.ipfs.dweb.link/6.png",
+                                    owner:[window.ic.plug.agent.getPrincipal(), window.ic.plug.agent.getPrincipal()],
+                                    price:10n,
+                                    state:{notAdopted: null}
+                                }
+                                // console.log("userProfile:\t",userProfile)
+                                // debugger
+                                context.dispatch({'type':reducerOperation.login,backendActor,tokenActor,principal,userProfile, onePet})
                             }}
                         />
                     </>
@@ -51,7 +68,6 @@ const HeaderComp = () => {
             </div>
         </Header>
     )
-
 }
 
 export default HeaderComp
