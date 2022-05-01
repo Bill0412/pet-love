@@ -58,6 +58,10 @@ shared(msg) actor class PetLove(creator: Principal) {
         Debug.print("Postupgrade Done!");
     };
 
+    public shared(msg) func mint(creator : Principal) : async Bool {
+        return protocol.mint(creator);
+    };
+
     public shared(msg) func getUserProfile() : async (?UserProfile) {
         return protocol.getUserProfile(msg.caller);
     };

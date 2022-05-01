@@ -49,6 +49,7 @@ export const idlFactory = ({ IDL }) => {
     'getPetProfile' : IDL.Func([TokenId], [IDL.Opt(PetProfile)], []),
     'getUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], []),
     'interactWithPet' : IDL.Func([TokenId, ActionType], [IDL.Bool], []),
+    'mint' : IDL.Func([IDL.Principal], [IDL.Bool], []),
     'purchasePet' : IDL.Func([IDL.Principal, TokenId], [IDL.Bool], []),
     'randomGeneratePet' : IDL.Func([], [PetProfile], []),
     'reponseACK' : IDL.Func([IDL.Text], [IDL.Bool], []),
