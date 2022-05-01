@@ -9,16 +9,16 @@ export type EventType = { 'buy' : null } |
   { 'sell' : null };
 export interface PetLove {
   'abandonPet' : (arg_0: TokenId) => Promise<boolean>,
+  'getAllPetsNotAdopted' : () => Promise<Array<PetProfile>>,
   'getAllPetsOnSelling' : () => Promise<Array<PetProfile>>,
-  'getAllPetsnotAdopted' : () => Promise<Array<PetProfile>>,
   'getAllRequests' : () => Promise<Array<Request>>,
   'getPetProfile' : (arg_0: TokenId) => Promise<[] | [PetProfile]>,
   'getUserProfile' : () => Promise<[] | [UserProfile]>,
   'interactWithPet' : (arg_0: TokenId, arg_1: ActionType) => Promise<boolean>,
   'purchasePet' : (arg_0: Principal, arg_1: TokenId) => Promise<boolean>,
   'randomGeneratePet' : () => Promise<PetProfile>,
-  'reponseACK' : (arg_0: string) => Promise<boolean>,
-  'reponseNAK' : (arg_0: string) => Promise<boolean>,
+  'responseACK' : (arg_0: string) => Promise<boolean>,
+  'responseNAK' : (arg_0: string) => Promise<boolean>,
   'sellPet' : (arg_0: TokenId, arg_1: bigint) => Promise<boolean>,
 }
 export interface PetProfile {

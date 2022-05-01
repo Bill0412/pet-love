@@ -6,9 +6,9 @@ import {LogoImage} from "../../../assets/images";
 import PlugConnect from "@psychedelic/plug-connect/src/index";
 import {canisterWhiteLists} from "../../config";
 import {MailOutlined, UserOutlined} from "@ant-design/icons";
-import appContext from "../../api/globalData";
-import {operation} from "../../api/reducer";
+import appContext from "../../api/context";
 import {getBackendActor, getTokenActor} from "../../api/getActor";
+import {reducerOperation} from "../../api/constant";
 
 const {Header} = Layout
 
@@ -40,7 +40,8 @@ const HeaderComp = () => {
                             onConnectCallback={async () => {
                                 let backendActor = await getBackendActor()
                                 let tokenActor = await getTokenActor()
-                                context.dispatch({'type':operation.login,backendActor,tokenActor})
+                                let principal = await window.ic.plug.getPrincipal()
+                                context.dispatch({'type':reducerOperation.login,backendActor,tokenActor,principal})
                             }}
                         />
                     </>

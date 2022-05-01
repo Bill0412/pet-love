@@ -147,7 +147,7 @@ shared(msg) actor class PetLove(creator: Principal) {
         return true;
     };
 
-    public shared(msg) func reponseACK(requestId : Text) : async (Bool) {
+    public shared(msg) func responseACK(requestId : Text) : async (Bool) {
         changeRequestState(requestId, #success);
         var request = Option.unwrap(requests.get(requestId));
         var tokenId = request.tokenId;
@@ -172,7 +172,7 @@ shared(msg) actor class PetLove(creator: Principal) {
         return true;
     };
     
-    public shared(msg) func reponseNAK(requestId : Text) : async (Bool) {
+    public shared(msg) func responseNAK(requestId : Text) : async (Bool) {
         changeRequestState(requestId, #failed);
         return true;
     };
@@ -182,7 +182,7 @@ shared(msg) actor class PetLove(creator: Principal) {
         return getPetsByState(#onSelling);
     };
 
-    public shared(msg) func getAllPetsnotAdopted() : async ([PetProfile]) {
+    public shared(msg) func getAllPetsNotAdopted() : async ([PetProfile]) {
         return getPetsByState(#adopted);
     };
 

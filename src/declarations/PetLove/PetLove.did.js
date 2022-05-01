@@ -42,16 +42,16 @@ export const idlFactory = ({ IDL }) => {
   const ActionType = IDL.Variant({ 'feed' : IDL.Null, 'play' : IDL.Null });
   const PetLove = IDL.Service({
     'abandonPet' : IDL.Func([TokenId], [IDL.Bool], []),
+    'getAllPetsNotAdopted' : IDL.Func([], [IDL.Vec(PetProfile)], []),
     'getAllPetsOnSelling' : IDL.Func([], [IDL.Vec(PetProfile)], []),
-    'getAllPetsnotAdopted' : IDL.Func([], [IDL.Vec(PetProfile)], []),
     'getAllRequests' : IDL.Func([], [IDL.Vec(Request)], []),
     'getPetProfile' : IDL.Func([TokenId], [IDL.Opt(PetProfile)], []),
     'getUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], []),
     'interactWithPet' : IDL.Func([TokenId, ActionType], [IDL.Bool], []),
     'purchasePet' : IDL.Func([IDL.Principal, TokenId], [IDL.Bool], []),
     'randomGeneratePet' : IDL.Func([], [PetProfile], []),
-    'reponseACK' : IDL.Func([IDL.Text], [IDL.Bool], []),
-    'reponseNAK' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'responseACK' : IDL.Func([IDL.Text], [IDL.Bool], []),
+    'responseNAK' : IDL.Func([IDL.Text], [IDL.Bool], []),
     'sellPet' : IDL.Func([TokenId, IDL.Nat], [IDL.Bool], []),
   });
   return PetLove;

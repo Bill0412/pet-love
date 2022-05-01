@@ -1,16 +1,13 @@
 import React, {useContext} from 'react'
-import {connect} from "../../api/connectPlug";
-import appContext from "../../api/globalData";
+import appContext from "../../api/context";
+import './index.css'
 const TestAPI = ()=>{
     const actors = useContext(appContext);
     return(
         <div>
-            <button onClick={connect}>
-                连接plugin
-            </button>
             <button onClick={
                 ()=>{console.log(actors)}
-            } style={{"height":100,"width":100}}>
+            } style={{"height":100,"width":100}} className="testApi-btn">
                 点我打印actor
             </button>
         </div>
