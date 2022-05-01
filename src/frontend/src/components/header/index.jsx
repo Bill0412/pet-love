@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {Image, Layout, Menu} from "antd";
 
 import './index.scss'
@@ -6,12 +6,15 @@ import {LogoImage} from "../../../assets/images";
 import PlugConnect from "@psychedelic/plug-connect/src/index";
 import {canisterWhiteLists} from "../../config";
 import {MailOutlined, UserOutlined} from "@ant-design/icons";
+import appContext from "../../api/globalData";
+import {operation} from "../../api/reducer";
+import {getBackendActor, getTokenActor} from "../../api/getActor";
 
 const {Header} = Layout
 
 const HeaderComp = () => {
-
-    const login = true;
+    const context= useContext(appContext)
+    const login = false;
 
     return (
         <Header className='header'>
@@ -23,6 +26,7 @@ const HeaderComp = () => {
                 <Menu.Item><a href='/#/home'>Home</a></Menu.Item>
                 <Menu.Item><a href='/#/market'>Market</a></Menu.Item>
                 <Menu.Item><a href='/#/user'>My Pet</a></Menu.Item>
+                <Menu.Item><a href='/#/test'>Test</a></Menu.Item>
             </Menu>
             <div className='state'>
                 { login ?
@@ -33,7 +37,11 @@ const HeaderComp = () => {
                     <>
                         <PlugConnect
                             whitelist={canisterWhiteLists}
-                            onConnectCallback={() => console.log("Some callback")}
+                            onConnectCallback={async () => {
+                                let backendActor = await getBackendActor()
+                                let tokenActor = await getTokenActor()
+                                context.dispatch({'type':operation.login,backendActor,tokenActor})
+                            }}
                         />
                     </>
                 }
