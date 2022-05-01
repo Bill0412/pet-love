@@ -25,8 +25,6 @@ const App = () => {
         'tokenActor': null,
         'userProfile': null
     });
-
-const App = () => {
     return (
         <Layout>
             <Router>
