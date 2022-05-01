@@ -45,7 +45,7 @@ type PetLove =
    getPetProfile: (TokenId) -> (opt PetProfile);
    getUserProfile: () -> (opt UserProfile);
    interactWithPet: (TokenId, ActionType) -> (bool);
-   mint: (principal) -> (bool);
+   mint: () -> (bool);
    purchasePet: (principal, TokenId) -> (bool);
    randomGeneratePet: () -> (PetProfile);
    reponseACK: (text) -> (bool);
