@@ -47,6 +47,7 @@ export type TokenId__1 = string;
 export interface UserProfile {
   'id' : Principal,
   'tokenId' : [] | [TokenId__1],
+  'balance' : bigint,
   'mate' : [] | [Principal],
 }
 export interface _SERVICE extends PetLove {}

@@ -54,6 +54,7 @@ module {
 
     public type UserProfile = {
         id : Principal;
+        balance : Nat;
         mate : ?Principal;
         tokenId : ?TokenId;
     };

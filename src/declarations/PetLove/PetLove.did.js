@@ -37,6 +37,7 @@ export const idlFactory = ({ IDL }) => {
   const UserProfile = IDL.Record({
     'id' : IDL.Principal,
     'tokenId' : IDL.Opt(TokenId__1),
+    'balance' : IDL.Nat,
     'mate' : IDL.Opt(IDL.Principal),
   });
   const ActionType = IDL.Variant({ 'feed' : IDL.Null, 'play' : IDL.Null });

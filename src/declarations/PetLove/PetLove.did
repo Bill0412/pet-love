@@ -1,5 +1,6 @@
 type UserProfile = 
  record {
+   balance: nat;
    id: principal;
    mate: opt principal;
    tokenId: opt TokenId__1;
