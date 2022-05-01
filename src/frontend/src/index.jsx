@@ -10,8 +10,18 @@ import './index.scss'
 import {Layout} from "antd";
 import HeaderComp from "./components/header";
 import Home from "./pages/home";
+import ErrorPage from "./pages/error";
 
 const {Content} = Layout
+
+const pageWrapper = (inner) => {
+    return (
+        <div className='background'>
+            <div className='header-wrapper'/>
+            {inner}
+        </div>
+    )
+}
 
 const App = () => {
     return (
@@ -22,11 +32,11 @@ const App = () => {
                     <Routes>
                         <Route exact path="/" element={<HomePage/>}/>
                         <Route exact path="/home" element={<HomePage/>}/>
-                        <Route exact path="/market" element={<MarketPage/>}/>
-                        <Route path="/market/nft/:id" element={<NFTDetailPage/>}/>
+                        <Route exact path="/market" element={pageWrapper(<MarketPage/>)}/>
+                        <Route path="/market/nft/:id" element={pageWrapper(<NFTDetailPage/>)}/>
                         {/*<Route path="/pet/:id" element={<PetDetailPage/>}/>*/}
                         {/*<Route exact path="/user" element={<UserPage/>}/>*/}
-                        {/*<Route path="/*" element={<ErrorPage />}/>*/}
+                        <Route path="/*" element={pageWrapper(<ErrorPage />)}/>
                     </Routes>
                 </Content>
             </Router>
