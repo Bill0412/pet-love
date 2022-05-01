@@ -14,8 +14,6 @@ const {Header} = Layout
 
 const HeaderComp = () => {
     const context= useContext(appContext)
-    const login = false;
-
     return (
         <Header className='header'>
             <div className='logo'>
@@ -29,7 +27,7 @@ const HeaderComp = () => {
                 <Menu.Item key='3'><a href='/#/test'>Test</a></Menu.Item>
             </Menu>
             <div className='state'>
-                { login ?
+                { context.state.login ?
                     <>
                         <MailOutlined style={{fontSize: '24px', marginRight: '48px'}}/>
                         <Link to={{
