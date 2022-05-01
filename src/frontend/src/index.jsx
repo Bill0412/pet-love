@@ -31,7 +31,8 @@ const App = () => {
         'backendActor': null,
         'tokenActor': null,
         'userPrincipal':null,
-        'userProfile': null
+        'userProfile': null,
+        'login':false
     });
     return (
         <Layout>

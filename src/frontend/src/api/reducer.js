@@ -8,7 +8,8 @@ const reducer =  (state, action) => {
                 ...state,
                 backendActor: action.backendActor,
                 tokenActor: action.tokenActor,
-                userPrincipal:action.principal
+                userPrincipal:action.principal,
+                login:true
             };
             break;
         case reducerOperation.getUserProfile:
@@ -20,8 +21,6 @@ const reducer =  (state, action) => {
         default:
             break;
     }
-    console.log(action)
-    console.log(newState)
     return newState;
 }
 
