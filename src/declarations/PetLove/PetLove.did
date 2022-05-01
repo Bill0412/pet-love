@@ -38,16 +38,16 @@ type PetProfile =
 type PetLove = 
  service {
    abandonPet: (TokenId) -> (bool);
+   getAllPetsNotAdopted: () -> (vec PetProfile);
    getAllPetsOnSelling: () -> (vec PetProfile);
-   getAllPetsnotAdopted: () -> (vec PetProfile);
    getAllRequests: () -> (vec Request);
    getPetProfile: (TokenId) -> (opt PetProfile);
    getUserProfile: () -> (opt UserProfile);
    interactWithPet: (TokenId, ActionType) -> (bool);
    purchasePet: (principal, TokenId) -> (bool);
    randomGeneratePet: () -> (PetProfile);
-   reponseACK: (text) -> (bool);
-   reponseNAK: (text) -> (bool);
+   responseACK: (text) -> (bool);
+   responseNAK: (text) -> (bool);
    sellPet: (TokenId, nat) -> (bool);
  };
 type EventType = 

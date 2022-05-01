@@ -1,4 +1,4 @@
-import React, {useContext, useReducer} from 'react'
+import React, {useReducer} from 'react'
 import {render} from "react-dom";
 
 import {Routes, Route, HashRouter as Router} from "react-router-dom";
@@ -9,11 +9,8 @@ import NFTDetailPage from "./pages/nft-detail";
 import './index.scss'
 import {Layout} from "antd";
 import HeaderComp from "./components/header";
-import appContext from "./api/globalData";
-import config from "./api/whitelist.json";
-import {idlFactory as backendFactory} from "../../declarations/PetLove";
-import {idlFactory as tokenFactory} from "../../declarations/token";
-import TestAPI from "./components/testApi/testAPI";
+import appContext from "./api/context";
+import TestAPI from "./components/testApi";
 import {reducer} from "./api/reducer";
 import Home from "./pages/home";
 
@@ -23,6 +20,7 @@ const App = () => {
     const [state, dispatch] = useReducer(reducer,{
         'backendActor': null,
         'tokenActor': null,
+        'userPrincipal':null,
         'userProfile': null
     });
     return (
