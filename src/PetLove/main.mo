@@ -62,6 +62,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     public shared(msg) func mint(creator : Principal) : async Bool {
         if (flag == false) {
             return protocol.mint(creator);
+            flag = ture;
         };
         return true;
     };
