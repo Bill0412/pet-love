@@ -1,0 +1,25 @@
+.event {
+  width: 600px;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  margin-top: 20px;
+}
+
+.event .mid {
+  flex: 1;
+}
+
+.event .mid .text {
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+
+  color: #000000;
+
+  margin-top: 8px;
+}

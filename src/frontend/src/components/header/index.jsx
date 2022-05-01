@@ -22,17 +22,21 @@ const HeaderComp = () => {
                 <Image className='logo-img' src={LogoImage} preview={false}/>
                 <div className='logo-name'>Pet Love</div>
             </div>
-            <Menu mode='horizontal' className='menu'>
-                <Menu.Item><a href='/#/home'>Home</a></Menu.Item>
-                <Menu.Item><a href='/#/market'>Market</a></Menu.Item>
-                <Menu.Item><a href='/#/user'>My Pet</a></Menu.Item>
-                <Menu.Item><a href='/#/test'>Test</a></Menu.Item>
+            <Menu mode='horizontal' className='menu' defaultSelectedKeys={['0']}>
+                <Menu.Item key='0'><a href='/#/home'>Home</a></Menu.Item>
+                <Menu.Item key='1'><a href='/#/market'>Market</a></Menu.Item>
+                <Menu.Item key='2'><a href='/#/pet'>My Pet</a></Menu.Item>
+                <Menu.Item key='3'><a href='/#/test'>Test</a></Menu.Item>
             </Menu>
             <div className='state'>
                 { login ?
                     <>
                         <MailOutlined style={{fontSize: '24px', marginRight: '48px'}}/>
-                        <UserOutlined style={{fontSize: '24px'}}/>
+                        <Link to={{
+                            pathname: `/user`,
+                        }}>
+                            <UserOutlined style={{fontSize: '24px'}}/>
+                        </Link>
                     </> :
                     <>
                         <PlugConnect

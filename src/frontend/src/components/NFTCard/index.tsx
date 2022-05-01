@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {Image} from "antd";
-import {PlaceHolderImage} from "../../../assets/images";
 import {HeartFilled, SketchOutlined, UserOutlined} from "@ant-design/icons";
 
 import './index.scss';
