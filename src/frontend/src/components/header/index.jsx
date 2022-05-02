@@ -7,9 +7,9 @@ import {canisterWhiteLists} from "../../config";
 import {MailOutlined, UserOutlined} from "@ant-design/icons";
 import appContext from "../../api/context";
 import {getBackendActor, getTokenActor} from "../../api/getActor";
-import {getRandomName, reducerOperation} from "../../api/constant";
+import {getRandomName, host, reducerOperation} from "../../api/constant";
 import {Link} from "react-router-dom";
-import {getUserProfile} from "../../api/backendApi_local";
+import {getAllRequests, mint} from "../../api/backendApi";
 
 const {Header} = Layout
 
@@ -44,6 +44,7 @@ const HeaderComp = () => {
                     <>
                         <PlugConnect
                             whitelist={canisterWhiteLists}
+                            host={host}
                             onConnectCallback={async () => {
                                 let backendActor = await getBackendActor()
                                 let tokenActor = await getTokenActor()
@@ -52,19 +53,11 @@ const HeaderComp = () => {
                                 let userProfile = {
                                     'matePrincipal':''
                                 }
-                                const onePet= {
-                                    createTime:"1651406113191483000",
-                                    happiness:0n,
-                                    name:getRandomName(),
-                                    id:"16514061131914830005",
-                                    image:"https://bafybeiercqwuc2ws23fuse5zpvp2j754uaylpu7pvtmhjsrr353naylazq.ipfs.dweb.link/6.png",
-                                    owner:[window.ic.plug.agent.getPrincipal(), window.ic.plug.agent.getPrincipal()],
-                                    price:10n,
-                                    state:{notAdopted: null}
-                                }
+                                let requests = await getAllRequests(backendActor)
+                                await mint(backendActor);
                                 // console.log("userProfile:\t",userProfile)
-                                // debugger
-                                context.dispatch({'type':reducerOperation.login,backendActor,tokenActor,principal,userProfile, onePet})
+
+                                context.dispatch({'type':reducerOperation.login,backendActor,tokenActor,principal,userProfile,requests})
                             }}
                         />
                     </>

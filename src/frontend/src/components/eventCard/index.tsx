@@ -5,19 +5,18 @@ import {BellOutlined} from "@ant-design/icons";
 import {formatDatetime} from "../../utils/fstring";
 
 interface EventCardProps {
+    event:{
     event: {
         title: string,
         content: string,
         time: Date,
-        type: number
-    }
+    },
     key: number
+    }
 }
 
 const EventCard = (props: EventCardProps) => {
-    const {title, content, type, time} = props.event
-
-
+    const {title, content, time} = props.event.event
     return (
         <div className='event'>
             <BellOutlined style={{fontSize: '32px', marginRight: '20px'}}/>

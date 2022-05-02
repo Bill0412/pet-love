@@ -49,15 +49,17 @@ const App = () => {
             time: new Date(),
             type: 1 // 1 is an event to click
         }],
-        onePet:{
-            birthday:'birthday',
-            level:'Very heigh level',
+        defaultPet:{
+            birthday:'Not born!',
+            level:'Pupil',
             id:"16514061131914830005",
-            image:"https://bafybeiercqwuc2ws23fuse5zpvp2j754uaylpu7pvtmhjsrr353naylazq.ipfs.dweb.link/6.png",
+            image:"http://www.yanziwoo.com/uploads/a9255a540810626068918cdf074db913.jpg",
             owner:['', ''],
-            price:10n,
+            price:100000n,
+            happiness:123n,
             state:{notAdopted: null}
-        }
+        },
+        market:null
     });
     return (
         <Layout>

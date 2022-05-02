@@ -59,12 +59,15 @@ shared(msg) actor class PetLove(creator: Principal) {
         Debug.print("Postupgrade Done!");
     };
 
-    public shared(msg) func mint() : async Bool {
+    public shared(msg) func mint() : async (Bool) {
         if (flag == 0) {
-            return protocol.mint(creator);
             flag := 1;
+            let SB : Bool = protocol.mint(creator);
+            return true;
+        }
+        else {
+            return true;
         };
-        return true;
     };
 
     public shared(msg) func getUserProfile() : async (?UserProfile) {
@@ -128,6 +131,9 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func purchasePet(mate : Principal, pet : TokenId) : async (Bool) {
+        Debug.print("In purchasePet");
+        Debug.print(Principal.toText(msg.caller));
+        Debug.print(Principal.toText(mate));
         sendRequest(msg.caller, mate, #buy, pet);
         return true;
     };
@@ -196,10 +202,13 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func getAllRequests() : async ([Request]) {
+        Debug.print("In getAllReqs");
         return Array.filter(
             Iter.toArray(requests.vals()), 
-            func (request: Request) : Bool { 
-                request.receiver == msg.caller;
+            func (request: Request) : Bool {
+                Debug.print(Principal.toText(request.receiver));
+                Debug.print(Principal.toText(msg.caller));
+                return request.receiver == msg.caller;
             }
         );
     };

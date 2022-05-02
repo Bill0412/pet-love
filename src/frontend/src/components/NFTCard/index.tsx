@@ -7,6 +7,7 @@ import './index.scss';
 import {randomInt} from "../../utils/random";
 import {Link} from "react-router-dom";
 import appContext from "../../api/context";
+import {formatPrincipal} from "../../utils/fstring";
 
 interface NFTCardProps {
     nft: {
@@ -14,22 +15,21 @@ interface NFTCardProps {
         name: string
         price: number
         owner: string
-        imageUrl: string
+        image: string
     }
 }
 
 const NFTCard = (props: NFTCardProps) => {
-    const context= useContext(appContext)
-    const {id, name, price, owner, image} = context.state.onePet
-
+    const {id, name, price, image} = props.nft
+    // console.log(price)
+    const owner = props.nft.owner[0]
     return (
-        <div className='nftcard' >
+        <div className='nftcard'>
             <Link to={{
-                pathname: `/market/nft/${id}`,
-                state: {
-                    data: 1
-                }
-            }}>
+                pathname: `/market/nft/${id}`
+            }} state={{
+                nft:props.nft
+            }} >
                 <div className='nftimage'>
                     <Image src={image} style={{background: '#F2E3DC'}} preview={false} placeholder={true}/>
                 </div>
@@ -40,7 +40,7 @@ const NFTCard = (props: NFTCardProps) => {
                     </div>
                     <div className='nftinfo-item with-icon'>
                         <SketchOutlined style={{fontSize: '17px', marginRight: '8px'}}/>
-                        {price}
+                        {Number(price)}
                     </div>
                     <div className='nftinfo-item with-icon'>
                         <HeartFilled style={{fontSize: '17px', marginRight: '8px'}}/>
@@ -48,7 +48,7 @@ const NFTCard = (props: NFTCardProps) => {
                     </div>
                     <div className='nftinfo-owner with-icon' style={{marginTop: '18px'}}>
                         <UserOutlined style={{fontSize: '17px', marginRight: '8px'}}/>
-                        {owner}
+                        {formatPrincipal(owner)+"..."}
                     </div>
                 </div>
             </Link>

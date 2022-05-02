@@ -8,6 +8,7 @@ import {Menu, Modal} from "antd";
 import {useNavigate} from 'react-router-dom'
 import EventCard from "../../components/eventCard";
 import appContext from "../../api/context";
+import {responseACK, responseNAK} from "../../api/backendApi";
 
 const UserPage = () => {
     const navigate = useNavigate()
@@ -15,12 +16,7 @@ const UserPage = () => {
     const [isModalVisible, setModalVisible] = useState(false)
     const iconSeed = randomJazzicon()
     const context = useContext(appContext)
-    const testData={
-        principal: context.state.userPrincipal,
-        matePrincipal: '',
-        event: context.state.event
-    }
-
+    const [item,setSelectedItem] = useState(null)
     function menuChange(e) {
         setSelectedMenu(e.key)
         if (e.key === '1') {
@@ -29,14 +25,26 @@ const UserPage = () => {
     }
 
     function viewEvent(item) {
-        if(item.type === 1) {
-            setModalVisible(true)
-        }
+        setModalVisible(true)
+        setSelectedItem(item)
     }
 
-    function confirmAdopt() {
+    async function confirmEvent() {
+        if (item!==null){
+            debugger
+            let res = await responseACK(context.state.backendActor,item.eventId)
+            console.log('ACK: ',res)
+        }
         setModalVisible(false)
     }
+    async function cancelEvent(){
+        if (item!==null){
+            let res = await responseNAK(context.state.backendActor,item.eventId)
+            console.log('NAK: ',res)
+        }
+        setModalVisible(false)
+    }
+
 
     return (
         <div className='background'>
@@ -63,7 +71,7 @@ const UserPage = () => {
                     selectedMenu === '2' ?
                         <div className='content-1'>
                             <div className='events'>
-                                {testData.event.length && testData.event.map((item, key) => (
+                                {context.state.event.length && context.state.event.map((item, key) => (
                                     <div key={key} onClick={() => viewEvent(item)}>
                                         <EventCard event={item} key={key} />
                                         <div className='divider'/>
@@ -94,9 +102,9 @@ const UserPage = () => {
                         </div>
                 }
             </div>
-            <Modal title="Confirm Adopt" visible={isModalVisible} onOk={confirmAdopt}
-                   onCancel={() => setModalVisible(false)} okText='Confirm' cancelText='Cancel'>
-                <div>Confirm to adopt this pet with your mate?</div>
+            <Modal title="Confirm your choice" visible={isModalVisible} onOk={confirmEvent}
+                   onCancel={cancelEvent} okText='Confirm' cancelText='Cancel'>
+                <div>Confirm the transaction?</div>
             </Modal>
         </div>
     )
