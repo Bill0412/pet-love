@@ -30,6 +30,30 @@ module Protocol {
         private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Text.equal, Text.hash);
         private var tokenUtil = Utils.TokenUtil();
         
+        public func mint(creator : Principal) : Bool {
+            var images = tokenUtil.getAllImages();
+            for (img in images.vals()) {
+                var tid = tokenUtil.getTokenId();
+                nfts.put(tid, {
+                    id = tid;
+                    createTime = tokenUtil.getTimestamp();
+                    image = img;
+                    var state = #onSelling;
+                    var happiness = 0;
+                    var price = 10;
+                });
+
+                var list1 = List.nil<Principal>();
+                var list2 = List.push<Principal>(creator, list1);
+                var list3 = List.push<Principal>(creator, list2);
+
+                nftToOwners.put(tid, list3);
+            };
+
+            return true;
+        };
+
+
         public func getnfts() : [(TokenId, TokenMeta)] {
             return Iter.toArray(nfts.entries());
         };

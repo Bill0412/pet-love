@@ -60,6 +60,10 @@ module Utils {
             "https://bafybeibzr3t42hn4sbf6fjqvxdrf4o4xgq7yqw4s2z4btcpw4ee3ajk5ge.ipfs.dweb.link/30.png"
         ]);
 
+        public func getAllImages() : [Text] {
+            return List.toArray<Text>(remainTokenImgs);
+        };
+
         public func generate() : TokenMeta {
             let tokenMeta : TokenMeta = {
                 id = getTokenId();
@@ -84,7 +88,7 @@ module Utils {
         };
 
 
-        private func getTimestamp() : Text {
+        public func getTimestamp() : Text {
             return Int.toText(Time.now());
         };
 

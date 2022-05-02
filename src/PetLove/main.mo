@@ -34,6 +34,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     // protocol of MUN
     private var protocol = Protocol.MUN_Protocol();
     private var tokenUtil = Utils.TokenUtil();
+    private var flag = 0;
 
     stable var db_nfts : [(TokenId, TokenMeta)] = [];
     stable var db_users : [(Principal, UserProfile)] = [];
@@ -56,6 +57,14 @@ shared(msg) actor class PetLove(creator: Principal) {
         protocol.setnftToOwners(db_nftToOwners);
         db_nftToOwners := [];
         Debug.print("Postupgrade Done!");
+    };
+
+    public shared(msg) func mint() : async Bool {
+        if (flag == 0) {
+            return protocol.mint(creator);
+            flag := 1;
+        };
+        return true;
     };
 
     public shared(msg) func getUserProfile() : async (?UserProfile) {
