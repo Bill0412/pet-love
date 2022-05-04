@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
 import './index.scss';
 import {Image, message, Progress, Skeleton} from "antd";
@@ -6,6 +6,7 @@ import {BookOutlined, DropboxOutlined, FileTextOutlined, HeartFilled, OrderedLis
 import {formatDate, formatPrincipal} from "../../utils/fstring";
 import {randomJazzicon} from "../../utils/random";
 import Jazzicon from 'react-jazzicon';
+import appContext from "../../api/context";
 
 const testData = {
     name: 'Doggie',
@@ -21,6 +22,7 @@ const testData = {
 }
 
 const PetPage = () => {
+    const context = useContext(appContext)
 
     async function onFeed() {
         await message.success('You have fed your pet, making it happier', 3);

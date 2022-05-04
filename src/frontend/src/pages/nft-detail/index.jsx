@@ -27,7 +27,6 @@ const NFTDetailPage = () => {
         let buyResult = await purchasePet(context.state.backendActor,Principal.fromText(mateAddress),id)
         setModalVisible(false);
     }
-
     return (
         <div className='outer'>
             <div className='nftdetail'>

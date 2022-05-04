@@ -9,7 +9,8 @@ import appContext from "../../api/context";
 import {getBackendActor, getTokenActor} from "../../api/getActor";
 import {getRandomName, host, reducerOperation} from "../../api/constant";
 import {Link} from "react-router-dom";
-import {getAllRequests, mint} from "../../api/backendApi";
+import {getAllRequests, getUserProfile, mint} from "../../api/backendApi";
+import user from "../../pages/user";
 
 const {Header} = Layout
 
@@ -49,11 +50,13 @@ const HeaderComp = () => {
                                 let backendActor = await getBackendActor()
                                 let tokenActor = await getTokenActor()
                                 let principal = await window.ic.plug.getPrincipal()
-                                // let userProfile = await getUserProfile()
-                                let userProfile = {
+                                let userProfile = await getUserProfile(backendActor)
+                                console.log(userProfile)
+                                userProfile = {
                                     'matePrincipal':''
                                 }
                                 let requests = await getAllRequests(backendActor)
+                                console.log(requests)
                                 await mint(backendActor);
                                 // console.log("userProfile:\t",userProfile)
 
