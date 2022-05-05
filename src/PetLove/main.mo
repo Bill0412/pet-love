@@ -166,7 +166,7 @@ shared(msg) actor class PetLove(creator: Principal) {
         changeRequestState(requestId, #success);
         var request = Option.unwrap(requests.get(requestId));
         var tokenId = request.tokenId;
-        assert(protocol.canAccess(msg.caller, tokenId));
+        //assert(protocol.canAccess(msg.caller, tokenId));
         switch (request.event) {
             case (#buy) {
                 var res = protocol.transferNFT(request.sender, request.receiver, tokenId);

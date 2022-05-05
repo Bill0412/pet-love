@@ -185,10 +185,6 @@ module Protocol {
             var list2 = List.push<Principal>(user1, list1);
             var list3 = List.push<Principal>(user2, list2);
             nftToOwners.put(tokenId, list3);
-            //update users
-            users.delete(_unwrap(owner1));
-            Debug.print(Principal.toText(_unwrap(owner2)));
-            users.delete(_unwrap(owner2));
 
             var pet = _unwrap(nfts.get(tokenId));
             
