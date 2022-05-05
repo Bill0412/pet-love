@@ -62,7 +62,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     public shared(msg) func mint() : async (Bool) {
         if (flag == 0) {
             flag := 1;
-            let SB : Bool = protocol.mint(creator);
+            let b : Bool = protocol.mint(creator);
             return true;
         }
         else {
@@ -73,6 +73,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     public shared(msg) func getUserProfile() : async (?UserProfile) {
         return protocol.getUserProfile(msg.caller);
     };
+
 
     public shared(msg) func getPetProfile(id : TokenId) : async (?PetProfile) {
         assert(protocol.canAccess(msg.caller, id));
