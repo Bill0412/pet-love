@@ -3,7 +3,7 @@
 [[OUR WEBSITE](https://s6akf-saaaa-aaaai-abaoq-cai.raw.ic0.app/)]
 [[VIDEO DEMO](https://www.youtube.com/watch?v=KSpNN_Lbqf0)]
 
-![logo image](./images/1.png)
+![logo image](src/frontend/assets/images/logo.png)
 
 ## Introduction
 PetLove Application in Internet Computer Platform for Moledao Hackathon 2021. The app is deployed on the IC chain for demonstration.
