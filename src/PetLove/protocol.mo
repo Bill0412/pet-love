@@ -30,6 +30,30 @@ module Protocol {
         private var nftToOwners = HashMap.HashMap<TokenId, List.List<Principal>>(1, Text.equal, Text.hash);
         private var tokenUtil = Utils.TokenUtil();
         
+        public func mint(creator : Principal) : Bool {
+            var images = tokenUtil.getAllImages();
+            for (img in images.vals()) {
+                var tid = tokenUtil.getTokenId();
+                nfts.put(tid, {
+                    id = tid;
+                    createTime = tokenUtil.getTimestamp();
+                    image = img;
+                    var state = #onSelling;
+                    var happiness = 0;
+                    var price = 10;
+                });
+
+                var list1 = List.nil<Principal>();
+                var list2 = List.push<Principal>(creator, list1);
+                var list3 = List.push<Principal>(creator, list2);
+
+                nftToOwners.put(tid, list3);
+            };
+
+            return true;
+        };
+
+
         public func getnfts() : [(TokenId, TokenMeta)] {
             return Iter.toArray(nfts.entries());
         };
@@ -108,12 +132,13 @@ module Protocol {
         public func createNFT (user : Principal) : TokenMeta {
             // generate meta
             var meta : TokenMeta = tokenUtil.generate();
-
             var list1 = List.nil<Principal>();
             var list2 = List.push<Principal>(user, list1);
             var list3 = List.push<Principal>(user, list2);
+
             users.put(user, {
                 id = user;
+                balance = 50;
                 mate = ?user;
                 tokenId = ?meta.id;
             });
@@ -151,32 +176,71 @@ module Protocol {
 
         public func transferNFT (user1 : Principal, user2 : Principal, tokenId : TokenId) :  Bool { 
             //update nftToOwners
+            Debug.print("transferNFT:");
             Debug.print(Principal.toText(user1));
             Debug.print(Principal.toText(user2));
             var userList = _unwrap(nftToOwners.get(tokenId));
             let (owner1, l1) = List.pop<Principal>(userList);
             let (owner2, l2) = List.pop<Principal>(l1);
+            Debug.print(Principal.toText(_unwrap(owner1)));
+            Debug.print(Principal.toText(_unwrap(owner2)));
             var list1 = List.nil<Principal>();
             var list2 = List.push<Principal>(user1, list1);
             var list3 = List.push<Principal>(user2, list2);
             nftToOwners.put(tokenId, list3);
-            //update users
-            users.delete(_unwrap(owner1));
-            Debug.print(Principal.toText(_unwrap(owner2)));
-            users.delete(_unwrap(owner2));
-            users.put(user1, {
-                id = user1;
-                mate = ?user2;
-                tokenId = ?tokenId;
-            });
-            users.put(user2, {
-                id = user2;
-                mate = ?user1;
-                tokenId = ?tokenId;
-            });
+
+            var pet = _unwrap(nfts.get(tokenId));
+            Debug.print(Nat.toText(pet.price));
+            addUser(user1);
+            addUser(user2);
+            addUser(_unwrap(owner1));
+            addUser(_unwrap(owner2));
+            // Debug.print(Nat.toText(_unwrap(users.get(user1)).balance));
+            // Debug.print(Nat.toText(_unwrap(users.get(user2)).balance));
+            // Debug.print(Nat.toText(_unwrap(users.get(_unwrap(owner1))).balance));
+            // Debug.print(Nat.toText(_unwrap(users.get(_unwrap(owner2))).balance));
+                    users.put(user1, {
+                        id = user1;
+                        balance = _unwrap(users.get(user1)).balance - pet.price / 2;
+                        mate = ?user2;
+                        tokenId = ?tokenId;
+                    });
+                    users.put(user2, {
+                        id = user2;
+                        balance = _unwrap(users.get(user2)).balance - pet.price / 2;
+                        mate = ?user1;
+                        tokenId = ?tokenId;
+                    });
+
+                    users.put(_unwrap(owner1), {
+                        id = _unwrap(owner1);
+                        balance = _unwrap(users.get(_unwrap(owner1))).balance + pet.price / 2;
+                        mate = null;
+                        tokenId = null;
+                    });
+                    users.put(_unwrap(owner2), {
+                        id = _unwrap(owner2);
+                        balance = _unwrap(users.get(_unwrap(owner2))).balance + pet.price / 2;
+                        mate = null;
+                        tokenId = null;
+                    });
+            
             return true;
         };
 
+        private func addUser (user : Principal) {
+            switch(users.get(user)) {
+                case(null) {
+                    users.put(user, {
+                        id = user;
+                        balance = 50;
+                        mate = null;
+                        tokenId = null;
+                    });
+                };
+                case(_) {};
+            };
+        };
         
         public func canAccess(user : Principal, tokenId : TokenId) :  (Bool) {
             var _userProfile : ?UserProfile =  getUserProfile(user);

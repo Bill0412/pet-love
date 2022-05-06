@@ -18,8 +18,10 @@
     "devDependencies": {
         "@babel/core": "^7.16.0",
         "@babel/plugin-transform-runtime": "^7.16.4",
+        "@babel/plugin-transform-typescript": "^7.16.8",
         "@babel/preset-env": "^7.16.4",
         "@babel/preset-react": "^7.16.0",
+        "@babel/preset-typescript": "^7.16.7",
         "@dfinity/agent": "0.10.1",
         "@dfinity/candid": "0.10.1",
         "@dfinity/principal": "0.10.1",
@@ -50,6 +52,9 @@
         "last 2 edge version"
     ],
     "dependencies": {
+        "@ant-design/icons": "^4.7.0",
+        "@psychedelic/plug-connect": "^0.1.4",
+        "antd": "^4.20.1",
         "history": "^5.1.0",
         "particles-bg": "^2.5.5",
         "react": "^17.0.2",

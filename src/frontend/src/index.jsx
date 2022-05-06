@@ -1,63 +1,86 @@
-import React from 'react'
+import React, {useReducer} from 'react'
 import {render} from "react-dom";
 
 import {Routes, Route, HashRouter as Router} from "react-router-dom";
+import HomePage from "./pages/home";
+import MarketPage from "./pages/market"
+import NFTDetailPage from "./pages/nft-detail";
 
-// context
-import UserContext from "./context/user-context";
+import './index.scss'
+import {Layout} from "antd";
+import HeaderComp from "./components/header";
+import appContext from "./api/context";
+import TestAPI from "./components/testApi";
+import {reducer} from "./api/reducer";
+import Home from "./pages/home";
+import ErrorPage from "./pages/error";
+import UserPage from "./pages/user";
+import PetPage from "./pages/pet";
+import {happinessToLevel, UTC2Date} from "./api/constant";
 
-// pages
-import MarketPlacePage from "./pages/market/Market";
-import HomePage from "./pages/home/HomePage";
-import ErrorPage from "./pages/error/ErrorPage";
-import GoodDetailPage from "./pages/good/GoodDetail";
-import PetDetailPage from "./pages/pet/PetDetail";
-import UserPage from "./pages/user/User";
+const {Content} = Layout
 
-// components
-import Header from "./components/header/Header";
-import Footer from "./components/footer/Footer";
-
-// css
-import './index.css'
-
-
-const userConfigInitial = require("../config/user.json");
-
+const pageWrapper = (inner) => {
+    return (
+        <div className='background'>
+            <div className='header-wrapper'/>
+            {inner}
+        </div>
+    )
+}
 
 const App = () => {
-    const [user, setUser] = React.useState({
-        ...userConfigInitial,
-        principal: null,
-        backendActor: null,
-        tokenActor: null,
-        balance: 0});
-
-    const userValue = React.useMemo(
-        () => ({user, setUser}), [user, setUser]
-    );
-
+    const [state, dispatch] = useReducer(reducer,{
+        'backendActor': null,
+        'tokenActor': null,
+        'userPrincipal':'',
+        'userProfile': {
+            matePrincipal:''
+        },
+        'login':false,
+        'event':[{
+            title: 'May 1st Labour Festival Limits!',
+            content: 'Spend May Day with your  lovely pet.',
+            time: new Date(),
+            type: 0
+        }, {
+            title: 'Invitation from 0x1dasasdd2312312e211asdaswd1.',
+            content: 'Come to adopt a pet 0 with me!',
+            time: new Date(),
+            type: 1 // 1 is an event to click
+        }],
+        defaultPet:{
+            birthday:'Not born!',
+            level:'Pupil',
+            id:"16514061131914830005",
+            image:"http://www.yanziwoo.com/uploads/a9255a540810626068918cdf074db913.jpg",
+            owner:['', ''],
+            price:100000n,
+            happiness:123n,
+            state:{notAdopted: null}
+        },
+        market:null
+    });
     return (
-        <div>
-            <UserContext.Provider value={userValue}>
+        <Layout>
             <Router>
-                <Header/>
-                <div className="container">
-                    <Routes>
-                        <Route exact path="/" element={<HomePage/>}/>
-                        <Route exact path="/home" element={<HomePage/>}/>
-                        <Route exact path="/market" element={<MarketPlacePage/>}/>
-                        <Route path="/good/:id" element={<GoodDetailPage/>}/>
-                        <Route path="/pet/:id" element={<PetDetailPage/>}/>
-                        <Route exact path="/user" element={<UserPage/>}/>
-                        <Route path="/*" element={<ErrorPage/>}/>
-                    </Routes>
-                </div>
+                <appContext.Provider value={{state,dispatch}}>
+                    <HeaderComp/>
+                    <Content className="container">
+                        <Routes>
+                            <Route exact path="/" element={<HomePage/>}/>
+                            <Route exact path="/home" element={<HomePage/>}/>
+                            <Route exact path="/market" element={pageWrapper(<MarketPage/>)}/>
+                            <Route path="/market/nft/:id" element={pageWrapper(<NFTDetailPage/>)}/>
+                            <Route exact path="/pet" element={pageWrapper(<PetPage/>)}/>
+                            <Route exact path="/user" element={<UserPage/>}/>
+                            <Route exact path="/test" element={pageWrapper(<TestAPI/>)}/>
+                            <Route path="/*" element={pageWrapper(<ErrorPage />)}/>
+                        </Routes>
+                    </Content>
+                </appContext.Provider>
             </Router>
-
-            <Footer/>
-            </UserContext.Provider>
-        </div>
+        </Layout>
     )
 };
 render(<App/>, document.getElementById("app"));

@@ -34,6 +34,7 @@ shared(msg) actor class PetLove(creator: Principal) {
     // protocol of MUN
     private var protocol = Protocol.MUN_Protocol();
     private var tokenUtil = Utils.TokenUtil();
+    private var flag = 0;
 
     stable var db_nfts : [(TokenId, TokenMeta)] = [];
     stable var db_users : [(Principal, UserProfile)] = [];
@@ -58,9 +59,21 @@ shared(msg) actor class PetLove(creator: Principal) {
         Debug.print("Postupgrade Done!");
     };
 
+    public shared(msg) func mint() : async (Bool) {
+        if (flag == 0) {
+            flag := 1;
+            let b : Bool = protocol.mint(creator);
+            return true;
+        }
+        else {
+            return true;
+        };
+    };
+
     public shared(msg) func getUserProfile() : async (?UserProfile) {
         return protocol.getUserProfile(msg.caller);
     };
+
 
     public shared(msg) func getPetProfile(id : TokenId) : async (?PetProfile) {
         assert(protocol.canAccess(msg.caller, id));
@@ -119,6 +132,9 @@ shared(msg) actor class PetLove(creator: Principal) {
     };
 
     public shared(msg) func purchasePet(mate : Principal, pet : TokenId) : async (Bool) {
+        Debug.print("In purchasePet");
+        Debug.print(Principal.toText(msg.caller));
+        Debug.print(Principal.toText(mate));
         sendRequest(msg.caller, mate, #buy, pet);
         return true;
     };
@@ -147,11 +163,11 @@ shared(msg) actor class PetLove(creator: Principal) {
         return true;
     };
 
-    public shared(msg) func reponseACK(requestId : Text) : async (Bool) {
+    public shared(msg) func responseACK(requestId : Text) : async (Bool) {
         changeRequestState(requestId, #success);
         var request = Option.unwrap(requests.get(requestId));
         var tokenId = request.tokenId;
-        assert(protocol.canAccess(msg.caller, tokenId));
+        //assert(protocol.canAccess(msg.caller, tokenId));
         switch (request.event) {
             case (#buy) {
                 var res = protocol.transferNFT(request.sender, request.receiver, tokenId);
@@ -172,7 +188,7 @@ shared(msg) actor class PetLove(creator: Principal) {
         return true;
     };
     
-    public shared(msg) func reponseNAK(requestId : Text) : async (Bool) {
+    public shared(msg) func responseNAK(requestId : Text) : async (Bool) {
         changeRequestState(requestId, #failed);
         return true;
     };
@@ -182,15 +198,18 @@ shared(msg) actor class PetLove(creator: Principal) {
         return getPetsByState(#onSelling);
     };
 
-    public shared(msg) func getAllPetsnotAdopted() : async ([PetProfile]) {
+    public shared(msg) func getAllPetsNotAdopted() : async ([PetProfile]) {
         return getPetsByState(#adopted);
     };
 
     public shared(msg) func getAllRequests() : async ([Request]) {
+        Debug.print("In getAllReqs");
         return Array.filter(
             Iter.toArray(requests.vals()), 
-            func (request: Request) : Bool { 
-                request.receiver == msg.caller;
+            func (request: Request) : Bool {
+                Debug.print(Principal.toText(request.receiver));
+                Debug.print(Principal.toText(msg.caller));
+                return request.receiver == msg.caller;
             }
         );
     };

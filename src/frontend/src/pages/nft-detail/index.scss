@@ -1,0 +1,221 @@
+@import '../../index.scss';
+
+.outer {
+  width: 100%;
+  padding: 50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nftdetail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nftdetail .nftimage {
+  width: 275px;
+  height: 244px;
+
+  background: transparent;
+
+  margin-right: 150px;
+}
+
+.nftdetail .nftinfo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 500px;
+  height: 600px;
+
+  border: 2px solid #EAEAEA;
+  box-sizing: border-box;
+  border-radius: 15px;
+  background: #FFFDFA;
+}
+
+.nftdetail .nftinfo-container .nftinfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  background: #FFFDFA;
+}
+
+.nftdetail .nftinfo-container .nftinfo .name {
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 49px;
+
+  color: #000000;
+}
+
+.nftdetail .nftinfo-container .nftinfo .minter {
+  display: flex;
+
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25px;
+
+  color: #565656;
+
+  margin: 10px 0 25px;
+}
+
+.nftdetail .nftinfo-container .nftinfo .divider {
+  width: 100%;
+  height: 0;
+
+  border: 0.1px solid #C4C4C4;
+}
+
+.nftdetail .nftinfo-container .nftinfo .price {
+  display: flex;
+  align-items: center;
+
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 41px;
+
+  color: #000000;
+
+  margin-top: 12px;
+}
+
+.nftdetail .nftinfo-container .nftinfo .dollar {
+  position: relative;
+  top: 4px;
+
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+
+  color: #565656;
+
+  margin-left: 8px;
+}
+
+.nftdetail .nftinfo-container .nftinfo .description {
+  width: 300px;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.nftdetail .nftinfo-container .nftinfo .description .item {
+  width: 100%;
+  display: flex;
+
+  margin-top: 16px;
+}
+
+.nftdetail .nftinfo-container .nftinfo .description .item .attr {
+  width: 50%;
+
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+
+  color: #000000;
+}
+
+.nftdetail .nftinfo-container .nftinfo .description .item .value{
+  width: 50%;
+
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+
+  color: #000000;
+}
+
+.nftdetail .nftinfo-container .nftinfo .operation {
+  display: flex;
+
+  margin-top: 24px;
+}
+
+.nftdetail .nftinfo-container .nftinfo .operation .buy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 180px;
+  height: 36px;
+
+  background: #FC923C;
+  border-radius: 10px;
+
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 35px;
+
+  color: #FFFFFF;
+
+  margin-right: 24px;
+}
+
+.nftdetail .nftinfo-container .nftinfo .operation .favorite {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 120px;
+  height: 36px;
+
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background: transparent;
+
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 25px;
+
+  color: #000000;
+}
+
+.input {
+  width: 300px;
+
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.ant-btn {
+  border-color: #000;
+  background: #FFF;
+  color: #000;
+
+  box-sizing: border-box;
+  border-radius: 10px;
+}
+
+.ant-btn:hover {
+  border-color: #FC923C;
+  background: #FC923C;
+  color: #FFF;
+
+  box-sizing: border-box;
+  border-radius: 10px;
+}

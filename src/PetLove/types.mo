@@ -42,7 +42,7 @@ module {
         createTime : Text;
         // kind : Int;
         // specy : Int;
-        image : Nat;
+        image : Text;
 
         // info mutable
         var state : PetState;
@@ -54,6 +54,7 @@ module {
 
     public type UserProfile = {
         id : Principal;
+        balance : Nat;
         mate : ?Principal;
         tokenId : ?TokenId;
     };
@@ -64,7 +65,7 @@ module {
 
         // info immutable
         createTime : Text;
-        image : Nat;
+        image : Text;
 
         // info mutable
         state : PetState;

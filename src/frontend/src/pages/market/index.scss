@@ -1,0 +1,18 @@
+@import '../../index.scss';
+
+.market {
+  width: 100%;
+  padding: 50px 12%;
+}
+
+.market-menu {
+  background: transparent;
+  font-weight: 600;
+}
+
+.market-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

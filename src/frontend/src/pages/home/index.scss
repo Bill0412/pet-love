@@ -1,0 +1,39 @@
+@import '../../index.scss';
+
+.wrapper {
+  background: transparent;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slogan {
+  position: absolute;
+  top: 70%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  font-family: 'Black Han Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 75px;
+
+  color: #000000;
+}
+
+.note {
+  font-family: 'Open Sans', serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 33px;
+
+  color: #000000;
+}
